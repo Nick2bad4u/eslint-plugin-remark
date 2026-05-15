@@ -59,6 +59,16 @@ const getDefaultConfigObject = (code: string): TSESTree.ObjectExpression => {
 const createTemporaryDirectory = (): string =>
     mkdtempSync(path.join(tmpdir(), "remark-config-"));
 
+const expectDefinedValue = <Value>(value: undefined | Value): Value => {
+    expect(value).toBeDefined();
+
+    if (value === undefined) {
+        throw new TypeError("Expected test value to be defined.");
+    }
+
+    return value;
+};
+
 const fakeFixer = {
     insertTextAfter(node, text) {
         return { range: [node.range[1], node.range[1]], text };
@@ -146,12 +156,15 @@ describe("remark config helper utilities", () => {
         );
 
         expect(properties).toHaveLength(3);
-        expect(pluginsProperty).toBeDefined();
-        expect(settingsProperty).toBeDefined();
-        expect(computedProperty).toBeDefined();
-        expect(isPropertyNamed(pluginsProperty!, "plugins")).toBeTruthy();
-        expect(isPropertyNamed(settingsProperty!, "settings")).toBeTruthy();
-        expect(isPropertyNamed(computedProperty!, "dynamicKey")).toBeFalsy();
+        expect(
+            isPropertyNamed(expectDefinedValue(pluginsProperty), "plugins")
+        ).toBeTruthy();
+        expect(
+            isPropertyNamed(expectDefinedValue(settingsProperty), "settings")
+        ).toBeTruthy();
+        expect(
+            isPropertyNamed(expectDefinedValue(computedProperty), "dynamicKey")
+        ).toBeFalsy();
         expect(
             getObjectPropertyByName(configObject, "missing")
         ).toBeUndefined();
@@ -253,12 +266,24 @@ describe("remark config helper utilities", () => {
             "plugins"
         );
 
-        expect(getStringArrayOptionValue(stringProperty!)?.kind).toBe("string");
-        expect(getStringArrayOptionValue(arrayProperty!)?.kind).toBe("array");
-        expect(getStringArrayOptionValue(nullElementProperty!)).toBeUndefined();
-        expect(getStringArrayOptionValue(spreadProperty!)).toBeUndefined();
-        expect(getStringArrayOptionValue(numericProperty!)).toBeUndefined();
-        expect(getStringArrayOptionValue(objectProperty!)).toBeUndefined();
+        expect(
+            getStringArrayOptionValue(expectDefinedValue(stringProperty))?.kind
+        ).toBe("string");
+        expect(
+            getStringArrayOptionValue(expectDefinedValue(arrayProperty))?.kind
+        ).toBe("array");
+        expect(
+            getStringArrayOptionValue(expectDefinedValue(nullElementProperty))
+        ).toBeUndefined();
+        expect(
+            getStringArrayOptionValue(expectDefinedValue(spreadProperty))
+        ).toBeUndefined();
+        expect(
+            getStringArrayOptionValue(expectDefinedValue(numericProperty))
+        ).toBeUndefined();
+        expect(
+            getStringArrayOptionValue(expectDefinedValue(objectProperty))
+        ).toBeUndefined();
         expect(isRelativeSpecifier("./plugin.mjs")).toBeTruthy();
         expect(isRelativeSpecifier(String.raw`..\plugin.cjs`)).toBeTruthy();
         expect(isRelativeSpecifier("remark-gfm")).toBeFalsy();

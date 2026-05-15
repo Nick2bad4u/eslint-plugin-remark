@@ -70,7 +70,7 @@ const toPresetMarkdownLink = (presetName) => {
 
     return `[
 ${preset.icon}
-](${preset.href})`.replace(/\n/gv, "");
+](${preset.href})`.replaceAll("\n", "");
 };
 
 /**
@@ -331,7 +331,7 @@ const syncPresetDetailMatrices = async ({ writeChanges = false } = {}) => {
         const expectedSection = generatePresetDetailMatrixSectionFromRules(
             presetName
         )
-            .replace(/\n/gv, lineEnding)
+            .replaceAll("\n", lineEnding)
             .trimEnd();
         const { endOffset, startOffset } = getGeneratedMatrixBounds(
             markdown,
@@ -362,7 +362,7 @@ export const syncPresetsRulesMatrix = async ({ writeChanges = false } = {}) => {
     const markdown = await readFile(presetIndexPath, "utf8");
     const lineEnding = detectLineEnding(markdown);
     const expectedSection = generatePresetsRulesMatrixSectionFromRules()
-        .replace(/\n/gv, lineEnding)
+        .replaceAll("\n", lineEnding)
         .trimEnd();
     const { endOffset, startOffset } = getMatrixSectionBounds(markdown);
     const currentSection = markdown.slice(startOffset, endOffset).trimEnd();

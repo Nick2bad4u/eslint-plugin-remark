@@ -11,11 +11,29 @@
  * - Use config/linting/ActionLintConfig.yaml unless -config-file is provided.
  */
 
-import { readdirSync } from "node:fs";
+import { existsSync, readdirSync } from "node:fs";
 import * as path from "node:path";
 import { spawnSync } from "node:child_process";
 import pc from "picocolors";
 const repoRoot = process.cwd();
+const actionlintCommandCandidates =
+    process.platform === "win32"
+        ? [
+              path.join(
+                  process.env["ProgramFiles"] ?? "C:\\Program Files",
+                  "WinGet",
+                  "Links",
+                  "actionlint.exe"
+              ),
+          ]
+        : [
+              "/opt/homebrew/bin/actionlint",
+              "/usr/local/bin/actionlint",
+              "/usr/bin/actionlint",
+          ];
+const actionlintCommand = actionlintCommandCandidates.find((candidate) =>
+    existsSync(candidate)
+);
 const workflowsDir = path.join(repoRoot, ".github", "workflows");
 const rawArgs = process.argv.slice(2);
 const overrideExcluded = rawArgs.includes("--include-excluded");
@@ -122,7 +140,16 @@ if (useDefaultFiles) {
     );
 }
 
-const result = spawnSync("actionlint", [...userArgs, ...targetFiles], {
+if (actionlintCommand === undefined) {
+    console.error(
+        pc.red(
+            "Could not find actionlint in a fixed installation directory. Install it with winget, Homebrew, or the system package manager before running this lint script."
+        )
+    );
+    process.exit(1);
+}
+
+const result = spawnSync(actionlintCommand, [...userArgs, ...targetFiles], {
     stdio: "inherit",
 });
 

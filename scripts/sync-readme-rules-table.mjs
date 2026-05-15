@@ -271,7 +271,7 @@ export const syncReadmeRulesTable = async ({ writeChanges = false } = {}) => {
          * >}
          */ (builtPlugin.rules)
     )
-        .replace(/\n/gv, lineEnding)
+        .replaceAll("\n", lineEnding)
         .trimEnd();
     const { endOffset, startOffset } = getRulesSectionBounds(readmeMarkdown);
     const currentSection = readmeMarkdown

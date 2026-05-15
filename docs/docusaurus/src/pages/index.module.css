@@ -133,9 +133,10 @@
     &:hover,
     &:focus {
         border-color: rgb(255 255 255 / 74%);
-        background: rgb(255 255 255 / 16%);
-        color: #ffffff;
+        background: rgb(255 255 255 / 88%);
+        color: rgb(15 23 42);
         text-decoration: none;
+        text-shadow: none;
         transform: translateY(-1px);
     }
 
@@ -154,8 +155,8 @@
     &:hover,
     &:focus {
         border-color: rgb(94 234 212 / 82%);
-        background: rgb(20 184 166 / 38%);
-        color: rgb(240 253 250);
+        background: rgb(204 251 241 / 90%);
+        color: rgb(15 23 42);
     }
 }
 
@@ -437,8 +438,8 @@
     &:hover,
     &:focus {
         border-color: rgb(255 255 255 / 58%);
-        background: rgb(255 255 255 / 16%);
-        color: #ffffff;
+        background: rgb(255 255 255 / 88%);
+        color: rgb(15 23 42);
         text-decoration: none;
         transform: translateY(-1px);
     }

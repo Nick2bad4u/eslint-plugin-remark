@@ -329,17 +329,19 @@ function applyThemeToggleAnimation(): CleanupFunction {
 }
 
 function initializeAdvancedFeatures(): CleanupFunction {
-    const cleanupFunctions: CleanupFunction[] = [];
-    const prefersReducedMotion = window.matchMedia(
+    const cleanupFunctions: CleanupFunction[] = [
+        createScrollIndicator(),
+        applySidebarLabelTokenColoring(),
+    ];
+    const prefersReducedMotion = globalThis.matchMedia(
         "(prefers-reduced-motion: reduce)"
     ).matches;
 
-    cleanupFunctions.push(createScrollIndicator());
-    cleanupFunctions.push(applySidebarLabelTokenColoring());
-
     if (!prefersReducedMotion) {
-        cleanupFunctions.push(applyInteractiveHoverEffects());
-        cleanupFunctions.push(applyThemeToggleAnimation());
+        cleanupFunctions.push(
+            applyInteractiveHoverEffects(),
+            applyThemeToggleAnimation()
+        );
     }
 
     return (): void => {
@@ -363,7 +365,7 @@ function initializeEnhancements(): CleanupFunction {
 
     const cancelInitialSetup = (): void => {
         if (initialSetupFrame !== null) {
-            window.cancelAnimationFrame(initialSetupFrame);
+            globalThis.cancelAnimationFrame(initialSetupFrame);
             initialSetupFrame = null;
         }
 
@@ -376,7 +378,7 @@ function initializeEnhancements(): CleanupFunction {
     const scheduleInitialSetup = (): void => {
         cancelInitialSetup();
 
-        initialSetupFrame = window.requestAnimationFrame(() => {
+        initialSetupFrame = globalThis.requestAnimationFrame(() => {
             initialSetupFrame = null;
 
             initialSetupTimer = setTimeout(() => {
@@ -387,14 +389,14 @@ function initializeEnhancements(): CleanupFunction {
     };
 
     const handleWindowLoad = (): void => {
-        window.removeEventListener("load", handleWindowLoad);
+        globalThis.removeEventListener("load", handleWindowLoad);
         scheduleInitialSetup();
     };
 
     if (document.readyState === "complete") {
         scheduleInitialSetup();
     } else {
-        window.addEventListener("load", handleWindowLoad, {
+        globalThis.addEventListener("load", handleWindowLoad, {
             once: true,
         });
     }
@@ -425,7 +427,7 @@ function initializeEnhancements(): CleanupFunction {
     });
 
     const handleBeforeUnload = (): void => {
-        window.removeEventListener("load", handleWindowLoad);
+        globalThis.removeEventListener("load", handleWindowLoad);
         cancelInitialSetup();
         cleanupRef.current?.();
 
@@ -437,17 +439,20 @@ function initializeEnhancements(): CleanupFunction {
         observer.disconnect();
     };
 
-    window.addEventListener("beforeunload", handleBeforeUnload);
+    globalThis.addEventListener("beforeunload", handleBeforeUnload);
 
     return (): void => {
-        window.removeEventListener("beforeunload", handleBeforeUnload);
+        globalThis.removeEventListener("beforeunload", handleBeforeUnload);
         handleBeforeUnload();
     };
 }
 
-if (typeof window !== "undefined" && typeof document !== "undefined") {
+if (
+    typeof globalThis.window !== "undefined" &&
+    typeof document !== "undefined"
+) {
     initializeEnhancements();
-    window.initializeDocsEnhancements = initializeAdvancedFeatures;
+    globalThis.window.initializeDocsEnhancements = initializeAdvancedFeatures;
 }
 
 export { initializeAdvancedFeatures, initializeEnhancements };
