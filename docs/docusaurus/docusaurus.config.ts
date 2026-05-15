@@ -34,11 +34,11 @@ const modernEnhancementsClientModule = fileURLToPath(
 );
 
 /** PWA theme-color meta value for Chromium-based browsers. */
-const pwaThemeColor = "#170724";
+const pwaThemeColor = "#071b1f";
 /** Windows tile color for pinned-site metadata. */
-const pwaTileColor = "#170724";
+const pwaTileColor = "#071b1f";
 /** Safari pinned-tab mask icon color. */
-const pwaMaskIconColor = "#a855f7";
+const pwaMaskIconColor = "#14b8a6";
 /** Footer copyright HTML used by the site theme config. */
 const footerCopyright =
     `© ${new Date().getFullYear()} ` +

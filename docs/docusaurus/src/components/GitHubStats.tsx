@@ -17,12 +17,12 @@ const stats: readonly GitHubStat[] = [
     {
         alt: "npm license",
         href: "https://github.com/Nick2bad4u/eslint-plugin-remark/blob/main/LICENSE",
-        src: "https://flat.badgen.net/npm/license/eslint-plugin-remark?color=purple",
+        src: "https://flat.badgen.net/npm/license/eslint-plugin-remark?color=teal",
     },
     {
         alt: "npm total downloads",
         href: "https://www.npmjs.com/package/eslint-plugin-remark",
-        src: "https://flat.badgen.net/npm/dt/eslint-plugin-remark?color=pink",
+        src: "https://flat.badgen.net/npm/dt/eslint-plugin-remark?color=green",
     },
     {
         alt: "GitHub latest release",
@@ -42,7 +42,7 @@ const stats: readonly GitHubStat[] = [
     {
         alt: "CodeCov coverage",
         href: "https://codecov.io/gh/Nick2bad4u/eslint-plugin-remark",
-        src: "https://flat.badgen.net/codecov/github/Nick2bad4u/eslint-plugin-remark?color=blue",
+        src: "https://flat.badgen.net/codecov/github/Nick2bad4u/eslint-plugin-remark?color=cyan",
     },
 ];
 

@@ -14,24 +14,31 @@ import { preferredRuleOrder } from "./_internal/preferred-rule-order.mjs";
 
 const matrixSectionHeading = "## Rule matrix";
 const presetIndexPath = resolve("docs", "rules", "presets", "index.md");
+const generatedMatrixStartMarker =
+    "<!-- GENERATED_PRESET_RULES_MATRIX_START -->";
+const generatedMatrixEndMarker = "<!-- GENERATED_PRESET_RULES_MATRIX_END -->";
 const presetDocsByName = {
     all: {
         href: "./all.md",
+        path: resolve("docs", "rules", "presets", "all.md"),
         icon: "🟣",
         publicName: "remark.configs.all",
     },
     configuration: {
         href: "./configuration.md",
+        path: resolve("docs", "rules", "presets", "configuration.md"),
         icon: "🔧",
         publicName: "remark.configs.configuration",
     },
     recommended: {
         href: "./recommended.md",
+        path: resolve("docs", "rules", "presets", "recommended.md"),
         icon: "🟡",
         publicName: "remark.configs.recommended",
     },
     remarkOnly: {
         href: "./remark-only.md",
+        path: resolve("docs", "rules", "presets", "remark-only.md"),
         icon: "📝",
         publicName: "remark.configs.remarkOnly",
     },
@@ -121,6 +128,62 @@ export const extractPresetsMatrixSection = (markdown) => {
     return markdown.slice(startOffset, endOffset);
 };
 
+/**
+ * @param {string} markdown
+ * @param {string} filePath
+ *
+ * @returns {{ startOffset: number; endOffset: number }}
+ *
+ * @throws {Error} When the operation fails.
+ */
+const getGeneratedMatrixBounds = (markdown, filePath) => {
+    const startMarkerOffset = markdown.indexOf(generatedMatrixStartMarker);
+
+    if (startMarkerOffset < 0) {
+        throw new Error(
+            `${filePath} is missing the '${generatedMatrixStartMarker}' marker.`
+        );
+    }
+
+    const endMarkerOffset = markdown.indexOf(
+        generatedMatrixEndMarker,
+        startMarkerOffset + generatedMatrixStartMarker.length
+    );
+
+    if (endMarkerOffset < 0) {
+        throw new Error(
+            `${filePath} is missing the '${generatedMatrixEndMarker}' marker.`
+        );
+    }
+
+    return {
+        endOffset: endMarkerOffset + generatedMatrixEndMarker.length,
+        startOffset: startMarkerOffset,
+    };
+};
+
+/**
+ * @param {PresetDisplayName} presetName
+ * @param {string} markdown
+ *
+ * @throws {TypeError} When the preset name is unknown.
+ * @throws {Error} When the generated matrix markers are missing.
+ */
+export const extractPresetDetailMatrixSection = (presetName, markdown) => {
+    const preset = presetDocsByName[presetName];
+
+    if (preset === undefined) {
+        throw new TypeError(`Unknown preset '${presetName}'.`);
+    }
+
+    const { endOffset, startOffset } = getGeneratedMatrixBounds(
+        markdown,
+        preset.path
+    );
+
+    return markdown.slice(startOffset, endOffset);
+};
+
 const rules = Object.entries(builtPlugin.rules).toSorted(([left], [right]) => {
     const leftIndex = preferredRuleOrder.indexOf(left);
     const rightIndex = preferredRuleOrder.indexOf(right);
@@ -156,36 +219,35 @@ const isRuleEnabledInPreset = (presetName, ruleName) => {
     );
 };
 
+/**
+ * @param {string} ruleName
+ *
+ * @returns {PresetDisplayName[]}
+ */
+const getPresetNamesForRule = (ruleName) =>
+    presetDisplayOrder.filter((presetName) =>
+        isRuleEnabledInPreset(presetName, ruleName)
+    );
+
+/**
+ * @param {PresetDisplayName[]} presetNames
+ */
+const toPresetLinks = (presetNames) =>
+    presetNames.map(toPresetMarkdownLink).join(" ");
+
+/**
+ * @param {PresetDisplayName} presetName
+ * @param {string} ruleName
+ */
+const toPresetStatus = (presetName, ruleName) =>
+    isRuleEnabledInPreset(presetName, ruleName)
+        ? `${presetDocsByName[presetName].icon} Enabled`
+        : "—";
+
 export const generatePresetsRulesMatrixSectionFromRules = () => {
     const tableRows = rules.map(([ruleName, ruleModule]) => {
         const fix = ruleModule.meta?.fixable === "code" ? "🔧" : "—";
-        const presetIcons = [
-            isRuleEnabledInPreset("recommended", ruleName) ? "🟡" : null,
-            isRuleEnabledInPreset("remarkOnly", ruleName) ? "📝" : null,
-            isRuleEnabledInPreset("configuration", ruleName) ? "🔧" : null,
-            isRuleEnabledInPreset("all", ruleName) ? "🟣" : null,
-        ]
-            .map((value) => {
-                if (value === null) {
-                    return null;
-                }
-
-                /** @type {PresetDisplayName | undefined} */
-                const presetName = presetDisplayOrder.find(
-                    /** @param {PresetDisplayName} candidate */
-                    (candidate) => presetDocsByName[candidate].icon === value
-                );
-
-                if (presetName === undefined) {
-                    throw new TypeError(
-                        `Unable to resolve preset icon '${value}'.`
-                    );
-                }
-
-                return toPresetMarkdownLink(presetName);
-            })
-            .filter((value) => value !== null)
-            .join(" ");
+        const presetIcons = toPresetLinks(getPresetNamesForRule(ruleName));
         const docsUrl = ruleModule.meta?.docs?.url;
 
         if (typeof docsUrl !== "string") {
@@ -212,6 +274,90 @@ export const generatePresetsRulesMatrixSectionFromRules = () => {
     ].join("\n");
 };
 
+/**
+ * @param {PresetDisplayName} presetName
+ *
+ * @throws {TypeError} When the preset name is unknown or rule metadata is
+ *   incomplete.
+ */
+export const generatePresetDetailMatrixSectionFromRules = (presetName) => {
+    const preset = presetDocsByName[presetName];
+
+    if (preset === undefined) {
+        throw new TypeError(`Unknown preset '${presetName}'.`);
+    }
+
+    const tableRows = rules.map(([ruleName, ruleModule]) => {
+        const fix = ruleModule.meta?.fixable === "code" ? "🔧" : "—";
+        const docsUrl = ruleModule.meta?.docs?.url;
+
+        if (typeof docsUrl !== "string") {
+            throw new TypeError(`Rule '${ruleName}' is missing meta.docs.url.`);
+        }
+
+        const otherPresetNames = getPresetNamesForRule(ruleName).filter(
+            (candidate) => candidate !== presetName
+        );
+        const otherPresetLinks =
+            otherPresetNames.length > 0 ? toPresetLinks(otherPresetNames) : "—";
+
+        return `| [\`${ruleName}\`](${docsUrl}) | ${fix} | ${toPresetStatus(presetName, ruleName)} | ${otherPresetLinks} |`;
+    });
+
+    return [
+        generatedMatrixStartMarker,
+        "",
+        `This table is generated from runtime plugin metadata for \`${preset.publicName}\`.`,
+        "",
+        "Fix legend:",
+        "- `🔧` = autofixable",
+        "- `—` = report only",
+        "",
+        "| Rule | Fix | This preset | Also enabled in |",
+        "| --- | :-: | :-- | :-- |",
+        ...tableRows,
+        "",
+        generatedMatrixEndMarker,
+    ].join("\n");
+};
+
+const syncPresetDetailMatrices = async ({ writeChanges = false } = {}) => {
+    let changed = false;
+
+    for (const presetName of presetDisplayOrder) {
+        const preset = presetDocsByName[presetName];
+        const markdown = await readFile(preset.path, "utf8");
+        const lineEnding = detectLineEnding(markdown);
+        const expectedSection = generatePresetDetailMatrixSectionFromRules(
+            presetName
+        )
+            .replace(/\n/gv, lineEnding)
+            .trimEnd();
+        const { endOffset, startOffset } = getGeneratedMatrixBounds(
+            markdown,
+            preset.path
+        );
+        const currentSection = markdown.slice(startOffset, endOffset).trimEnd();
+
+        if (currentSection === expectedSection) {
+            continue;
+        }
+
+        if (!writeChanges) {
+            throw new Error(
+                `${preset.path} preset matrix is out of sync with plugin metadata.`
+            );
+        }
+
+        const updatedMarkdown = `${markdown.slice(0, startOffset)}${expectedSection}${markdown.slice(endOffset)}`;
+
+        await writeFile(preset.path, updatedMarkdown, "utf8");
+        changed = true;
+    }
+
+    return { changed };
+};
+
 export const syncPresetsRulesMatrix = async ({ writeChanges = false } = {}) => {
     const markdown = await readFile(presetIndexPath, "utf8");
     const lineEnding = detectLineEnding(markdown);
@@ -221,18 +367,22 @@ export const syncPresetsRulesMatrix = async ({ writeChanges = false } = {}) => {
     const { endOffset, startOffset } = getMatrixSectionBounds(markdown);
     const currentSection = markdown.slice(startOffset, endOffset).trimEnd();
 
-    if (currentSection === expectedSection) {
-        return { changed: false };
-    }
+    let changed = false;
 
-    if (!writeChanges) {
+    if (currentSection !== expectedSection && !writeChanges) {
         throw new Error("Presets matrix is out of sync with plugin metadata.");
     }
 
-    const updatedMarkdown = `${markdown.slice(0, startOffset)}${expectedSection}${markdown.slice(endOffset)}`;
-    await writeFile(presetIndexPath, updatedMarkdown, "utf8");
+    if (currentSection !== expectedSection) {
+        const updatedMarkdown = `${markdown.slice(0, startOffset)}${expectedSection}${markdown.slice(endOffset)}`;
 
-    return { changed: true };
+        await writeFile(presetIndexPath, updatedMarkdown, "utf8");
+        changed = true;
+    }
+
+    const presetDetailResult = await syncPresetDetailMatrices({ writeChanges });
+
+    return { changed: changed || presetDetailResult.changed };
 };
 
 const currentEntryPath = process.argv[1];

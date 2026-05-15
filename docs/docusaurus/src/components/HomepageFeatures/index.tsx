@@ -52,7 +52,7 @@ const features: readonly Feature[] = [
         linkLabel: "Open section →",
         title: "Rule Reference",
         toneClassName: styles["cardRules"] ?? "",
-        to: "/docs/rules/overview",
+        to: "/docs/rules/guides/intro",
     },
 ];
 

@@ -177,7 +177,7 @@ export default function Home(): JSX.Element {
                             <div className={styles["heroActions"]}>
                                 <Link
                                     className={`button button--lg ${styles["heroActionButton"]} ${styles["heroActionPrimary"]}`}
-                                    to="/docs/rules/overview"
+                                    to="/docs/rules/guides/intro"
                                 >
                                     {overviewButtonIcon} Start with Overview
                                 </Link>

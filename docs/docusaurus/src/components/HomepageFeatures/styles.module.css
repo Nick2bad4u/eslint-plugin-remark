@@ -16,7 +16,7 @@
     display: grid;
     overflow: hidden;
     padding: 1.1rem 1.25rem;
-    border: 1px solid rgb(124 58 237 / 18%);
+    border: 1px solid rgb(15 118 110 / 18%);
     border-radius: 1rem;
     box-shadow: 0 18px 36px rgb(15 23 42 / 7%);
     gap: 0.85rem;
@@ -28,7 +28,7 @@
 
     & h2 {
         margin: 0;
-        color: #4c1d95;
+        color: #0f766e;
         font-size: 1.25rem;
         line-height: 1.375;
     }
@@ -39,8 +39,8 @@
 
     &:hover,
     &:focus-within {
-        border-color: rgb(139 92 246 / 36%);
-        box-shadow: 0 20px 42px rgb(76 29 149 / 15%);
+        border-color: rgb(20 184 166 / 36%);
+        box-shadow: 0 20px 42px rgb(15 118 110 / 15%);
         transform: translateY(-2px);
     }
 }
@@ -61,7 +61,7 @@
     );
 
     &::before {
-        background: linear-gradient(90deg, #fde047, #a855f7);
+        background: linear-gradient(90deg, #d9f99d, #14b8a6);
     }
 }
 
@@ -73,7 +73,7 @@
     );
 
     &::before {
-        background: linear-gradient(90deg, #a855f7, #8b5cf6);
+        background: linear-gradient(90deg, #14b8a6, #2563eb);
     }
 }
 
@@ -85,7 +85,7 @@
     );
 
     &::before {
-        background: linear-gradient(90deg, #22d3ee, #a855f7);
+        background: linear-gradient(90deg, #22d3ee, #22c55e);
     }
 }
 
@@ -104,7 +104,7 @@
 .link {
     display: inline-flex;
     align-items: center;
-    color: #4c1d95;
+    color: #0f766e;
     font-weight: 700;
     gap: 0.25rem;
     text-decoration: none;
@@ -112,71 +112,71 @@
     &:hover,
     &:focus-visible,
     &:visited {
-        color: #6d28d9;
+        color: #0d9488;
     }
 }
 
 .icon {
-    color: #6d28d9;
+    color: #0d9488;
     font-size: 1.25rem;
     line-height: 1;
 }
 
 html[data-theme="dark"] .card {
-    border-color: rgb(167 139 250 / 32%);
+    border-color: rgb(94 234 212 / 32%);
     box-shadow: 0 20px 44px rgb(2 8 23 / 30%);
 
     & h2 {
-        color: #f2e8ff;
+        color: #ecfeff;
     }
 
     &:hover,
     &:focus-within {
-        border-color: rgb(196 181 253 / 48%);
+        border-color: rgb(94 234 212 / 48%);
         box-shadow: 0 22px 48px rgb(2 8 23 / 42%);
     }
 }
 
 html[data-theme="dark"] .cardStarted {
-    background: linear-gradient(180deg, #261945, #1b1434);
+    background: linear-gradient(180deg, #123833, #0b2530);
 
     &::before {
-        background: linear-gradient(90deg, #facc15, #c084fc);
+        background: linear-gradient(90deg, #bef264, #5eead4);
     }
 }
 
 html[data-theme="dark"] .cardPresets {
-    background: linear-gradient(180deg, #2a1a4d, #1f1538);
+    background: linear-gradient(180deg, #14343f, #0b2530);
 
     &::before {
-        background: linear-gradient(90deg, #c084fc, #8b5cf6);
+        background: linear-gradient(90deg, #5eead4, #60a5fa);
     }
 }
 
 html[data-theme="dark"] .cardRules {
-    background: linear-gradient(180deg, #1c2a4a, #172139);
+    background: linear-gradient(180deg, #0f2f3f, #102a34);
 
     &::before {
-        background: linear-gradient(90deg, #22d3ee, #a855f7);
+        background: linear-gradient(90deg, #22d3ee, #86efac);
     }
 }
 
 html[data-theme="dark"] .description {
-    color: rgb(224 211 255 / 88%);
+    color: rgb(204 251 241 / 88%);
 }
 
 html[data-theme="dark"] .link {
-    color: #d8b4fe;
+    color: #99f6e4;
 
     &:hover,
     &:focus-visible,
     &:visited {
-        color: #e9d5ff;
+        color: #ccfbf1;
     }
 }
 
 html[data-theme="dark"] .icon {
-    color: #c4b5fd;
+    color: #5eead4;
 }
 
 @media (prefers-reduced-motion: reduce) {
