@@ -1,0 +1,5 @@
+/* stylelint-disable color-hex-length -- benchmark invalid fixture intentionally keeps a rule violation while normal editor diagnostics stay quiet */
+
+a {
+    color: #fff;
+}

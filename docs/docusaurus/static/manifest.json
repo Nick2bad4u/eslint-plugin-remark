@@ -1,0 +1,22 @@
+{
+    "background_color": "#170724",
+    "description": "eslint-plugin-stylelint-2 documentation and rule reference.",
+    "display": "standalone",
+    "icons": [
+        {
+            "sizes": "192x192",
+            "src": "img/logo_192x192.png",
+            "type": "image/png"
+        },
+        {
+            "sizes": "512x512",
+            "src": "img/logo.png",
+            "type": "image/png"
+        }
+    ],
+    "name": "eslint-plugin-stylelint-2 Documentation",
+    "scope": ".",
+    "short_name": "Stylelint2 Docs",
+    "start_url": ".",
+    "theme_color": "#170724"
+}

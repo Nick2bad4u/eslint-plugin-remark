@@ -1,0 +1,191 @@
+.features {
+    padding: 2rem 0 4rem;
+}
+
+.grid {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(
+        auto-fit,
+        [feature-column-start] minmax(16rem, 1fr) [feature-column-end]
+    );
+}
+
+.card {
+    position: relative;
+    display: grid;
+    overflow: hidden;
+    padding: 1.1rem 1.25rem;
+    border: 1px solid rgb(124 58 237 / 18%);
+    border-radius: 1rem;
+    box-shadow: 0 18px 36px rgb(15 23 42 / 7%);
+    gap: 0.85rem;
+    min-block-size: 15.5rem;
+    transition:
+        border-color 0.18s ease,
+        box-shadow 0.18s ease,
+        transform 0.18s ease;
+
+    & h2 {
+        margin: 0;
+        color: #4c1d95;
+        font-size: 1.25rem;
+        line-height: 1.375;
+    }
+
+    & p {
+        margin: 0;
+    }
+
+    &:hover,
+    &:focus-within {
+        border-color: rgb(139 92 246 / 36%);
+        box-shadow: 0 20px 42px rgb(76 29 149 / 15%);
+        transform: translateY(-2px);
+    }
+}
+
+.card::before {
+    position: absolute;
+    block-size: 0.32rem;
+    content: "";
+    inline-size: 100%;
+    inset: 0 auto auto 0;
+}
+
+.cardStarted {
+    background: linear-gradient(
+        180deg,
+        rgb(255 255 255 / 0.95),
+        rgb(249 246 255)
+    );
+
+    &::before {
+        background: linear-gradient(90deg, #fde047, #a855f7);
+    }
+}
+
+.cardPresets {
+    background: linear-gradient(
+        180deg,
+        rgb(255 255 255 / 0.95),
+        rgb(246 244 255)
+    );
+
+    &::before {
+        background: linear-gradient(90deg, #a855f7, #8b5cf6);
+    }
+}
+
+.cardRules {
+    background: linear-gradient(
+        180deg,
+        rgb(255 255 255 / 0.95),
+        rgb(242 248 255)
+    );
+
+    &::before {
+        background: linear-gradient(90deg, #22d3ee, #a855f7);
+    }
+}
+
+.description {
+    color: rgb(67 29 129 / 88%);
+    line-height: 1.5;
+}
+
+.featureFooter {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-block-start: auto;
+}
+
+.link {
+    display: inline-flex;
+    align-items: center;
+    color: #4c1d95;
+    font-weight: 700;
+    gap: 0.25rem;
+    text-decoration: none;
+
+    &:hover,
+    &:focus-visible,
+    &:visited {
+        color: #6d28d9;
+    }
+}
+
+.icon {
+    color: #6d28d9;
+    font-size: 1.25rem;
+    line-height: 1;
+}
+
+html[data-theme="dark"] .card {
+    border-color: rgb(167 139 250 / 32%);
+    box-shadow: 0 20px 44px rgb(2 8 23 / 30%);
+
+    & h2 {
+        color: #f2e8ff;
+    }
+
+    &:hover,
+    &:focus-within {
+        border-color: rgb(196 181 253 / 48%);
+        box-shadow: 0 22px 48px rgb(2 8 23 / 42%);
+    }
+}
+
+html[data-theme="dark"] .cardStarted {
+    background: linear-gradient(180deg, #261945, #1b1434);
+
+    &::before {
+        background: linear-gradient(90deg, #facc15, #c084fc);
+    }
+}
+
+html[data-theme="dark"] .cardPresets {
+    background: linear-gradient(180deg, #2a1a4d, #1f1538);
+
+    &::before {
+        background: linear-gradient(90deg, #c084fc, #8b5cf6);
+    }
+}
+
+html[data-theme="dark"] .cardRules {
+    background: linear-gradient(180deg, #1c2a4a, #172139);
+
+    &::before {
+        background: linear-gradient(90deg, #22d3ee, #a855f7);
+    }
+}
+
+html[data-theme="dark"] .description {
+    color: rgb(224 211 255 / 88%);
+}
+
+html[data-theme="dark"] .link {
+    color: #d8b4fe;
+
+    &:hover,
+    &:focus-visible,
+    &:visited {
+        color: #e9d5ff;
+    }
+}
+
+html[data-theme="dark"] .icon {
+    color: #c4b5fd;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .card {
+        transition: none;
+
+        &:hover,
+        &:focus-within {
+            transform: none;
+        }
+    }
+}
