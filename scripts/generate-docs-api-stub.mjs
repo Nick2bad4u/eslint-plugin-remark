@@ -17,13 +17,13 @@ const outputPath = resolve(outputDirectory, "index.md");
 const markdown =
     `---
 title: API
-description: Public runtime surface for eslint-plugin-stylelint-2.
+description: Public runtime surface for eslint-plugin-remark.
 ---
 
 # API
 
 ` +
-    "`eslint-plugin-stylelint-2` intentionally exposes a very small public API.\n\n" +
+    "`eslint-plugin-remark` intentionally exposes a small public API.\n\n" +
     "## Default export\n\n" +
     "The package default export is the ESLint plugin object. It includes:\n\n" +
     "- `meta.name`\n" +
@@ -32,12 +32,12 @@ description: Public runtime surface for eslint-plugin-stylelint-2.
     "- `rules`\n" +
     "- `configs`\n\n" +
     "## Exported type aliases\n\n" +
-    "- `Stylelint2ConfigName`\n" +
-    "- `Stylelint2Config`\n" +
-    "- `Stylelint2Configs`\n" +
-    "- `Stylelint2RuleId`\n" +
-    "- `Stylelint2RuleName`\n" +
-    "- `Stylelint2Plugin`\n\n" +
+    "- `RemarkConfigName`\n" +
+    "- `RemarkConfig`\n" +
+    "- `RemarkConfigs`\n" +
+    "- `RemarkRuleId`\n" +
+    "- `RemarkRuleName`\n" +
+    "- `RemarkPlugin`\n\n" +
     "## Why this page is hand-authored\n\n" +
     "The public runtime surface of this plugin is small enough that a hand-authored API page is clearer and more stable than a large generated TypeDoc tree for internal helper types.\n";
 

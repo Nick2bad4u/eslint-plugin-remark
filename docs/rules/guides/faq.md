@@ -5,43 +5,38 @@ description: Answers to common questions about bridge behavior, presets, rollout
 
 # FAQ
 
-## Do I still need the Stylelint CLI if I use this plugin?
+## Do I still need the Remark CLI if I use this plugin?
 
 Not necessarily.
 
-If your goal is a unified lint pipeline, ESLint + `stylelint2/stylelint` is usually enough.
-Keep a dedicated Stylelint CLI job only if you need separate formatter/output contracts.
+If your goal is a unified lint pipeline, ESLint plus `remark/remark` is usually enough. Keep a dedicated Remark CLI job only if you need separate formatter/output contracts or a non-ESLint workflow.
 
 ## Which preset should I start with?
 
-- Start with [`stylelintOnly`](../presets/stylelint-only.md) for minimal-risk adoption.
-- Start with [`recommended`](../presets/recommended.md) if you want bridge + config quality enforcement from day one.
+- Start with [`remarkOnly`](../presets/remark-only.md) for minimal-risk adoption.
+- Start with [`recommended`](../presets/recommended.md) if you want bridge plus config quality enforcement from day one.
 
-## Why am I seeing both ESLint and Stylelint errors for similar issues?
+## Why am I seeing both ESLint Markdown and Remark errors for similar issues?
 
-You may have overlapping policy between ESLint ecosystem rules and bridged Stylelint rules.
-Audit overlap and choose one source of truth for each policy area.
+You may have overlapping policy between `@eslint/markdown` rules and bridged Remark plugins. Audit overlap and choose one source of truth for each policy area.
 
 ## Can I use autofix safely?
 
-In most repos, yes—start by running `eslint --fix` in a branch and reviewing the diff.
-Then enforce in CI once results are stable.
+In most repos, yes. Start by running `eslint --fix` in a branch and reviewing the diff. Then enforce in CI once results are stable.
 
-## How do I lint files that require custom parsers/syntaxes?
+## How do I load project-specific Remark plugins?
 
-Configure the [`stylelint` rule](../stylelint.md) with `customSyntax` (and related options) so Stylelint parses those files correctly.
+Create a supported JavaScript config file such as `remark.config.mjs` and list plugins in `plugins`. The bridge resolves string plugin specifiers relative to the config file.
 
 ## What if some packages in a monorepo resolve config differently?
 
-Set `configBasedir` intentionally and avoid fragile relative paths in Stylelint config references.
-Use package-install validation rules to catch missing dependencies early.
+Set the `configFile` option intentionally for each package or config block. Avoid fragile relative paths in Remark config references and use package-install validation rules to catch missing dependencies early.
 
-## Why do config authoring rules matter if my Stylelint config already works?
+## Why do config authoring rules matter if my Remark config already works?
 
-A config can "work" while still being brittle, duplicated, or hard to review.
-Authoring rules reduce long-term churn and make diffs deterministic.
+A config can "work" while still being brittle, duplicated, or hard to review. Authoring rules reduce long-term churn and make diffs deterministic.
 
-## What’s the best migration order for existing repos?
+## What is the best migration order for existing repos?
 
 1. Enable one preset.
 2. Run autofix.
@@ -51,5 +46,5 @@ Authoring rules reduce long-term churn and make diffs deterministic.
 ## Where should I go next?
 
 - Setup flow: [Getting Started](./getting-started.md)
-- Bridge internals and behavior: [Stylelint Bridge](./stylelint-bridge.md)
+- Bridge internals and behavior: [Remark Bridge](./remark-bridge.md)
 - Config quality conventions: [Config Authoring](./config-authoring.md)

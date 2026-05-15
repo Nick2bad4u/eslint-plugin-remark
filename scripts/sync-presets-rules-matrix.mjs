@@ -18,22 +18,22 @@ const presetDocsByName = {
     all: {
         href: "./all.md",
         icon: "🟣",
-        publicName: "stylelint2.configs.all",
+        publicName: "remark.configs.all",
     },
     configuration: {
         href: "./configuration.md",
         icon: "🔧",
-        publicName: "stylelint2.configs.configuration",
+        publicName: "remark.configs.configuration",
     },
     recommended: {
         href: "./recommended.md",
         icon: "🟡",
-        publicName: "stylelint2.configs.recommended",
+        publicName: "remark.configs.recommended",
     },
-    stylelintOnly: {
-        href: "./stylelint-only.md",
-        icon: "🎨",
-        publicName: "stylelint2.configs.stylelintOnly",
+    remarkOnly: {
+        href: "./remark-only.md",
+        icon: "📝",
+        publicName: "remark.configs.remarkOnly",
     },
 };
 
@@ -42,7 +42,7 @@ const presetDocsByName = {
 /** @type {readonly PresetDisplayName[]} */
 const presetDisplayOrder = [
     "recommended",
-    "stylelintOnly",
+    "remarkOnly",
     "configuration",
     "all",
 ];
@@ -151,8 +151,8 @@ const isRuleEnabledInPreset = (presetName, ruleName) => {
     return presetEntries.some(
         (entry) =>
             entry !== undefined &&
-            (entry.rules?.[`stylelint-2/${ruleName}`] === "error" ||
-                entry.rules?.[`stylelint-2/${ruleName}`] === "warn")
+            (entry.rules?.[`remark/${ruleName}`] === "error" ||
+                entry.rules?.[`remark/${ruleName}`] === "warn")
     );
 };
 
@@ -161,7 +161,7 @@ export const generatePresetsRulesMatrixSectionFromRules = () => {
         const fix = ruleModule.meta?.fixable === "code" ? "🔧" : "—";
         const presetIcons = [
             isRuleEnabledInPreset("recommended", ruleName) ? "🟡" : null,
-            isRuleEnabledInPreset("stylelintOnly", ruleName) ? "🎨" : null,
+            isRuleEnabledInPreset("remarkOnly", ruleName) ? "📝" : null,
             isRuleEnabledInPreset("configuration", ruleName) ? "🔧" : null,
             isRuleEnabledInPreset("all", ruleName) ? "🟣" : null,
         ]

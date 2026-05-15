@@ -5,12 +5,12 @@
 
 /** Stable docs host/prefix for generated rule docs links. */
 export const RULE_DOCS_URL_BASE =
-    "https://nick2bad4u.github.io/eslint-plugin-stylelint-2/docs/rules/" as const;
+    "https://nick2bad4u.github.io/eslint-plugin-remark/docs/rules/" as const;
 
 /**
  * Build the canonical documentation URL for one rule id.
  *
- * @param ruleName - Rule id (for example `stylelint`).
+ * @param ruleName - Rule id (for example `remark`).
  *
  * @returns Canonical docs URL for the rule page.
  */

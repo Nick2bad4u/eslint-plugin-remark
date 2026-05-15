@@ -10,7 +10,7 @@ import {
     extractReadmeRulesSection,
     generateReadmeRulesSectionFromRules,
 } from "../scripts/sync-readme-rules-table.mjs";
-import stylelint2Plugin from "../src/plugin";
+import remarkPlugin from "../src/plugin";
 import { normalizeMarkdownTableSpacing } from "./_internal/markdownTables";
 
 type ReadmeRuleMap = Readonly<
@@ -42,7 +42,7 @@ describe("readme rules table synchronization", () => {
         ).toBe(
             normalizeMarkdownTableSpacing(
                 generateReadmeRulesSectionFromRules(
-                    stylelint2Plugin.rules as ReadmeRuleMap
+                    remarkPlugin.rules as ReadmeRuleMap
                 )
             )
         );

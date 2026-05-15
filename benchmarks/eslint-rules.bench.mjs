@@ -63,21 +63,28 @@ const createEslint = (overrideConfig) => {
     });
 };
 
-describe("eslint-plugin-stylelint-2 meaningful benchmarks", () => {
-    bench("stylelint bridge on invalid CSS", async () => {
-        const eslint = createEslint(getSingleFlatConfig("stylesheets"));
-        await eslint.lintText(`a { color: #ffffff; }`, {
-            filePath: "benchmarks/fixtures/stylelint.invalid.css",
+describe("eslint-plugin-remark meaningful benchmarks", () => {
+    bench("remark bridge on invalid Markdown", async () => {
+        const remarkOnlyConfig = getSingleFlatConfig("remarkOnly");
+        const eslint = createEslint({
+            ...remarkOnlyConfig,
+            rules: {
+                ...remarkOnlyConfig.rules,
+                "remark/remark": [
+                    "error",
+                    { configFile: "test/fixtures/remark/alt-text.config.mjs" },
+                ],
+            },
+        });
+        await eslint.lintText("![](image.png)\n", {
+            filePath: "benchmarks/fixtures/remark.invalid.md",
         });
     });
 
-    bench("config rule on invalid stylelint config", async () => {
+    bench("config rule on invalid Remark config", async () => {
         const eslint = createEslint(getSingleFlatConfig("configs"));
-        await eslint.lintText(
-            `export default { rules: { "color-no-invalid-hex": true } };`,
-            {
-                filePath: "benchmarks/fixtures/stylelint.config.invalid.ts",
-            }
-        );
+        await eslint.lintText('export default { plugins: "remark-gfm" };', {
+            filePath: "benchmarks/fixtures/remark.config.invalid.ts",
+        });
     });
 });

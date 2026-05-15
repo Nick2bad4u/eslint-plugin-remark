@@ -29,7 +29,7 @@ function isHTMLElement(element: Element | null): element is HTMLElement {
 }
 
 function isNumberedRuleSidebarLink(link: HTMLAnchorElement): boolean {
-    return link.closest(".sb-cat-rules-stylelint") !== null;
+    return link.closest(".sb-cat-rules-remark") !== null;
 }
 
 function getRuleNumberPrefix(

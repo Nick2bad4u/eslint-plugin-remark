@@ -3,33 +3,12 @@
  * Vitest coverage for public preset wiring.
  */
 
-import { ESLint } from "eslint";
 import { describe, expect, it } from "vitest";
 
-import { stylelint2ConfigNames } from "../src/_internal/stylelint2-config-references";
-import stylelint2Plugin from "../src/plugin";
+import { remarkConfigNames } from "../src/_internal/remark-config-references";
+import remarkPlugin from "../src/plugin";
 
 type UnknownRecord = Record<string, unknown>;
-
-const getEslintMajorVersion = (eslintVersion: string): number => {
-    const [majorText = "0"] = eslintVersion.split(".");
-    const parsedMajor = Number.parseInt(majorText, 10);
-
-    return Number.isFinite(parsedMajor) && parsedMajor > 0 ? parsedMajor : 0;
-};
-
-const supportsCssLanguageInFlatConfig =
-    getEslintMajorVersion(ESLint.version) >= 10;
-
-const expectedStylelintOnlyPresetShape: UnknownRecord =
-    supportsCssLanguageInFlatConfig
-        ? {
-              files: ["**/*.css"],
-              language: "css/css",
-          }
-        : {
-              files: ["**/*.css"],
-          };
 
 const sortStrings = (values: readonly string[]): string[] => {
     const sortedValues: string[] = [];
@@ -54,7 +33,7 @@ const isRecord = (value: unknown): value is UnknownRecord =>
     typeof value === "object" && value !== null;
 
 const getRecommendedPresetEntries = (): readonly UnknownRecord[] => {
-    const recommendedPreset = stylelint2Plugin.configs.recommended;
+    const recommendedPreset = remarkPlugin.configs.recommended;
 
     if (!Array.isArray(recommendedPreset)) {
         throw new TypeError("Expected recommended preset to be an array.");
@@ -81,26 +60,27 @@ const getRulesRecord = (value: unknown): UnknownRecord => {
     return isRecord(rules) ? rules : {};
 };
 
-describe("stylelint-2 plugin configs", () => {
+describe("remark plugin configs", () => {
     it("exports exactly the supported config keys", () => {
         expect.hasAssertions();
 
-        expect(
-            sortStrings(Object.keys(stylelint2Plugin.configs))
-        ).toStrictEqual(sortStrings(stylelint2ConfigNames));
+        expect(sortStrings(Object.keys(remarkPlugin.configs))).toStrictEqual(
+            sortStrings(remarkConfigNames)
+        );
     });
 
-    it("keeps stylesheet and config presets focused on different file sets", () => {
+    it("keeps markdown and config presets focused on different file sets", () => {
         expect.hasAssertions();
 
-        expect(stylelint2Plugin.configs.stylelintOnly).toMatchObject(
-            expectedStylelintOnlyPresetShape
-        );
+        expect(remarkPlugin.configs.remarkOnly).toMatchObject({
+            files: ["**/*.{md,mdx,markdown}"],
+            language: "markdown/gfm",
+        });
 
-        expect(stylelint2Plugin.configs.configuration).toMatchObject({
+        expect(remarkPlugin.configs.configuration).toMatchObject({
             files: [
-                "**/.stylelintrc.{js,mjs,cjs,ts,mts,cts}",
-                "**/stylelint.config.{js,mjs,cjs,ts,mts,cts}",
+                "**/.remarkrc.{js,mjs,cjs,ts,mts,cts}",
+                "**/remark.config.{js,mjs,cjs,ts,mts,cts}",
             ],
         });
     });
@@ -108,74 +88,33 @@ describe("stylelint-2 plugin configs", () => {
     it("keeps recommended and all as flat-config arrays", () => {
         expect.hasAssertions();
 
-        expect(
-            Array.isArray(stylelint2Plugin.configs.recommended)
-        ).toBeTruthy();
-        expect(Array.isArray(stylelint2Plugin.configs.all)).toBeTruthy();
-        expect(stylelint2Plugin.configs.recommended).toHaveLength(2);
-        expect(stylelint2Plugin.configs.all).toHaveLength(2);
+        expect(Array.isArray(remarkPlugin.configs.recommended)).toBeTruthy();
+        expect(Array.isArray(remarkPlugin.configs.all)).toBeTruthy();
+        expect(remarkPlugin.configs.recommended).toHaveLength(2);
+        expect(remarkPlugin.configs.all).toHaveLength(2);
     });
 
-    it("keeps the stylesheet preset focused on the bridge rule only", () => {
+    it("keeps the markdown preset focused on the bridge rule only", () => {
         expect.hasAssertions();
 
-        expect(stylelint2Plugin.configs.stylelintOnly).toMatchObject({
+        expect(remarkPlugin.configs.remarkOnly).toMatchObject({
             rules: {
-                "stylelint-2/stylelint": "error",
+                "remark/remark": "error",
             },
         });
     });
 
-    it("keeps the config preset focused on the config-hygiene rules", () => {
+    it("keeps the config preset focused on Remark config-hygiene rules", () => {
         expect.hasAssertions();
 
-        expect(stylelint2Plugin.configs.configuration).toMatchObject({
+        expect(remarkPlugin.configs.configuration).toMatchObject({
             rules: {
-                "stylelint-2/disallow-stylelint-allow-empty-input": "warn",
-                "stylelint-2/disallow-stylelint-configuration-comment": "warn",
-                "stylelint-2/disallow-stylelint-custom-syntax": "warn",
-                "stylelint-2/disallow-stylelint-default-severity": "warn",
-                "stylelint-2/disallow-stylelint-duplicate-extends": "warn",
-                "stylelint-2/disallow-stylelint-duplicate-plugins": "warn",
-                "stylelint-2/disallow-stylelint-duplicate-rule-option-values":
-                    "warn",
-                "stylelint-2/disallow-stylelint-empty-rules-object": "warn",
-                "stylelint-2/disallow-stylelint-ignore-disables": "warn",
-                "stylelint-2/disallow-stylelint-ignore-files": "warn",
-                "stylelint-2/disallow-stylelint-null-rule-config": "warn",
-                "stylelint-2/disallow-stylelint-overrides-runtime-options":
-                    "warn",
-                "stylelint-2/disallow-stylelint-processors": "warn",
-                "stylelint-2/disallow-stylelint-relative-extends-paths": "warn",
-                "stylelint-2/disallow-stylelint-relative-plugin-paths": "warn",
-                "stylelint-2/prefer-stylelint-cache": "warn",
-                "stylelint-2/prefer-stylelint-define-config": "warn",
-                "stylelint-2/prefer-stylelint-extends-array": "warn",
-                "stylelint-2/prefer-stylelint-fix": "warn",
-                "stylelint-2/prefer-stylelint-formatter": "warn",
-                "stylelint-2/prefer-stylelint-plugins-array": "warn",
-                "stylelint-2/prefer-stylelint-report-descriptionless-disables":
-                    "warn",
-                "stylelint-2/prefer-stylelint-report-invalid-scope-disables":
-                    "warn",
-                "stylelint-2/prefer-stylelint-report-needless-disables": "warn",
-                "stylelint-2/prefer-stylelint-report-unscoped-disables": "warn",
-                "stylelint-2/require-stylelint-config-file-naming-convention":
-                    "warn",
-                "stylelint-2/require-stylelint-custom-syntax-in-overrides":
-                    "warn",
-                "stylelint-2/require-stylelint-extends-packages-installed":
-                    "warn",
-                "stylelint-2/require-stylelint-overrides-configuration": "warn",
-                "stylelint-2/require-stylelint-overrides-files": "warn",
-                "stylelint-2/require-stylelint-overrides-files-array": "warn",
-                "stylelint-2/require-stylelint-plugins-packages-installed":
-                    "warn",
-                "stylelint-2/require-stylelint-report-disables": "warn",
-                "stylelint-2/require-stylelint-rules-object": "warn",
-                "stylelint-2/sort-stylelint-extends": "warn",
-                "stylelint-2/sort-stylelint-plugins": "warn",
-                "stylelint-2/sort-stylelint-rule-keys": "warn",
+                "remark/disallow-remark-duplicate-plugins": "warn",
+                "remark/disallow-remark-relative-plugin-paths": "warn",
+                "remark/prefer-remark-plugins-array": "warn",
+                "remark/require-remark-config-file-naming-convention": "warn",
+                "remark/require-remark-plugins-packages-installed": "warn",
+                "remark/sort-remark-plugins": "warn",
             },
         });
     });
@@ -184,54 +123,39 @@ describe("stylelint-2 plugin configs", () => {
         expect.hasAssertions();
 
         const recommendedPreset = getRecommendedPresetEntries();
-        const stylesheetPreset = recommendedPreset[0];
+        const markdownPreset = recommendedPreset[0];
         const recommendedConfigPreset = recommendedPreset[1];
 
         expect(recommendedPreset).toHaveLength(2);
 
-        expect(stylesheetPreset).toMatchObject({
+        expect(markdownPreset).toMatchObject({
             rules: {
-                "stylelint-2/stylelint": "error",
+                "remark/remark": "error",
             },
         });
 
         expect(recommendedConfigPreset).toMatchObject({
             rules: {
-                "stylelint-2/prefer-stylelint-define-config": "warn",
-                "stylelint-2/require-stylelint-rules-object": "warn",
+                "remark/prefer-remark-plugins-array": "warn",
+                "remark/sort-remark-plugins": "warn",
             },
         });
 
         const recommendedConfigRules = getRulesRecord(recommendedConfigPreset);
 
-        expect(recommendedConfigRules).not.toHaveProperty(
-            "stylelint-2/disallow-stylelint-default-severity"
-        );
-        expect(recommendedConfigRules).not.toHaveProperty(
-            "stylelint-2/disallow-stylelint-ignore-disables"
-        );
-        expect(recommendedConfigRules).not.toHaveProperty(
-            "stylelint-2/disallow-stylelint-ignore-files"
-        );
-        expect(recommendedConfigRules).not.toHaveProperty(
-            "stylelint-2/prefer-stylelint-cache"
-        );
-        expect(recommendedConfigRules).not.toHaveProperty(
-            "stylelint-2/prefer-stylelint-fix"
-        );
-        expect(recommendedConfigRules).not.toHaveProperty(
-            "stylelint-2/prefer-stylelint-formatter"
+        expect(recommendedConfigRules).toHaveProperty(
+            "remark/disallow-remark-duplicate-plugins"
         );
     });
 
     it("keeps the legacy alias presets wired to the preferred preset names", () => {
         expect.hasAssertions();
 
-        expect(stylelint2Plugin.configs.stylesheets).toBe(
-            stylelint2Plugin.configs.stylelintOnly
+        expect(remarkPlugin.configs.markdown).toBe(
+            remarkPlugin.configs.remarkOnly
         );
-        expect(stylelint2Plugin.configs.configs).toBe(
-            stylelint2Plugin.configs.configuration
+        expect(remarkPlugin.configs.configs).toBe(
+            remarkPlugin.configs.configuration
         );
     });
 });

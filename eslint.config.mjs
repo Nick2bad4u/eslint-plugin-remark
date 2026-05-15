@@ -2,31 +2,33 @@ import nickTwoBadFourU from "eslint-config-nick2bad4u";
 
 import plugin from "./plugin.mjs";
 
-/** @type {import("./src/plugin").Stylelint2Plugin} */
-const stylelint2 = /** @type {import("./src/plugin").Stylelint2Plugin} */ (
+/** @type {import("./src/plugin").RemarkPlugin} */
+const remarkPlugin = /** @type {import("./src/plugin").RemarkPlugin} */ (
     plugin
+);
+const configurationPreset = remarkPlugin.configs.configuration;
+
+if (Array.isArray(configurationPreset)) {
+    throw new TypeError(
+        "Expected remark.configs.configuration to be a flat config object."
+    );
+}
+
+/** @type {import("eslint").Linter.Config} */
+const localConfigurationPreset = /** @type {import("eslint").Linter.Config} */ (
+    configurationPreset
 );
 
 /** @type {import("eslint").Linter.Config[]} */
 const config = [
-    ...nickTwoBadFourU.configs.withoutStylelint2,
+    ...nickTwoBadFourU.configs.recommended,
 
     // Local Plugin Config
-    // This lets us use the plugin's rules in this repository without needing to publish the plugin first.
+    // This lets us use the plugin's config-authoring rules in this repository
+    // without needing to publish the plugin first.
     {
-        files: ["src/**/*.{js,mjs,cjs,ts,mts,cts,tsx,jsx}"],
-        name: "Local Stylelint",
-        plugins: {
-            "stylelint-2": stylelint2,
-        },
-        /* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access -- plugin config arrays are runtime-validated ESLint rule maps. */
-        rules: {
-            // @ts-expect-error -- plugin.mjs is typed as generic ESLint.Plugin.
-            ...stylelint2.configs.all[0].rules,
-            // @ts-expect-error -- plugin.mjs is typed as generic ESLint.Plugin.
-            ...stylelint2.configs.all[1].rules,
-        },
-        /* eslint-enable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access -- end local override for plugin rule map spreads. */
+        ...localConfigurationPreset,
+        name: "Local Remark config rules",
     },
     {
         files: [

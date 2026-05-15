@@ -1,6 +1,6 @@
 /**
  * @packageDocumentation
- * Shared testing utilities for eslint-plugin-stylelint-2 RuleTester and Vitest suites.
+ * Shared testing utilities for eslint-plugin-remark RuleTester and Vitest suites.
  */
 import tsParser from "@typescript-eslint/parser";
 import { RuleTester } from "@typescript-eslint/rule-tester";
@@ -8,7 +8,7 @@ import * as path from "node:path";
 import pc from "picocolors";
 import { afterAll, describe, it } from "vitest";
 
-import stylelint2Plugin from "../../src/plugin";
+import remarkPlugin from "../../src/plugin";
 
 type UnknownArray = readonly unknown[];
 type UnknownRecord = Record<string, unknown>;
@@ -150,12 +150,10 @@ const isRuleModule = (value: unknown): value is PluginRuleModule => {
 };
 
 export const getPluginRule = (ruleId: string): PluginRuleModule => {
-    const candidate = (stylelint2Plugin.rules as UnknownRecord)[ruleId];
+    const candidate = (remarkPlugin.rules as UnknownRecord)[ruleId];
 
     if (!isRuleModule(candidate)) {
-        throw new Error(
-            `Rule '${ruleId}' is not registered in stylelint2Plugin.`
-        );
+        throw new Error(`Rule '${ruleId}' is not registered in remarkPlugin.`);
     }
 
     return candidate;

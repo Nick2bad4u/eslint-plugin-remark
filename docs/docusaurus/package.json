@@ -1,24 +1,25 @@
 {
     "$schema": "https://www.schemastore.org/package.json",
-    "name": "@eslint-plugin-stylelint-2/docs",
+    "name": "@eslint-plugin-remark/docs",
     "version": "0.1.0",
     "private": true,
-    "description": "Docusaurus documentation site for eslint-plugin-stylelint-2.",
+    "description": "Docusaurus documentation site for eslint-plugin-remark.",
     "keywords": [
         "docusaurus",
         "documentation",
         "eslint",
         "eslint-plugin",
-        "stylelint",
+        "remark",
+        "markdown",
         "typescript"
     ],
-    "homepage": "https://nick2bad4u.github.io/eslint-plugin-stylelint-2/",
+    "homepage": "https://nick2bad4u.github.io/eslint-plugin-remark/",
     "bugs": {
-        "url": "https://github.com/Nick2bad4u/eslint-plugin-stylelint-2/issues"
+        "url": "https://github.com/Nick2bad4u/eslint-plugin-remark/issues"
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/Nick2bad4u/eslint-plugin-stylelint-2.git"
+        "url": "git+https://github.com/Nick2bad4u/eslint-plugin-remark.git"
     },
     "license": "MIT",
     "author": "Nick2bad4u",
@@ -26,7 +27,7 @@
         {
             "name": "Nick2bad4u",
             "email": "20943337+Nick2bad4u@users.noreply.github.com",
-            "url": "https://nick2bad4u.github.io/eslint-plugin-stylelint-2"
+            "url": "https://nick2bad4u.github.io/eslint-plugin-remark"
         }
     ],
     "sideEffects": false,
@@ -35,9 +36,9 @@
         "site-docs"
     ],
     "scripts": {
-        "build": "npm run docs:api && npm --prefix ../.. run build:eslint-inspector && npm --prefix ../.. run build:stylelint-inspector && docusaurus build",
+        "build": "npm run docs:api && npm --prefix ../.. run build:eslint-inspector && npm --prefix ../.. run build:remark-inspector && docusaurus build",
         "build:fast": "cross-env DOCUSAURUS_ENABLE_EXPERIMENTAL=true docusaurus build",
-        "build:local": "npm run docs:api && npm --prefix ../.. run build:eslint-inspector:local && npm --prefix ../.. run build:stylelint-inspector:local && cross-env NODE_OPTIONS=--no-deprecation docusaurus build",
+        "build:local": "npm run docs:api && npm --prefix ../.. run build:eslint-inspector:local && npm --prefix ../.. run build:remark-inspector:local && cross-env NODE_OPTIONS=--no-deprecation docusaurus build",
         "clear": "docusaurus clear",
         "deploy": "docusaurus deploy",
         "docs:api": "typedoc --options typedoc.config.json",

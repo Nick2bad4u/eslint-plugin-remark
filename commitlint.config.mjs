@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types -- This JavaScript config file uses JSDoc signatures rather than TypeScript annotations. */
 /**
- * Commitlint configuration for eslint-plugin-stylelint-2.
+ * Commitlint configuration for eslint-plugin-remark.
  *
  * Enforces the repository's hybrid Gitmoji format, e.g.:
  *

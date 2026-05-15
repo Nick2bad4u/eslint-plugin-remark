@@ -1,13 +1,13 @@
 /**
  * @packageDocumentation
- * Shared rule creation helpers for eslint-plugin-stylelint-2.
+ * Shared rule creation helpers for eslint-plugin-remark.
  */
 import type { TSESLint } from "@typescript-eslint/utils";
 import type { Except, UnknownArray, UnknownRecord } from "type-fest";
 
 import { isDefined, objectEntries } from "ts-extras";
 
-import type { Stylelint2ConfigReference } from "./stylelint2-config-references.js";
+import type { RemarkConfigReference } from "./remark-config-references.js";
 
 import { createRuleDocsUrl } from "./rule-docs-url.js";
 
@@ -21,6 +21,16 @@ export type GenericRuleContext<
 export type GenericRuleListener = Readonly<
     Record<string, (node: unknown) => void>
 >;
+
+/** Plugin-specific metadata extensions for `meta.docs`. */
+export type RemarkRuleDocs = Readonly<{
+    configs: readonly RemarkConfigReference[] | RemarkConfigReference;
+    description: string;
+    frozen?: boolean;
+    recommended: boolean;
+    requiresTypeChecking: boolean;
+    url: string;
+}>;
 
 /**
  * Rule definition shape accepted by `createTypedRule`, including typed
@@ -42,22 +52,12 @@ export type RuleModuleWithDocs<
     MessageIds extends string,
     Options extends Readonly<UnknownArray>,
 > = TSESLint.RuleModule<MessageIds, Options> & {
-    meta: TSESLint.RuleMetaData<MessageIds, Stylelint2RuleDocs, Options> & {
+    meta: TSESLint.RuleMetaData<MessageIds, RemarkRuleDocs, Options> & {
         deprecated: boolean;
-        docs: Stylelint2RuleDocs;
+        docs: RemarkRuleDocs;
     };
     name: string;
 };
-
-/** Plugin-specific metadata extensions for `meta.docs`. */
-export type Stylelint2RuleDocs = Readonly<{
-    configs: readonly Stylelint2ConfigReference[] | Stylelint2ConfigReference;
-    description: string;
-    frozen?: boolean;
-    recommended: boolean;
-    requiresTypeChecking: boolean;
-    url: string;
-}>;
 
 const isReadonlyRecord = (value: unknown): value is Readonly<UnknownRecord> =>
     typeof value === "object" && value !== null && !Array.isArray(value);
@@ -159,7 +159,7 @@ export const toRuleListener = (
     listener: GenericRuleListener
 ): TSESLint.RuleListener => listener;
 
-/** Create a single range replacement fixer for a Stylelint edit. */
+/** Create a single range replacement fixer for a Remark edit. */
 export const replaceTextRange = (
     fixer: TSESLint.RuleFixer,
     range: readonly [number, number],

@@ -6,7 +6,7 @@ import { describe, expect, it } from "vitest";
 
 // eslint-disable-next-line import-x/no-relative-packages -- The docs workspace is part of this monorepo and this contract test validates its sidebar output directly.
 import sidebars from "../docs/docusaurus/sidebars.rules";
-import stylelint2Plugin from "../src/plugin";
+import remarkPlugin from "../src/plugin";
 
 type SidebarItem = Readonly<
     | {
@@ -91,7 +91,7 @@ describe("docusaurus rules sidebar sync", () => {
 
         const sidebarDocIds = new Set(collectDocIds(rulesSidebarItems));
 
-        for (const ruleName of Object.keys(stylelint2Plugin.rules)) {
+        for (const ruleName of Object.keys(remarkPlugin.rules)) {
             expect(sidebarDocIds.has(ruleName)).toBeTruthy();
         }
     });

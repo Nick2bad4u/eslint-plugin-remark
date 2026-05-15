@@ -4,7 +4,7 @@
  */
 import type { ESLint } from "eslint";
 
-/** Default CommonJS export shape for eslint-plugin-stylelint-2. */
+/** Default CommonJS export shape for eslint-plugin-remark. */
 declare const plugin: ESLint.Plugin;
 
 export = plugin;

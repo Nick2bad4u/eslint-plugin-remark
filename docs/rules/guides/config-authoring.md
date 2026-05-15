@@ -1,22 +1,22 @@
 ---
 title: Config Authoring
-description: Build predictable, maintainable stylelint config files with eslint-plugin-stylelint-2 rule enforcement.
+description: Build predictable, maintainable Remark config files with eslint-plugin-remark rule enforcement.
 ---
 
 # Config Authoring
 
-Bridge execution solves "how to run Stylelint from ESLint." Config authoring rules solve "how to keep Stylelint config files maintainable over time."
+Bridge execution solves "how to run Remark from ESLint." Config authoring rules solve "how to keep Remark config files maintainable over time."
 
 ## Why config quality rules matter
 
-In larger repositories, stylelint config drift usually appears as:
+In larger repositories, Remark config drift usually appears as:
 
-- duplicated `extends` / `plugins`
-- inconsistent array ordering
+- duplicated `plugins` entries
+- inconsistent plugin array ordering
 - hidden relative path assumptions
-- stale override blocks
+- plugin packages referenced by config but missing from package metadata
 
-The config rule set helps keep config files deterministic and review-friendly.
+The config rule set keeps config files deterministic and review-friendly.
 
 ## Recommended baseline
 
@@ -24,43 +24,35 @@ Start with [`recommended`](../presets/recommended.md), then strengthen increment
 
 A practical progression:
 
-1. Deduplication and shape rules (`require-*`, `disallow-*` basics)
-2. Sorting rules for stable diffs
-3. Environment-specific hardening (monorepo path/package checks)
+1. Shape rules such as [`prefer-remark-plugins-array`](../prefer-remark-plugins-array.md).
+2. Deduplication and sorting rules for stable diffs.
+3. Package and path checks for monorepo safety.
 
 ## Authoring conventions that scale
 
-### 1) Keep `extends` and `plugins` explicit
+### 1. Keep `plugins` explicit
 
-- Avoid implicit path behavior
-- Prefer package-based references where possible
-- Enforce package-install checks with dedicated rules
+- Avoid implicit path behavior.
+- Prefer package-based references where possible.
+- Enforce package-install checks with [`require-remark-plugins-packages-installed`](../require-remark-plugins-packages-installed.md).
 
-### 2) Keep arrays deterministic
+### 2. Keep arrays deterministic
 
 Use sorting rules to minimize merge churn:
 
-- [`sort-stylelint-extends`](../sort-stylelint-extends.md)
-- [`sort-stylelint-plugins`](../sort-stylelint-plugins.md)
-- [`sort-stylelint-rule-keys`](../sort-stylelint-rule-keys.md)
+- [`sort-remark-plugins`](../sort-remark-plugins.md)
 
-### 3) Treat overrides as policy, not exceptions
+### 3. Avoid local relative plugins by default
 
-Enforce consistent override structure and file targeting:
+Local Remark plugins can be valid, but they are harder to package, share, and resolve consistently in monorepos.
 
-- [`require-stylelint-overrides-configuration`](../require-stylelint-overrides-configuration.md)
-- [`require-stylelint-overrides-files`](../require-stylelint-overrides-files.md)
-- [`require-stylelint-overrides-files-array`](../require-stylelint-overrides-files-array.md)
-
-### 4) Prevent legacy/deprecated patterns
-
-Guard against obsolete or risky stylelint config patterns with `disallow-*` rules.
+Use [`disallow-remark-relative-plugin-paths`](../disallow-remark-relative-plugin-paths.md) unless local plugins are an explicit project policy.
 
 ## Monorepo tips
 
-- Keep `configBasedir` stable when invoking bridge rule options.
-- Avoid relative extends/plugin path assumptions between packages.
-- Validate package dependencies where stylelint config references plugins/presets.
+- Keep `configFile` explicit when packages need different Remark behavior.
+- Avoid relative plugin path assumptions between packages.
+- Validate package dependencies where Remark config references plugins.
 
 ## Migration strategy for existing repos
 
@@ -71,6 +63,6 @@ Guard against obsolete or risky stylelint config patterns with `disallow-*` rule
 
 ## Related docs
 
-- Runtime bridge behavior: [Stylelint Bridge](./stylelint-bridge.md)
+- Runtime bridge behavior: [Remark Bridge](./remark-bridge.md)
 - Initial setup: [Getting Started](./getting-started.md)
 - Full policy sets: [Preset Reference](../presets/index.md)

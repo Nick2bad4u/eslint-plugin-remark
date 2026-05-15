@@ -1,6 +1,6 @@
 ---
 title: Developer Guides
-description: Practical development guides for maintaining eslint-plugin-stylelint-2.
+description: Practical development guides for maintaining eslint-plugin-remark.
 ---
 
 # Developer Guides

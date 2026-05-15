@@ -1,25 +1,25 @@
 {
     "$schema": "https://www.schemastore.org/package.json",
-    "name": "eslint-plugin-stylelint-2",
-    "version": "1.1.3",
+    "name": "eslint-plugin-remark",
+    "version": "0.1.0",
     "private": false,
-    "description": "ESLint plugin that runs Stylelint through ESLint and adds Stylelint-specific authoring rules.",
+    "description": "ESLint plugin that runs Remark through ESLint and adds Remark-specific authoring rules.",
     "keywords": [
         "eslint",
         "eslint-plugin",
         "eslintplugin",
-        "css",
-        "stylelint",
+        "markdown",
+        "remark",
         "typescript"
     ],
-    "homepage": "https://github.com/Nick2bad4u/eslint-plugin-stylelint-2",
+    "homepage": "https://github.com/Nick2bad4u/eslint-plugin-remark",
     "bugs": {
-        "url": "https://github.com/Nick2bad4u/eslint-plugin-stylelint-2/issues",
+        "url": "https://github.com/Nick2bad4u/eslint-plugin-remark/issues",
         "email": "20943337+Nick2bad4u@users.noreply.github.com"
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/Nick2bad4u/eslint-plugin-stylelint-2.git"
+        "url": "git+https://github.com/Nick2bad4u/eslint-plugin-remark.git"
     },
     "license": "MIT",
     "author": "Nick2bad4u <20943337+Nick2bad4u@users.noreply.github.com> (https://github.com/Nick2bad4u)",
@@ -64,7 +64,7 @@
         "prebench:eslint:stats": "npm run build",
         "bench:eslint:stats": "node benchmarks/run-eslint-stats.mjs",
         "prebench:eslint:timing": "npm run build",
-        "bench:eslint:timing": "cross-env TIMING=all eslint --config benchmarks/eslint-timing.config.mjs --stats \"benchmarks/fixtures/*.css\"",
+        "bench:eslint:timing": "cross-env TIMING=all eslint --config benchmarks/eslint-timing.config.mjs --stats \"benchmarks/fixtures/*.md\"",
         "prebench:rule-benchmark": "npm run build",
         "bench:rule-benchmark": "eslint-rule-benchmark run",
         "prebench:ui": "npm run build",
@@ -74,10 +74,10 @@
         "build": "tsc -p tsconfig.build.json && npm run build:types:cjs && npm run build:cjs",
         "build:cjs": "node -e \"require('node:fs').writeFileSync('dist/plugin.cjs','module.exports = require(\\\"./plugin.js\\\").default;\\n')\"",
         "build:clean": "node -e \"require('node:fs').rmSync('dist',{recursive:true,force:true})\"",
-        "build:eslint-inspector": "npx -y @eslint/config-inspector@latest build --outDir \"docs/docusaurus/static/eslint-inspector\" --base \"/eslint-plugin-stylelint-2/eslint-inspector/\"",
+        "build:eslint-inspector": "npx -y @eslint/config-inspector@latest build --outDir \"docs/docusaurus/static/eslint-inspector\" --base \"/eslint-plugin-remark/eslint-inspector/\"",
         "build:eslint-inspector:local": "npx @eslint/config-inspector",
-        "build:stylelint-inspector": "npx -y stylelint-config-inspector@latest build --outDir \"docs/docusaurus/static/stylelint-inspector\" --base \"/eslint-plugin-stylelint-2/stylelint-inspector/\"",
-        "build:stylelint-inspector:local": "npx stylelint-config-inspector@latest",
+        "build:remark-inspector": "npx -y remark-config-inspector@latest build --outDir \"docs/docusaurus/static/remark-inspector\" --base \"/eslint-plugin-remark/remark-inspector/\"",
+        "build:remark-inspector:local": "npx remark-config-inspector@latest",
         "build:types:cjs": "node -e \"require('node:fs').copyFileSync('plugin.d.cts','dist/plugin.d.cts')\"",
         "changelog:generate": "git-cliff --config cliff.toml --output CHANGELOG.md",
         "changelog:preview": "git-cliff --config cliff.toml --unreleased",
@@ -141,7 +141,7 @@
         "lint:exports": "ts-unused-exports tsconfig.json src/plugin.ts --excludePathsFromReport=plugin.ts",
         "lint:fix": "cross-env NODE_OPTIONS=--max_old_space_size=16384 eslint --cache --cache-strategy content --cache-location .cache/.eslintcache --fix",
         "lint:fix:quiet": "cross-env ESLINT_PROGRESS=off NODE_OPTIONS=--max_old_space_size=16384 eslint --cache --cache-strategy content --cache-location .cache/.eslintcache --fix && echo \"Eslint fix done!\"",
-        "lint:grype": "grype . -c .grype.yaml --name eslint-plugin-stylelint-2",
+        "lint:grype": "grype . -c .grype.yaml --name eslint-plugin-remark",
         "lint:knip": "npm run knip",
         "lint:knip:exports": "npm run knip -- --include exports,nsExports,classMembers,types,nsTypes,enumMembers,duplicates",
         "lint:knip:unused:exports": "npm run knip -- --dependencies --exports",
@@ -181,7 +181,7 @@
         "sync:peer-eslint-range": "node scripts/sync-peer-eslint-range.mjs",
         "sync:presets-rules-matrix": "node scripts/sync-presets-rules-matrix.mjs",
         "sync:readme-rules-table": "node scripts/sync-readme-rules-table.mjs",
-        "sync:readme-rules-table:update": "npm run build && cross-env STYLELINT2_UPDATE_GENERATED_DOCS=1 vitest run test/readme-rules-table-sync.test.ts -u",
+        "sync:readme-rules-table:update": "npm run build && cross-env REMARK_UPDATE_GENERATED_DOCS=1 vitest run test/readme-rules-table-sync.test.ts -u",
         "sync:readme-rules-table:write": "node scripts/sync-readme-rules-table.mjs --write",
         "pretest": "npm run build",
         "test": "vitest run",
@@ -213,12 +213,16 @@
         "jsonc-eslint-parser": "$jsonc-eslint-parser"
     },
     "dependencies": {
-        "@eslint/css": "^1.2.0",
+        "@eslint/markdown": "^8.0.1",
         "@typescript-eslint/parser": "^8.59.3",
         "@typescript-eslint/type-utils": "^8.59.3",
         "@typescript-eslint/utils": "^8.59.3",
+        "remark": "^15.0.1",
         "ts-extras": "^1.0.0",
-        "type-fest": "^5.6.0"
+        "type-fest": "^5.6.0",
+        "unified": "^11.0.5",
+        "vfile": "^6.0.3",
+        "vfile-message": "^4.0.3"
     },
     "devDependencies": {
         "@arethetypeswrong/cli": "^0.18.2",
@@ -284,7 +288,6 @@
         "prettier-config-nick2bad4u": "^1.0.12",
         "publint": "^0.3.21",
         "rehype-katex": "^7.0.1",
-        "remark": "^15.0.1",
         "remark-cli": "^12.0.1",
         "remark-config-nick2bad4u": "^1.0.1",
         "secretlint": "^13.0.0",
@@ -301,7 +304,6 @@
         "typescript": "^6.0.3",
         "typescript-eslint": "^8.59.3",
         "typesync": "^0.14.3",
-        "vfile": "^6.0.3",
         "vite": "^8.0.12",
         "vite-tsconfig-paths": "^6.1.1",
         "vitest": "^4.1.6",
@@ -309,7 +311,6 @@
     },
     "peerDependencies": {
         "eslint": "^9.0.0 || ^10.0.0",
-        "stylelint": "^16.0.0 || ^17.0.0",
         "typescript": "^5.0.0 || ^6.0.0"
     },
     "packageManager": "npm@11.14.1",

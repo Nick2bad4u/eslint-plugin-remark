@@ -29,12 +29,7 @@ const isRecord = (value: unknown): value is UnknownRecord =>
  * @returns Normalized Docusaurus docs id.
  */
 const normalizeTypedocId = (value: string): string =>
-    value
-        .replace(/^\.\.\/site-docs\//u, "")
-        .replace(
-            /\/stylelintconfig-references(\/|$)/u,
-            "/stylelint2-config-references$1"
-        );
+    value.replace(/^\.\.\/site-docs\//u, "");
 
 /**
  * Recursively normalize generated TypeDoc sidebar items so they can be mounted

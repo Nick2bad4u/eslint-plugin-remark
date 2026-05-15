@@ -32,7 +32,7 @@
     --sb-accent-presets: #c084fc;
     --sb-prefix-rule-number: #71717a;
     --sb-preset-recommended: #fde047;
-    --sb-preset-stylelint-only: #8b5cf6;
+    --sb-preset-remark-only: #8b5cf6;
     --sb-preset-configuration: #a78bfa;
     --sb-preset-all: #c084fc;
 }
@@ -67,7 +67,7 @@
     --sb-accent-presets: #ddd6fe;
     --sb-prefix-rule-number: #a1a1aa;
     --sb-preset-recommended: #fde047;
-    --sb-preset-stylelint-only: #c4b5fd;
+    --sb-preset-remark-only: #c4b5fd;
     --sb-preset-configuration: #ddd6fe;
     --sb-preset-all: #d8b4fe;
 }
@@ -463,9 +463,9 @@
     border-inline-start-color: var(--sb-preset-recommended);
 }
 
-.sb-cat-presets .sb-preset-stylelint-only > .menu__link,
-.sb-cat-presets .menu__link.sb-preset-stylelint-only {
-    border-inline-start-color: var(--sb-preset-stylelint-only);
+.sb-cat-presets .sb-preset-remark-only > .menu__link,
+.sb-cat-presets .menu__link.sb-preset-remark-only {
+    border-inline-start-color: var(--sb-preset-remark-only);
 }
 
 .sb-cat-presets .sb-preset-configuration > .menu__link,

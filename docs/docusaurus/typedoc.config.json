@@ -420,7 +420,7 @@
         "ini",
         "diff"
     ],
-    "hostedBaseUrl": "https://nick2bad4u.github.io/eslint-plugin-stylelint-2/",
+    "hostedBaseUrl": "https://nick2bad4u.github.io/eslint-plugin-remark/",
     "includeDocCommentReferences": false,
     "includeVersion": true,
     "inlineTags": [
@@ -517,7 +517,7 @@
         "@sealed",
         "@virtual"
     ],
-    "name": "eslint-plugin-stylelint-2 Documentation",
+    "name": "eslint-plugin-remark Documentation",
     "navigation": {
         "compactFolders": false,
         "excludeReferences": false,

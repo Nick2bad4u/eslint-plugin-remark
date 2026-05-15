@@ -1,6 +1,6 @@
 # Support
 
-Thanks for using `eslint-plugin-stylelint-2`.
+Thanks for using `eslint-plugin-remark`.
 
 ## How to get help
 
@@ -8,9 +8,9 @@ Thanks for using `eslint-plugin-stylelint-2`.
    - [README.md](./README.md)
    - [docs/](./docs/)
 2. Search existing issues:
-   - <https://github.com/Nick2bad4u/eslint-plugin-stylelint-2/issues>
+   - <https://github.com/Nick2bad4u/eslint-plugin-remark/issues>
 3. Open a new issue if needed:
-   - <https://github.com/Nick2bad4u/eslint-plugin-stylelint-2/issues/new>
+   - <https://github.com/Nick2bad4u/eslint-plugin-remark/issues/new>
 
 ## What to include in an issue
 
@@ -19,7 +19,7 @@ Please include:
 - Node.js version
 - TypeScript version
 - ESLint version
-- `eslint-plugin-stylelint-2` version
+- `eslint-plugin-remark` version
 - Minimal reproduction snippet
 - Expected behavior and actual behavior
 

@@ -16,33 +16,33 @@ type GitHubStatsProperties = Readonly<{
 const stats: readonly GitHubStat[] = [
     {
         alt: "npm license",
-        href: "https://github.com/Nick2bad4u/eslint-plugin-stylelint-2/blob/main/LICENSE",
-        src: "https://flat.badgen.net/npm/license/eslint-plugin-stylelint-2?color=purple",
+        href: "https://github.com/Nick2bad4u/eslint-plugin-remark/blob/main/LICENSE",
+        src: "https://flat.badgen.net/npm/license/eslint-plugin-remark?color=purple",
     },
     {
         alt: "npm total downloads",
-        href: "https://www.npmjs.com/package/eslint-plugin-stylelint-2",
-        src: "https://flat.badgen.net/npm/dt/eslint-plugin-stylelint-2?color=pink",
+        href: "https://www.npmjs.com/package/eslint-plugin-remark",
+        src: "https://flat.badgen.net/npm/dt/eslint-plugin-remark?color=pink",
     },
     {
         alt: "GitHub latest release",
-        href: "https://github.com/Nick2bad4u/eslint-plugin-stylelint-2/releases/latest",
-        src: "https://flat.badgen.net/github/release/Nick2bad4u/eslint-plugin-stylelint-2?color=cyan",
+        href: "https://github.com/Nick2bad4u/eslint-plugin-remark/releases/latest",
+        src: "https://flat.badgen.net/github/release/Nick2bad4u/eslint-plugin-remark?color=cyan",
     },
     {
         alt: "GitHub stars",
-        href: "https://github.com/Nick2bad4u/eslint-plugin-stylelint-2/stargazers",
-        src: "https://flat.badgen.net/github/stars/Nick2bad4u/eslint-plugin-stylelint-2?color=yellow",
+        href: "https://github.com/Nick2bad4u/eslint-plugin-remark/stargazers",
+        src: "https://flat.badgen.net/github/stars/Nick2bad4u/eslint-plugin-remark?color=yellow",
     },
     {
         alt: "GitHub issues",
-        href: "https://github.com/Nick2bad4u/eslint-plugin-stylelint-2/issues",
-        src: "https://flat.badgen.net/github/open-issues/Nick2bad4u/eslint-plugin-stylelint-2?color=red",
+        href: "https://github.com/Nick2bad4u/eslint-plugin-remark/issues",
+        src: "https://flat.badgen.net/github/open-issues/Nick2bad4u/eslint-plugin-remark?color=red",
     },
     {
         alt: "CodeCov coverage",
-        href: "https://codecov.io/gh/Nick2bad4u/eslint-plugin-stylelint-2",
-        src: "https://flat.badgen.net/codecov/github/Nick2bad4u/eslint-plugin-stylelint-2?color=blue",
+        href: "https://codecov.io/gh/Nick2bad4u/eslint-plugin-remark",
+        src: "https://flat.badgen.net/codecov/github/Nick2bad4u/eslint-plugin-remark?color=blue",
     },
 ];
 

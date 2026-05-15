@@ -7,7 +7,7 @@ import * as path from "node:path";
 import { describe, expect, it } from "vitest";
 
 import { createRuleDocsUrl } from "../src/_internal/rule-docs-url";
-import stylelint2Plugin from "../src/plugin";
+import remarkPlugin from "../src/plugin";
 
 describe("rule docs integrity", () => {
     it("keeps one markdown file per registered rule", () => {
@@ -15,7 +15,7 @@ describe("rule docs integrity", () => {
 
         const docsDir = path.join(process.cwd(), "docs", "rules");
 
-        for (const ruleName of Object.keys(stylelint2Plugin.rules)) {
+        for (const ruleName of Object.keys(remarkPlugin.rules)) {
             const expectedPath = path.join(docsDir, `${ruleName}.md`);
 
             expect(fs.existsSync(expectedPath)).toBeTruthy();
@@ -27,7 +27,7 @@ describe("rule docs integrity", () => {
 
         const testDir = path.join(process.cwd(), "test");
 
-        for (const ruleName of Object.keys(stylelint2Plugin.rules)) {
+        for (const ruleName of Object.keys(remarkPlugin.rules)) {
             const expectedPath = path.join(testDir, `${ruleName}.test.ts`);
 
             expect(fs.existsSync(expectedPath)).toBeTruthy();
@@ -38,7 +38,7 @@ describe("rule docs integrity", () => {
         expect.hasAssertions();
 
         for (const [ruleName, ruleModule] of Object.entries(
-            stylelint2Plugin.rules
+            remarkPlugin.rules
         )) {
             expect(ruleModule.meta?.docs?.url).toBe(
                 createRuleDocsUrl(ruleName)

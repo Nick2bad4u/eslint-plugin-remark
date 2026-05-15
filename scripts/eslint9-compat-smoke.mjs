@@ -2,20 +2,11 @@ import { ESLint } from "eslint";
 import pc from "picocolors";
 
 /** @typedef {import("eslint").Linter.Config} FlatConfig */
-
-/**
- * Internal test hook consumed by src/plugin.ts to lock config shape by ESLint
- * major.
- */
-const pluginEslintMajorOverrideEnvironmentVariable = "STYLELINT2_ESLINT_MAJOR";
+/** @typedef {Record<string, FlatConfig | readonly FlatConfig[]>} PluginConfigs */
 
 const positiveIntegerPattern = /^(?:[1-9]\d*)$/u;
 
-/**
- * @param {string} value
- *
- * @returns {number | undefined}
- */
+/** @param {string} value */
 const parsePositiveInteger = (value) => {
     if (!positiveIntegerPattern.test(value)) {
         return undefined;
@@ -28,14 +19,11 @@ const parsePositiveInteger = (value) => {
         : undefined;
 };
 
-/** @typedef {Record<string, FlatConfig | readonly FlatConfig[]>} PluginConfigs */
-
 /**
  * @param {readonly string[]} argv
  *
- * @returns {number | undefined}
- *
- * @throws {Error} When the operation fails.
+ * @throws {TypeError} When the expected ESLint major flag is not a positive
+ *   integer.
  */
 const getExpectedEslintMajor = (argv) => {
     const expectedFlag = argv.find((argument) =>
@@ -61,9 +49,8 @@ const getExpectedEslintMajor = (argv) => {
 /**
  * @param {string} version
  *
- * @returns {number}
- *
- * @throws {Error} When the operation fails.
+ * @throws {TypeError} When the ESLint version string does not start with a
+ *   positive integer.
  */
 const getEslintMajorVersion = (version) => {
     const [majorText = "0"] = version.split(".");
@@ -83,9 +70,8 @@ const getEslintMajorVersion = (version) => {
  * @param {string} configName
  * @param {readonly string[]} [fallbackConfigNames]
  *
- * @returns {FlatConfig}
- *
- * @throws {Error} When the operation fails.
+ * @throws {TypeError} When the requested plugin config is missing or is not a
+ *   single flat config.
  */
 const getSingleFlatConfig = (
     pluginConfigs,
@@ -115,9 +101,7 @@ const getSingleFlatConfig = (
     );
 };
 
-/**
- * @returns {Promise<PluginConfigs>}
- */
+/** @returns {Promise<PluginConfigs>} */
 const loadPluginConfigs = async () => {
     const pluginModule = await import("../plugin.mjs");
     const pluginValue = pluginModule.default;
@@ -138,28 +122,33 @@ const run = async () => {
         );
     }
 
-    globalThis.process.env[pluginEslintMajorOverrideEnvironmentVariable] =
-        String(installedEslintMajor);
     const pluginConfigs = await loadPluginConfigs();
+    const markdownConfig = getSingleFlatConfig(pluginConfigs, "remarkOnly", [
+        "markdown",
+    ]);
 
-    const cssEslint = new ESLint({
+    const markdownEslint = new ESLint({
         cwd: process.cwd(),
         fix: true,
-        overrideConfig: getSingleFlatConfig(pluginConfigs, "stylelintOnly", [
-            "stylesheets",
-        ]),
+        overrideConfig: {
+            ...markdownConfig,
+            rules: {
+                ...markdownConfig.rules,
+                "remark/remark": [
+                    "error",
+                    { configFile: "test/fixtures/remark/alt-text.config.mjs" },
+                ],
+            },
+        },
         overrideConfigFile: true,
     });
-    const [cssResult] = await cssEslint.lintText(`a { color: #ffffff; }`, {
-        filePath: "compat.css",
+    const [markdownResult] = await markdownEslint.lintText("![](image.png)\n", {
+        filePath: "compat.md",
     });
 
-    if (
-        (cssResult?.messages.length ?? 0) === 0 &&
-        cssResult?.output === undefined
-    ) {
+    if ((markdownResult?.messages.length ?? 0) === 0) {
         throw new Error(
-            "Stylelint compatibility smoke test produced no diagnostic or fix output."
+            "Remark compatibility smoke test produced no diagnostic output."
         );
     }
 
@@ -172,13 +161,13 @@ const run = async () => {
         overrideConfigFile: true,
     });
     const [configResult] = await configEslint.lintText(
-        `export default { rules: { \"color-no-invalid-hex\": true } };`,
-        { filePath: "stylelint.config.ts" }
+        'export default { plugins: "remark-gfm" };',
+        { filePath: "remark.config.mjs" }
     );
 
-    if (configResult?.output?.includes("defineConfig(") !== true) {
+    if (configResult?.output?.includes('plugins: ["remark-gfm"]') !== true) {
         throw new Error(
-            "Config compatibility smoke test did not apply defineConfig autofix."
+            "Config compatibility smoke test did not apply plugins-array autofix."
         );
     }
 

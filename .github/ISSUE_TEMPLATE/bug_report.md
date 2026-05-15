@@ -1,6 +1,6 @@
 ---
 name: Bug report
-about: Report a reproducible bug in eslint-plugin-stylelint-2
+about: Report a reproducible bug in eslint-plugin-remark
 title: "Bug: "
 labels:
     - bug
@@ -14,7 +14,7 @@ assignees: []
 
 ## Rule / Area
 
-<!-- Example: prefer-stylelint-define-config, docs/docusaurus, presets, runtime API docs -->
+<!-- Example: prefer-remark-plugins-array, docs/docusaurus, presets, runtime API docs -->
 
 ## Reproduction
 
@@ -33,7 +33,7 @@ assignees: []
 ### Command and output
 
 ```bash
-# Example: npm run test -- test/prefer-stylelint-define-config.test.ts
+# Example: npm run test -- test/prefer-remark-plugins-array.test.ts
 ```
 
 ## Steps to reproduce
@@ -53,7 +53,7 @@ assignees: []
 - ESLint version:
 - TypeScript version:
 - `@typescript-eslint/*` version:
-- `eslint-plugin-stylelint-2` version/commit:
+- `eslint-plugin-remark` version/commit:
 - OS:
 
 ## Additional context

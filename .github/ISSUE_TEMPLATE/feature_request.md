@@ -1,6 +1,6 @@
 ---
 name: Feature request
-about: Suggest a new rule or improvement for eslint-plugin-stylelint-2
+about: Suggest a new rule or improvement for eslint-plugin-remark
 title: "Feature: "
 labels:
     - enhancement

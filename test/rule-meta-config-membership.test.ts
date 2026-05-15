@@ -4,9 +4,9 @@
  */
 import { describe, expect, it } from "vitest";
 
-import stylelint2Plugin from "../src/plugin";
+import remarkPlugin from "../src/plugin";
 
-const pluginNamespace = "stylelint-2";
+const pluginNamespace = "remark";
 
 const isRecord = (value: unknown): value is Record<string, unknown> =>
     typeof value === "object" && value !== null;
@@ -85,20 +85,20 @@ const collectEnabledRuleIds = (configValue: unknown): ReadonlySet<string> => {
 
 const canonicalConfigMembership = [
     {
-        configReference: "stylelint2.configs.all",
-        ruleIds: collectEnabledRuleIds(stylelint2Plugin.configs.all),
+        configReference: "remark.configs.all",
+        ruleIds: collectEnabledRuleIds(remarkPlugin.configs.all),
     },
     {
-        configReference: "stylelint2.configs.configuration",
-        ruleIds: collectEnabledRuleIds(stylelint2Plugin.configs.configuration),
+        configReference: "remark.configs.configuration",
+        ruleIds: collectEnabledRuleIds(remarkPlugin.configs.configuration),
     },
     {
-        configReference: "stylelint2.configs.recommended",
-        ruleIds: collectEnabledRuleIds(stylelint2Plugin.configs.recommended),
+        configReference: "remark.configs.recommended",
+        ruleIds: collectEnabledRuleIds(remarkPlugin.configs.recommended),
     },
     {
-        configReference: "stylelint2.configs.stylelintOnly",
-        ruleIds: collectEnabledRuleIds(stylelint2Plugin.configs.stylelintOnly),
+        configReference: "remark.configs.remarkOnly",
+        ruleIds: collectEnabledRuleIds(remarkPlugin.configs.remarkOnly),
     },
 ] as const;
 
@@ -107,7 +107,7 @@ describe("rule meta.docs.configs contract", () => {
         expect.hasAssertions();
 
         for (const [ruleName, ruleModule] of Object.entries(
-            stylelint2Plugin.rules
+            remarkPlugin.rules
         )) {
             const fullRuleId = `${pluginNamespace}/${ruleName}`;
             const documentedConfigs = getDocumentedConfigs(ruleModule);
@@ -134,11 +134,11 @@ describe("rule meta.docs.configs contract", () => {
         expect.hasAssertions();
 
         const recommendedMembership = collectEnabledRuleIds(
-            stylelint2Plugin.configs.recommended
+            remarkPlugin.configs.recommended
         );
 
         for (const [ruleName, ruleModule] of Object.entries(
-            stylelint2Plugin.rules
+            remarkPlugin.rules
         )) {
             const fullRuleId = `${pluginNamespace}/${ruleName}`;
             const expectedRecommended = recommendedMembership.has(fullRuleId);
@@ -156,7 +156,7 @@ describe("rule meta.docs.configs contract", () => {
 
             expect(
                 documentedRecommended,
-                `${ruleName}: expected docs.recommended to be ${String(expectedRecommended)} to match stylelint2.configs.recommended membership`
+                `${ruleName}: expected docs.recommended to be ${String(expectedRecommended)} to match remark.configs.recommended membership`
             ).toBe(expectedRecommended);
         }
     });

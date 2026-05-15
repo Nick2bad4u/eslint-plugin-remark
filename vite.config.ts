@@ -22,7 +22,7 @@ const maxWorkerCount =
         : 1;
 /** Raw flag controlling optional hanging-process reporter activation. */
 const rawHangingReporterFlag =
-    process.env["STYLELINT2_VITEST_HANGING_PROCESS_REPORTER"] ??
+    process.env["REMARK_VITEST_HANGING_PROCESS_REPORTER"] ??
     process.env["VITEST_HANGING_PROCESS_REPORTER"] ??
     "false";
 /** Raw flag controlling optional Vitest typecheck execution. */
@@ -62,7 +62,7 @@ const typecheckTestFilePatterns = [
 ];
 
 /**
- * Vitest configuration for eslint-plugin-stylelint-2.
+ * Vitest configuration for eslint-plugin-remark.
  */
 const vitestConfig: ReturnType<typeof defineConfig> = defineConfig({
     cacheDir: "./.cache/vitest",

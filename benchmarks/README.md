@@ -1,19 +1,17 @@
 # Benchmarks
 
-This directory contains meaningful ESLint performance benchmarks for `eslint-plugin-stylelint-2`.
+This directory contains meaningful ESLint performance benchmarks for `eslint-plugin-remark`.
 
 The current benchmark set focuses on the two shipped workflows:
 
-- running the `stylelint` bridge rule on CSS files
-- running `prefer-stylelint-define-config` on Stylelint config modules
-
-For the intentionally invalid CSS fixture, the benchmark config enables `ignoreDisables: true` so the corpus can keep a local disable comment without polluting ordinary editor diagnostics.
+- running the `remark` bridge rule on Markdown files
+- running `prefer-remark-plugins-array` on Remark config modules
 
 ## Included scenarios
 
-- **Valid stylesheet corpus** to measure low-noise baseline cost
-- **Invalid stylesheet corpus** to measure Stylelint reporting overhead
-- **Fix-enabled stylesheet corpus** to measure Stylelint edit-info and ESLint fix-path overhead
+- **Valid Markdown corpus** to measure low-noise baseline cost
+- **Invalid Markdown corpus** to measure Remark reporting overhead
+- **Fix-enabled Markdown corpus** to measure Remark edit-info and ESLint fix-path overhead
 - **Invalid config corpus** to measure config-rule rewrite cost
 
 ## Outputs

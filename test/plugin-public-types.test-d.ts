@@ -2,29 +2,29 @@
 import { assertType } from "vitest";
 
 import type {
-    Stylelint2ConfigName,
-    Stylelint2Plugin,
-    Stylelint2RuleId,
-    Stylelint2RuleName,
+    RemarkConfigName,
+    RemarkPlugin,
+    RemarkRuleId,
+    RemarkRuleName,
 } from "../src/plugin";
 
 const validConfigName = "recommended";
-assertType<Stylelint2ConfigName>(validConfigName);
-// @ts-expect-error Invalid preset key must not satisfy Stylelint2ConfigName.
-const _invalidConfigName: Stylelint2ConfigName = "recommended-type-checked";
+assertType<RemarkConfigName>(validConfigName);
+// @ts-expect-error Invalid preset key must not satisfy RemarkConfigName.
+const _invalidConfigName: RemarkConfigName = "recommended-type-checked";
 
-const validRuleId = "stylelint-2/stylelint";
-assertType<Stylelint2RuleId>(validRuleId);
-// @ts-expect-error Rule ids must include the stylelint-2 namespace.
-const _invalidRuleId: Stylelint2RuleId = "stylelint";
+const validRuleId = "remark/remark";
+assertType<RemarkRuleId>(validRuleId);
+// @ts-expect-error Rule ids must include the remark namespace.
+const _invalidRuleId: RemarkRuleId = "remark";
 
-declare const pluginContract: Stylelint2Plugin;
+declare const pluginContract: RemarkPlugin;
 
-assertType<Stylelint2RuleName>("stylelint");
+assertType<RemarkRuleName>("remark");
 assertType(pluginContract.configs.recommended);
-assertType(pluginContract.configs.stylelintOnly);
+assertType(pluginContract.configs.remarkOnly);
 assertType(pluginContract.configs.configuration);
-assertType(pluginContract.configs.stylesheets);
+assertType(pluginContract.configs.markdown);
 assertType(pluginContract.configs.configs);
 assertType(pluginContract.meta.name);
 assertType(pluginContract.meta.namespace);

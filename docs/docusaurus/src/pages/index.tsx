@@ -30,13 +30,13 @@ type HeroQuickLink = Readonly<
 const heroBadges = [
     {
         description:
-            "Drop-in bridge for running Stylelint inside your existing ESLint command and editor workflow.",
+            "Drop-in bridge for running Remark inside your existing ESLint command and editor workflow.",
         icon: "\uf013",
         label: "ESLint-first workflow",
     },
     {
         description:
-            "Configuration-focused rules that make Stylelint disable comments and reporting defaults safer.",
+            "Configuration-focused rules that make Remark disable comments and reporting defaults safer.",
         icon: "\ue628",
         label: "Safer config authoring",
     },
@@ -58,15 +58,15 @@ const heroQuickLinks = [
         to: "/docs/rules/presets",
     },
     {
-        label: "🎨 Stylelint bridge",
-        to: "/docs/rules/guides/stylelint-bridge",
+        label: "🎨 Remark bridge",
+        to: "/docs/rules/guides/remark-bridge",
     },
     {
-        href: "https://stylelint.io/",
-        label: "🧾 Stylelint docs",
+        href: "https://remark.js.org/",
+        label: "🧾 Remark docs",
     },
     {
-        href: "https://github.com/Nick2bad4u/eslint-plugin-stylelint-2",
+        href: "https://github.com/Nick2bad4u/eslint-plugin-remark",
         label: "󰊤 GitHub",
     },
 ] as const satisfies readonly HeroQuickLink[];
@@ -77,23 +77,23 @@ const heroKickerIcon2 = "\uf135";
 const overviewButtonIcon = "\udb81\udf1d";
 
 const homepageDescription =
-    "Explore eslint-plugin-stylelint-2 docs, presets, and rules for running Stylelint through ESLint and enforcing safer Stylelint config authoring patterns.";
+    "Explore eslint-plugin-remark docs, presets, and rules for running Remark through ESLint and enforcing safer Remark config authoring patterns.";
 const homepageKeywords =
-    "eslint-plugin-stylelint-2, stylelint, eslint, eslint plugin, stylesheet linting, flat config, stylelint config";
+    "eslint-plugin-remark, remark, eslint, eslint plugin, markdown linting, flat config, remark config";
 const homepageSocialImageUrl =
-    "https://nick2bad4u.github.io/eslint-plugin-stylelint-2/img/logo.png";
+    "https://nick2bad4u.github.io/eslint-plugin-remark/img/logo.png";
 const homepageStructuredData = {
     "@context": "https://schema.org",
     "@type": "SoftwareSourceCode",
-    codeRepository: "https://github.com/Nick2bad4u/eslint-plugin-stylelint-2",
+    codeRepository: "https://github.com/Nick2bad4u/eslint-plugin-remark",
     description: homepageDescription,
     image: homepageSocialImageUrl,
     license:
-        "https://github.com/Nick2bad4u/eslint-plugin-stylelint-2/blob/main/LICENSE",
-    name: "eslint-plugin-stylelint-2",
+        "https://github.com/Nick2bad4u/eslint-plugin-remark/blob/main/LICENSE",
+    name: "eslint-plugin-remark",
     programmingLanguage: "TypeScript",
     runtimePlatform: "Node.js",
-    url: "https://nick2bad4u.github.io/eslint-plugin-stylelint-2/",
+    url: "https://nick2bad4u.github.io/eslint-plugin-remark/",
 } as const;
 
 /** Render the docs landing page hero, quick links, and entry-point content. */
@@ -102,7 +102,7 @@ export default function Home(): JSX.Element {
 
     return (
         <Layout
-            title="Stylelint + ESLint in one workflow | eslint-plugin-stylelint-2"
+            title="Remark + ESLint in one workflow | eslint-plugin-remark"
             description={homepageDescription}
         >
             <Head>
@@ -119,20 +119,20 @@ export default function Home(): JSX.Element {
                     <div className={styles["heroGrid"]}>
                         <div>
                             <p className={styles["heroKicker"]}>
-                                {`${heroKickerIcon} ESLint plugin for modern style workflows ${heroKickerIcon2}`}
+                                {`${heroKickerIcon} ESLint plugin for modern Markdown workflows ${heroKickerIcon2}`}
                             </p>
                             <Heading as="h1" className={styles["heroTitle"]}>
-                                eslint-plugin-stylelint-2
+                                eslint-plugin-remark
                             </Heading>
                             <p className={styles["heroSubtitle"]}>
                                 ESLint rules and bridge tooling that run{" "}
                                 <Link
-                                    className={`${styles["heroInlineLink"]} ${styles["heroInlineLinkStylelint"]}`}
-                                    href="https://stylelint.io/"
+                                    className={`${styles["heroInlineLink"]} ${styles["heroInlineLinkRemark"]}`}
+                                    href="https://remark.js.org/"
                                     rel="noopener noreferrer"
                                     target="_blank"
                                 >
-                                    Stylelint
+                                    Remark
                                 </Link>{" "}
                                 inside{" "}
                                 <Link
@@ -143,7 +143,7 @@ export default function Home(): JSX.Element {
                                 >
                                     ESLint
                                 </Link>{" "}
-                                while enforcing safer Stylelint configuration
+                                while enforcing safer Remark configuration
                                 patterns so diagnostics, autofixes, and CI stay
                                 unified.
                             </p>
@@ -191,7 +191,7 @@ export default function Home(): JSX.Element {
                         </div>
                         <aside className={styles["heroPanel"]}>
                             <img
-                                alt="eslint-plugin-stylelint-2 logo"
+                                alt="eslint-plugin-remark logo"
                                 className={styles["heroPanelLogo"]}
                                 decoding="async"
                                 height="240"

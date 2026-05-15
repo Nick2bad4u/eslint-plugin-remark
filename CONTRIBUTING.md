@@ -1,9 +1,9 @@
-# Contributing to eslint-plugin-stylelint-2
+# Contributing to eslint-plugin-remark
 
 Thanks for your interest in contributing.
 
-This repository contains an ESLint plugin focused on integrating Stylelint into
-ESLint and enforcing Stylelint configuration best practices.
+This repository contains an ESLint plugin focused on integrating Remark into
+ESLint and enforcing Remark configuration best practices.
 
 ## Prerequisites
 
@@ -127,9 +127,9 @@ Format:
 
 Examples:
 
-- `:sparkles: feat(rule): add prefer-stylelint-define-config`
+- `:sparkles: feat(rule): add prefer-remark-plugins-array`
 - `:bug: fix(rule): avoid false positive in union type handling`
-- `:memo: docs: clarify stylelint bridge configuration`
+- `:memo: docs: clarify remark bridge configuration`
 
 ## Pull request expectations
 

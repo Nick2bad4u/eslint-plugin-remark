@@ -1,6 +1,6 @@
 ---
 title: Benchmarks
-description: Benchmark strategy for eslint-plugin-stylelint-2.
+description: Benchmark strategy for eslint-plugin-remark.
 ---
 
 # Benchmarks
@@ -9,19 +9,19 @@ The benchmark suite in this repository focuses on meaningful real-world workflow
 
 ## Current scenarios
 
-- valid stylesheet corpus
-- invalid stylesheet corpus
-- fix-enabled stylesheet corpus
-- invalid config corpus
+- valid Markdown corpus
+- invalid Markdown corpus
+- fix-enabled Markdown corpus
+- invalid Remark config corpus
 
 ## Goal
 
-The goal is to catch regressions in the Stylelint bridge path and the config-authoring rule path before they become editor-time annoyances.
+The goal is to catch regressions in the Remark bridge path and the config-authoring rule path before they become editor-time annoyances.
 
 ## What is benchmarked today
 
-- stylesheet reporting without fixes
-- stylesheet reporting with fixes
+- Markdown reporting without fixes
+- Markdown reporting with fixes
 - config-rule evaluation for invalid config files
 
 These are the workloads most likely to matter during normal editor and CI usage.

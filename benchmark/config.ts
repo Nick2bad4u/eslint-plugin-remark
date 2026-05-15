@@ -7,16 +7,16 @@ export default defineConfig({
             cases: [
                 {
                     testPath:
-                        "./cases/prefer-stylelint-define-config/stylelint.config.ts",
+                        "./cases/prefer-remark-plugins-array/remark.config.ts",
                 },
                 {
                     testPath:
-                        "./cases/prefer-stylelint-define-config/stylelint.config.mts",
+                        "./cases/prefer-remark-plugins-array/remark.config.mts",
                 },
             ],
-            name: "Rule: prefer-stylelint-define-config",
-            ruleId: "stylelint-2/prefer-stylelint-define-config",
-            rulePath: "../src/rules/prefer-stylelint-define-config.ts",
+            name: "Rule: prefer-remark-plugins-array",
+            ruleId: "remark/prefer-remark-plugins-array",
+            rulePath: "../src/rules/prefer-remark-plugins-array.ts",
             warmup: {
                 iterations: 15,
             },

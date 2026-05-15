@@ -1,6 +1,6 @@
 {
     "background_color": "#170724",
-    "description": "eslint-plugin-stylelint-2 documentation and rule reference.",
+    "description": "eslint-plugin-remark documentation and rule reference.",
     "display": "standalone",
     "icons": [
         {
@@ -14,9 +14,9 @@
             "type": "image/png"
         }
     ],
-    "name": "eslint-plugin-stylelint-2 Documentation",
+    "name": "eslint-plugin-remark Documentation",
     "scope": ".",
-    "short_name": "Stylelint2 Docs",
+    "short_name": "Remark Docs",
     "start_url": ".",
     "theme_color": "#170724"
 }

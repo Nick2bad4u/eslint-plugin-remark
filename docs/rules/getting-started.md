@@ -1,17 +1,15 @@
----
-title: Rules Getting Started (Legacy Route)
-description: This legacy route has moved to the Guides getting started page.
-unlisted: true
----
+# Getting started
 
-# Rules Getting Started (Legacy Route)
+Install the plugin and enable the recommended flat config.
 
-This page has moved.
+```sh
+npm install --save-dev eslint-plugin-remark eslint remark
+```
 
-Use the current guide entry:
+```ts
+import remark from "eslint-plugin-remark";
 
-- [Guides → Getting Started](./guides/getting-started.md)
-
-If you need bridge behavior details after setup, continue with:
-
-- [Stylelint Bridge Guide](./guides/stylelint-bridge.md)
+export default [
+    ...remark.configs.recommended,
+];
+```

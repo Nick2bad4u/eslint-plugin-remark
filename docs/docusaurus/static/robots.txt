@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://nick2bad4u.github.io/eslint-plugin-stylelint-2/sitemap.xml
+Sitemap: https://nick2bad4u.github.io/eslint-plugin-remark/sitemap.xml

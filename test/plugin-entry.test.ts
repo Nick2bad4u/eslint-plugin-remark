@@ -5,7 +5,7 @@
 import { createRequire } from "node:module";
 import { describe, expect, it } from "vitest";
 
-import stylelint2Plugin from "../src/plugin";
+import remarkPlugin from "../src/plugin";
 
 const requireFromTestModule = createRequire(import.meta.url);
 const packageJson = requireFromTestModule("../package.json") as {
@@ -20,7 +20,7 @@ describe("plugin entry module", () => {
     it("exports the default plugin object with rule and config registries", () => {
         expect.hasAssertions();
 
-        expect(stylelint2Plugin).toStrictEqual(
+        expect(remarkPlugin).toStrictEqual(
             expect.objectContaining({
                 configs: expect.any(Object),
                 meta: expect.any(Object),
@@ -29,10 +29,10 @@ describe("plugin entry module", () => {
             })
         );
 
-        expect(stylelint2Plugin.meta).toStrictEqual(
+        expect(remarkPlugin.meta).toStrictEqual(
             expect.objectContaining({
-                name: "eslint-plugin-stylelint-2",
-                namespace: "stylelint-2",
+                name: "eslint-plugin-remark",
+                namespace: "remark",
                 version: expectedPluginVersion,
             })
         );
@@ -42,48 +42,17 @@ describe("plugin entry module", () => {
         expect.hasAssertions();
 
         expect(
-            Object.keys(stylelint2Plugin.rules).toSorted((left, right) =>
+            Object.keys(remarkPlugin.rules).toSorted((left, right) =>
                 left.localeCompare(right)
             )
         ).toStrictEqual([
-            "disallow-stylelint-allow-empty-input",
-            "disallow-stylelint-configuration-comment",
-            "disallow-stylelint-custom-syntax",
-            "disallow-stylelint-default-severity",
-            "disallow-stylelint-duplicate-extends",
-            "disallow-stylelint-duplicate-plugins",
-            "disallow-stylelint-duplicate-rule-option-values",
-            "disallow-stylelint-empty-rules-object",
-            "disallow-stylelint-ignore-disables",
-            "disallow-stylelint-ignore-files",
-            "disallow-stylelint-null-rule-config",
-            "disallow-stylelint-overrides-runtime-options",
-            "disallow-stylelint-processors",
-            "disallow-stylelint-relative-extends-paths",
-            "disallow-stylelint-relative-plugin-paths",
-            "prefer-stylelint-cache",
-            "prefer-stylelint-define-config",
-            "prefer-stylelint-extends-array",
-            "prefer-stylelint-fix",
-            "prefer-stylelint-formatter",
-            "prefer-stylelint-plugins-array",
-            "prefer-stylelint-report-descriptionless-disables",
-            "prefer-stylelint-report-invalid-scope-disables",
-            "prefer-stylelint-report-needless-disables",
-            "prefer-stylelint-report-unscoped-disables",
-            "require-stylelint-config-file-naming-convention",
-            "require-stylelint-custom-syntax-in-overrides",
-            "require-stylelint-extends-packages-installed",
-            "require-stylelint-overrides-configuration",
-            "require-stylelint-overrides-files",
-            "require-stylelint-overrides-files-array",
-            "require-stylelint-plugins-packages-installed",
-            "require-stylelint-report-disables",
-            "require-stylelint-rules-object",
-            "sort-stylelint-extends",
-            "sort-stylelint-plugins",
-            "sort-stylelint-rule-keys",
-            "stylelint",
+            "disallow-remark-duplicate-plugins",
+            "disallow-remark-relative-plugin-paths",
+            "prefer-remark-plugins-array",
+            "remark",
+            "require-remark-config-file-naming-convention",
+            "require-remark-plugins-packages-installed",
+            "sort-remark-plugins",
         ]);
     });
 
@@ -98,8 +67,8 @@ describe("plugin entry module", () => {
         expect(runtimeModule.default).toStrictEqual(
             expect.objectContaining({
                 meta: expect.objectContaining({
-                    name: "eslint-plugin-stylelint-2",
-                    namespace: "stylelint-2",
+                    name: "eslint-plugin-remark",
+                    namespace: "remark",
                     version: expectedPluginVersion,
                 }),
             })
@@ -109,9 +78,7 @@ describe("plugin entry module", () => {
     it("resolves the package through self-reference CJS require", () => {
         expect.hasAssertions();
 
-        const runtimePlugin = requireFromTestModule(
-            "eslint-plugin-stylelint-2"
-        ) as {
+        const runtimePlugin = requireFromTestModule(packageName) as {
             meta?: {
                 name?: string;
                 namespace?: string;
@@ -121,8 +88,8 @@ describe("plugin entry module", () => {
 
         expect(runtimePlugin.meta).toStrictEqual(
             expect.objectContaining({
-                name: "eslint-plugin-stylelint-2",
-                namespace: "stylelint-2",
+                name: "eslint-plugin-remark",
+                namespace: "remark",
                 version: expectedPluginVersion,
             })
         );

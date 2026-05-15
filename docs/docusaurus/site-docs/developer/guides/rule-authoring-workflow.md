@@ -1,6 +1,6 @@
 ---
 title: Rule Authoring Workflow
-description: A practical workflow for adding and maintaining rules in eslint-plugin-stylelint-2.
+description: A practical workflow for adding and maintaining rules in eslint-plugin-remark.
 ---
 
 # Rule Authoring Workflow

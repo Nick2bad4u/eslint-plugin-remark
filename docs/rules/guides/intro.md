@@ -1,46 +1,46 @@
 ---
 title: Overview
-description: What eslint-plugin-stylelint-2 does, how the rules docs are organized, and where to start for your use case.
+description: What eslint-plugin-remark does, how the rule docs are organized, and where to start.
 ---
 
 # Overview
 
-`eslint-plugin-stylelint-2` is built for teams that want Stylelint and ESLint to cooperate cleanly.
+`eslint-plugin-remark` is built for teams that want Markdown quality checks to run through the same ESLint command and editor integration as the rest of their codebase.
 
-1. **Bridge Stylelint into ESLint** so style diagnostics and autofixes can flow through your existing ESLint pipeline.
-2. **Enforce maintainable Stylelint config authoring** so your Stylelint configuration stays predictable, reviewable, and automation-friendly.
+1. **Bridge Remark into ESLint** so Remark diagnostics and autofixes can flow through the ESLint pipeline.
+2. **Enforce maintainable Remark config authoring** so `remark.config.*` and `.remarkrc.*` files stay predictable, reviewable, and automation-friendly.
 
 If you only care about bridge behavior, start with:
 
-- [`stylelint` rule](../stylelint.md)
-- [`stylelintOnly` preset](../presets/stylelint-only.md)
+- [`remark` rule](../remark.md)
+- [`remarkOnly` preset](../presets/remark-only.md)
 
 If you also want strict configuration hygiene, start with:
 
 - [`recommended` preset](../presets/recommended.md)
-- then progressively adopt stricter config-focused rules from the main [rule catalog](../overview.md)
+- [Config Authoring](./config-authoring.md)
 
 ## How this rules documentation is organized
 
-The Rules docs section is intentionally split by decision-making flow:
+The Rules docs section is split by decision-making flow:
 
-1. **Guides** (you are here) for adoption strategy and practical setup.
+1. **Guides** for adoption strategy and practical setup.
 2. **Presets** for curated rule sets ([reference](../presets/index.md)).
 3. **Rule catalog** for per-rule details and examples ([catalog](../overview.md)).
 
 ## Pick a path
 
-### Path A — "Just run Stylelint from ESLint"
+### Path A — "Just run Remark from ESLint"
 
-Use this if your main goal is unified lint execution in CI/editor:
+Use this if your main goal is unified Markdown lint execution in CI and editors:
 
 1. Follow [Getting Started](./getting-started.md).
-2. Enable [`stylelintOnly`](../presets/stylelint-only.md).
-3. Tune the [`stylelint` rule options](../stylelint.md) if needed.
+2. Enable [`remarkOnly`](../presets/remark-only.md).
+3. Tune the [`remark` rule options](../remark.md) if needed.
 
 ### Path B — "Also standardize config quality"
 
-Use this if you want consistent stylelint config shape across repos:
+Use this if you want consistent Remark config shape across repos:
 
 1. Start with [`recommended`](../presets/recommended.md).
 2. Review [Config Authoring](./config-authoring.md).
@@ -50,22 +50,15 @@ Use this if you want consistent stylelint config shape across repos:
 
 If you are evaluating behavior or migration risk:
 
-- Read [Stylelint Bridge](./stylelint-bridge.md).
+- Read [Remark Bridge](./remark-bridge.md).
 - Skim [FAQ](./faq.md).
 - Validate on a small target package first.
 
 ## Quick map
 
 - [Getting Started](./getting-started.md)
-- [Stylelint Bridge](./stylelint-bridge.md)
+- [Remark Bridge](./remark-bridge.md)
 - [Config Authoring](./config-authoring.md)
 - [FAQ](./faq.md)
 - [Presets](../presets/index.md)
 - [Rule Catalog](../overview.md)
-
-## Recommended first steps (practical)
-
-1. Enable one preset (`stylelintOnly` or `recommended`) and run lint once.
-2. Apply autofixes and inspect diff quality in a PR.
-3. Add config policy rules gradually (not all at once) to reduce noisy rollouts.
-4. Lock in conventions via CI and editor integration.

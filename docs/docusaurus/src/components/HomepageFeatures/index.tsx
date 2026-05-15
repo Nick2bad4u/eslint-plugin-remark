@@ -29,7 +29,7 @@ type Feature = ExternalFeature | InternalFeature;
 const features: readonly Feature[] = [
     {
         description:
-            "Install the plugin, enable a preset, and start enforcing modern Stylelint config and rule-authoring patterns.",
+            "Install the plugin, enable a preset, and start enforcing modern Remark config and rule-authoring patterns.",
         icon: "",
         linkLabel: "Open section →",
         title: "Get Started",

@@ -6,8 +6,7 @@ import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
 
 /** Route base path where docs site is deployed (GitHub Pages project path). */
-const baseUrl =
-    process.env["DOCUSAURUS_BASE_URL"] ?? "/eslint-plugin-stylelint-2/";
+const baseUrl = process.env["DOCUSAURUS_BASE_URL"] ?? "/eslint-plugin-remark/";
 /** Opt-in flag for experimental Docusaurus performance features. */
 const enableExperimentalFaster =
     process.env["DOCUSAURUS_ENABLE_EXPERIMENTAL"] === "true";
@@ -15,14 +14,14 @@ const enableExperimentalFaster =
 /** GitHub organization used for edit links and project metadata. */
 const organizationName = "Nick2bad4u";
 /** Repository name used for edit links and project metadata. */
-const projectName = "eslint-plugin-stylelint-2";
+const projectName = "eslint-plugin-remark";
 /** Public origin for the published documentation site. */
 const siteOrigin = "https://nick2bad4u.github.io";
 /** Canonical public site URL including the GitHub Pages project path. */
 const siteUrl = `${siteOrigin}${baseUrl}`;
 /** Global site description used for SEO and social cards. */
 const siteDescription =
-    "ESLint plugin docs for running Stylelint through ESLint and enforcing Stylelint-focused config authoring rules.";
+    "ESLint plugin docs for running Remark through ESLint and enforcing Remark-focused config authoring rules.";
 /** Social preview image used for Open Graph and Twitter cards. */
 const socialCardImagePath = "img/logo.png";
 /** Absolute social preview image URL. */
@@ -185,7 +184,7 @@ const config = {
                 "@type": "WebSite",
                 description: siteDescription,
                 image: socialCardImageUrl,
-                name: "eslint-plugin-stylelint-2",
+                name: "eslint-plugin-remark",
                 publisher: {
                     "@type": "Person",
                     name: "Nick2bad4u",
@@ -293,10 +292,10 @@ const config = {
             {
                 blog: {
                     blogDescription:
-                        "Updates, architecture notes, and practical guidance for eslint-plugin-stylelint-2 users.",
+                        "Updates, architecture notes, and practical guidance for eslint-plugin-remark users.",
                     blogSidebarCount: "ALL",
                     blogSidebarTitle: "All posts",
-                    blogTitle: "eslint-plugin-stylelint-2 Blog",
+                    blogTitle: "eslint-plugin-remark Blog",
                     editUrl: `https://github.com/${organizationName}/${projectName}/blob/main/docs/docusaurus/`,
                     feedOptions: {
                         type: ["rss", "atom"],
@@ -386,7 +385,7 @@ const config = {
     ],
     projectName,
     tagline:
-        "Run Stylelint through ESLint and standardize Stylelint config authoring.",
+        "Run Remark through ESLint and standardize Remark config authoring.",
     themeConfig: {
         colorMode: {
             defaultMode: "dark",
@@ -396,7 +395,7 @@ const config = {
         metadata: [
             {
                 content:
-                    "eslint, eslint-plugin, stylelint, css, flat config, static analysis, docs",
+                    "eslint, eslint-plugin, remark, markdown, flat config, static analysis, docs",
                 name: "keywords",
             },
             {
@@ -404,7 +403,7 @@ const config = {
                 name: "twitter:card",
             },
             {
-                content: "eslint-plugin-stylelint-2",
+                content: "eslint-plugin-remark",
                 property: "og:site_name",
             },
         ],
@@ -439,8 +438,8 @@ const config = {
                             label: "🔎 ESLint Inspector",
                         },
                         {
-                            href: `https://nick2bad4u.github.io/${projectName}/stylelint-inspector/`,
-                            label: "🧪 Stylelint Inspector",
+                            href: `https://nick2bad4u.github.io/${projectName}/remark-inspector/`,
+                            label: "🧪 Remark Inspector",
                         },
                         {
                             to: "/docs/developer/api",
@@ -476,7 +475,7 @@ const config = {
                 },
             ],
             logo: {
-                alt: "eslint-plugin-stylelint-2 logo",
+                alt: "eslint-plugin-remark logo",
                 href: `https://github.com/${organizationName}/${projectName}`,
                 src: "img/logo.svg",
                 width: 60,
@@ -505,8 +504,8 @@ const config = {
                             to: "/docs/rules/guides/getting-started",
                         },
                         {
-                            label: "🎨 Stylelint Bridge",
-                            to: "/docs/rules/guides/stylelint-bridge",
+                            label: "🎨 Remark Bridge",
+                            to: "/docs/rules/guides/remark-bridge",
                         },
                         {
                             label: "🛠️ Config Authoring",
@@ -530,8 +529,8 @@ const config = {
                             to: "/docs/rules",
                         },
                         {
-                            label: "🧪 Stylelint Bridge",
-                            to: "/docs/rules/guides/stylelint-bridge",
+                            label: "🧪 Remark Bridge",
+                            to: "/docs/rules/guides/remark-bridge",
                         },
                     ],
                 },
@@ -551,8 +550,8 @@ const config = {
                             to: "/docs/rules/presets/recommended",
                         },
                         {
-                            label: "🎨 Stylelint Bridge Only",
-                            to: "/docs/rules/presets/stylelint-only",
+                            label: "🎨 Remark Bridge Only",
+                            to: "/docs/rules/presets/remark-only",
                         },
                         {
                             label: "🔧 Configuration Only",
@@ -579,8 +578,8 @@ const config = {
                             href: `https://nick2bad4u.github.io/${projectName}/eslint-inspector/`,
                         },
                         {
-                            label: "🧪 Stylelint Inspector",
-                            href: `https://nick2bad4u.github.io/${projectName}/stylelint-inspector/`,
+                            label: "🧪 Remark Inspector",
+                            href: `https://nick2bad4u.github.io/${projectName}/remark-inspector/`,
                         },
                         {
                             className: "navbar-dropdown-divider-before",
@@ -588,8 +587,8 @@ const config = {
                             href: `https://www.npmjs.com/package/${projectName}`,
                         },
                         {
-                            label: "🎨 Stylelint",
-                            href: "https://stylelint.io/",
+                            label: "🎨 Remark",
+                            href: "https://remark.js.org/",
                         },
                     ],
                 },
@@ -613,8 +612,8 @@ const config = {
                             label: "🔎 ESLint Inspector",
                         },
                         {
-                            href: `https://nick2bad4u.github.io/${projectName}/stylelint-inspector/`,
-                            label: "🧪 Stylelint Inspector",
+                            href: `https://nick2bad4u.github.io/${projectName}/remark-inspector/`,
+                            label: "🧪 Remark Inspector",
                         },
                         {
                             href: `https://github.com/${organizationName}/${projectName}/releases`,
@@ -633,13 +632,13 @@ const config = {
                 },
             ],
             logo: {
-                alt: "eslint-plugin-stylelint-2 logo",
+                alt: "eslint-plugin-remark logo",
                 height: 48,
                 href: baseUrl,
                 src: "img/logo.svg",
                 width: 48,
             },
-            title: "eslint-plugin-stylelint-2",
+            title: "eslint-plugin-remark",
         },
         prism: {
             additionalLanguages: [
@@ -697,7 +696,7 @@ const config = {
             },
         ],
     ],
-    title: "eslint-plugin-stylelint-2",
+    title: "eslint-plugin-remark",
     trailingSlash: false,
     url: siteOrigin,
 } satisfies Config;

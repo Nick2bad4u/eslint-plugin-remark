@@ -20,10 +20,12 @@ const pluginConfigs =
 /** Absolute benchmark fixture globs grouped by scenario intent. */
 export const benchmarkFileGlobs = Object.freeze({
     configInvalidFixtures: Object.freeze([
-        "benchmarks/fixtures/stylelint.config.invalid.ts",
+        "benchmarks/fixtures/remark.config.invalid.ts",
     ]),
-    cssInvalidFixtures: Object.freeze(["benchmarks/fixtures/*.invalid.css"]),
-    cssValidFixtures: Object.freeze(["benchmarks/fixtures/*.valid.css"]),
+    markdownInvalidFixtures: Object.freeze([
+        "benchmarks/fixtures/*.invalid.md",
+    ]),
+    markdownValidFixtures: Object.freeze(["benchmarks/fixtures/*.valid.md"]),
 });
 
 /**
@@ -47,11 +49,14 @@ const getSingleFlatConfig = (configName) => {
     return /** @type {FlatConfig} */ (configValue);
 };
 
-const benchmarkStylesheetsConfig = [
+const benchmarkMarkdownConfig = [
     {
-        ...getSingleFlatConfig("stylesheets"),
+        ...getSingleFlatConfig("remarkOnly"),
         rules: {
-            "stylelint-2/stylelint": ["error", { ignoreDisables: true }],
+            "remark/remark": [
+                "error",
+                { configFile: "test/fixtures/remark/alt-text.config.mjs" },
+            ],
         },
     },
 ];
@@ -60,22 +65,22 @@ const benchmarkStylesheetsConfig = [
 export const benchmarkScenarios = Object.freeze(
     /** @type {readonly BenchmarkScenario[]} */ ([
         {
-            files: benchmarkFileGlobs.cssValidFixtures,
+            files: benchmarkFileGlobs.markdownValidFixtures,
             fix: false,
-            name: "stylesheets-valid",
-            overrideConfig: benchmarkStylesheetsConfig,
+            name: "markdown-valid",
+            overrideConfig: benchmarkMarkdownConfig,
         },
         {
-            files: benchmarkFileGlobs.cssInvalidFixtures,
+            files: benchmarkFileGlobs.markdownInvalidFixtures,
             fix: false,
-            name: "stylesheets-invalid",
-            overrideConfig: benchmarkStylesheetsConfig,
+            name: "markdown-invalid",
+            overrideConfig: benchmarkMarkdownConfig,
         },
         {
-            files: benchmarkFileGlobs.cssInvalidFixtures,
+            files: benchmarkFileGlobs.markdownInvalidFixtures,
             fix: true,
-            name: "stylesheets-invalid-fix",
-            overrideConfig: benchmarkStylesheetsConfig,
+            name: "markdown-invalid-fix",
+            overrideConfig: benchmarkMarkdownConfig,
         },
         {
             files: benchmarkFileGlobs.configInvalidFixtures,

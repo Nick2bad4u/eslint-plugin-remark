@@ -50,7 +50,7 @@ type SidebarItem = SidebarCategoryItem | SidebarDocItem | SidebarLinkItem;
 const sidebarDirectoryPath = dirname(fileURLToPath(import.meta.url));
 const rulesDirectoryPath = join(sidebarDirectoryPath, "..", "rules");
 const nonRuleDocIds = new Set(["getting-started", "overview"]);
-const pinnedRuleDocIds = ["stylelint"];
+const pinnedRuleDocIds = ["remark"];
 const pinnedRuleDocIdSet = new Set(pinnedRuleDocIds);
 
 const isMarkdownFile = (fileName: string): boolean => fileName.endsWith(".md");
@@ -75,7 +75,7 @@ const ruleDocIds = [
 const toNumberedRuleLabel = (ruleNumber: number, ruleDocId: string): string =>
     `${String(ruleNumber).padStart(2, "0")} ${ruleDocId}`;
 
-const stylelintRuleItems: SidebarDocItem[] = ruleDocIds.map(
+const remarkRuleItems: SidebarDocItem[] = ruleDocIds.map(
     (ruleDocId, index) => ({
         id: ruleDocId,
         label: toNumberedRuleLabel(index + 1, ruleDocId),
@@ -104,8 +104,8 @@ const sidebars: SidebarsConfig = {
                     type: "doc",
                 },
                 {
-                    id: "guides/stylelint-bridge",
-                    label: "🎨 Stylelint Bridge",
+                    id: "guides/remark-bridge",
+                    label: "📝 Remark Bridge",
                     type: "doc",
                 },
                 {
@@ -143,9 +143,9 @@ const sidebars: SidebarsConfig = {
                     type: "doc",
                 },
                 {
-                    className: "sb-preset-stylelint-only",
-                    id: "presets/stylelint-only",
-                    label: "🎨 Stylelint bridge only",
+                    className: "sb-preset-remark-only",
+                    id: "presets/remark-only",
+                    label: "📝 Remark Bridge only",
                     type: "doc",
                 },
                 {
@@ -167,7 +167,7 @@ const sidebars: SidebarsConfig = {
             collapsed: false,
             collapsible: true,
             description:
-                "The full set of rules provided by eslint-plugin-stylelint-2, including core rules for bridging Stylelint into ESLint and standardizing Stylelint config authoring, as well as rules for individual Stylelint rules.",
+                "The full set of rules provided by eslint-plugin-remark, including core rules for bridging Remark into ESLint and standardizing Remark config authoring, as well as rules for individual Remark rules.",
             customProps: {
                 badge: "rules",
             },
@@ -178,9 +178,9 @@ const sidebars: SidebarsConfig = {
                 title: "Rule Reference",
                 slug: "/",
                 description:
-                    "Rule documentation for every eslint-plugin-stylelint-2 rule.",
+                    "Rule documentation for every eslint-plugin-remark rule.",
             },
-            items: stylelintRuleItems,
+            items: remarkRuleItems,
         },
     ],
 } satisfies SidebarsConfig;
