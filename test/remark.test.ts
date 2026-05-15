@@ -137,7 +137,7 @@ describe("remark bridge rule", () => {
                 "Remark (remark): Plain Remark diagnostic"
             );
             expect(result!.messages[0]?.line).toBe(1);
-            expect(result!.messages[0]?.column).toBe(0);
+            expect(result!.messages[0]?.column).toBe(1);
         } finally {
             rmSync(temporaryDirectory, { force: true, recursive: true });
         }

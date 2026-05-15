@@ -4,11 +4,11 @@
  */
 import type { ESLint, Linter } from "eslint";
 
-import plugin from "@eslint/markdown";
 import tsParser from "@typescript-eslint/parser";
 
 // eslint-disable-next-line import-x/extensions -- JSON import assertions require the explicit .json extension.
 import packageJson from "../package.json" with { type: "json" };
+import { markdownParser } from "./_internal/markdown-parser.js";
 import {
     type RemarkConfigName as InternalRemarkConfigName,
     remarkConfigMetadataByName,
@@ -76,10 +76,11 @@ const remarkPlugin: ESLint.Plugin & {
 
 const remarkOnlyPreset: Linter.Config = {
     files: [...markdownFiles],
-    language: "markdown/gfm",
+    languageOptions: {
+        parser: markdownParser,
+    },
     name: remarkConfigMetadataByName.remarkOnly.presetName,
     plugins: {
-        markdown: plugin,
         [pluginNamespace]: remarkPlugin,
     },
     rules: {

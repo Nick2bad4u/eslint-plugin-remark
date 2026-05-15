@@ -29,7 +29,7 @@ This repository is `eslint-plugin-remark`: an ESLint Flat Config plugin that run
 
 ## Remark Bridge Constraints
 
-- The `remark/remark` rule runs on Markdown AST roots exposed by `@eslint/markdown`.
+- The `remark/remark` rule runs on the root node from the plugin's internal full-document Markdown parser so the public presets stay compatible with both ESLint 9 and ESLint 10.
 - Keep Remark execution isolated in the worker-backed bridge so ESLint rule execution remains synchronous.
 - Treat Remark config loading as a runtime boundary: validate unknown config values and fail gracefully with ESLint diagnostics.
 - Resolve string plugin specifiers relative to the Remark config file.

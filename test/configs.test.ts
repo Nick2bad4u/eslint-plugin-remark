@@ -74,8 +74,16 @@ describe("remark plugin configs", () => {
 
         expect(remarkPlugin.configs.remarkOnly).toMatchObject({
             files: ["**/*.{md,mdx,markdown}"],
-            language: "markdown/gfm",
+            languageOptions: {
+                parser: expect.objectContaining({
+                    meta: expect.objectContaining({
+                        name: "eslint-plugin-remark/markdown-parser",
+                    }),
+                }),
+            },
         });
+
+        expect(remarkPlugin.configs.remarkOnly).not.toHaveProperty("language");
 
         expect(remarkPlugin.configs.configuration).toMatchObject({
             files: [

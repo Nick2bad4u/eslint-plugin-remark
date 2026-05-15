@@ -84,56 +84,59 @@ const remarkRule: RuleModuleWithDocs<MessageIds, Options> = createTypedRule<
     Options
 >({
     create(context, [rawOptions = {}]) {
+        const runRemarkBridge = (): void => {
+            const sourceCode = context.sourceCode;
+            const lintResult = runRemarkForContext(context, rawOptions);
+
+            if (!isDefined(lintResult)) {
+                return;
+            }
+
+            const output = lintResult.output;
+
+            if (isDefined(output)) {
+                context.report({
+                    data: {
+                        rule: "remark-output",
+                        text: "Remark produced normalized output for this Markdown file.",
+                    },
+                    fix(fixer: TSESLint.RuleFixer) {
+                        return fixer.replaceTextRange(
+                            [0, sourceCode.text.length],
+                            output
+                        );
+                    },
+                    loc: {
+                        end: { column: 0, line: 1 },
+                        start: { column: 0, line: 1 },
+                    },
+                    messageId: "remarkProblem",
+                    node: sourceCode.ast,
+                });
+            }
+
+            for (const message of lintResult.messages) {
+                context.report({
+                    data: {
+                        rule:
+                            arrayJoin(
+                                [message.source, message.ruleId].filter(
+                                    isDefined
+                                ),
+                                "/"
+                            ) || "remark",
+                        text: message.reason,
+                    },
+                    loc: toEslintLoc(message),
+                    messageId: "remarkProblem",
+                    node: sourceCode.ast,
+                });
+            }
+        };
+
         return toRuleListener({
-            root() {
-                const sourceCode = context.sourceCode;
-                const lintResult = runRemarkForContext(context, rawOptions);
-
-                if (!isDefined(lintResult)) {
-                    return;
-                }
-
-                const output = lintResult.output;
-
-                if (isDefined(output)) {
-                    context.report({
-                        data: {
-                            rule: "remark-output",
-                            text: "Remark produced normalized output for this Markdown file.",
-                        },
-                        fix(fixer: TSESLint.RuleFixer) {
-                            return fixer.replaceTextRange(
-                                [0, sourceCode.text.length],
-                                output
-                            );
-                        },
-                        loc: {
-                            end: { column: 0, line: 1 },
-                            start: { column: 0, line: 1 },
-                        },
-                        messageId: "remarkProblem",
-                        node: sourceCode.ast,
-                    });
-                }
-
-                for (const message of lintResult.messages) {
-                    context.report({
-                        data: {
-                            rule:
-                                arrayJoin(
-                                    [message.source, message.ruleId].filter(
-                                        isDefined
-                                    ),
-                                    "/"
-                                ) || "remark",
-                            text: message.reason,
-                        },
-                        loc: toEslintLoc(message),
-                        messageId: "remarkProblem",
-                        node: sourceCode.ast,
-                    });
-                }
-            },
+            Program: runRemarkBridge,
+            root: runRemarkBridge,
         });
     },
     meta: {

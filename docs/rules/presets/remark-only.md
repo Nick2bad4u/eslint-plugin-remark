@@ -14,7 +14,7 @@ export default [
 ];
 ```
 
-This preset applies `remark/remark` to `**/*.{md,mdx,markdown}` with the `markdown/gfm` language from `@eslint/markdown`.
+This preset applies `remark/remark` to `**/*.{md,mdx,markdown}` with the plugin's internal full-document Markdown parser. The parser intentionally produces an empty ESTree program while preserving `context.sourceCode.text`, so the Remark bridge receives the complete Markdown document on both ESLint 9 and ESLint 10.
 
 ## Best fit
 

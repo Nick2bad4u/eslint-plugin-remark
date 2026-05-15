@@ -213,7 +213,6 @@
         "jsonc-eslint-parser": "$jsonc-eslint-parser"
     },
     "dependencies": {
-        "@eslint/markdown": "^8.0.1",
         "@typescript-eslint/parser": "^8.59.3",
         "@typescript-eslint/type-utils": "^8.59.3",
         "@typescript-eslint/utils": "^8.59.3",
