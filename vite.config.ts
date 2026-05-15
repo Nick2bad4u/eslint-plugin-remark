@@ -25,8 +25,9 @@ const rawHangingReporterFlag =
     process.env["REMARK_VITEST_HANGING_PROCESS_REPORTER"] ??
     process.env["VITEST_HANGING_PROCESS_REPORTER"] ??
     "false";
-/** Raw flag controlling optional Vitest typecheck execution. */
-const rawVitestTypecheckFlag = process.env["VITEST_TYPECHECK"] ?? "true";
+/** Raw flag controlling optional Vitest typecheck execution; `npm run typecheck`
+is the authoritative type gate. */
+const rawVitestTypecheckFlag = process.env["VITEST_TYPECHECK"] ?? "false";
 /** Normalized `true` when hanging-process reporter is explicitly enabled. */
 const shouldEnableHangingProcessReporter = [
     "1",
@@ -125,12 +126,14 @@ const vitestConfig: ReturnType<typeof defineConfig> = defineConfig({
                 "index.ts", // Barrel export file at root
                 "out",
                 "playwright/**", // Exclude all playwright files from coverage
+                "plugin.mjs", // Runtime shim over the built dist entrypoint.
                 "release/**",
                 "report/**", // Exclude report files
                 "reports/**", // Exclude test report files
                 "scripts/**",
                 "shared",
                 "shared/test",
+                "src/_internal/remark-worker.ts", // Covered through worker integration; V8 cannot merge worker-thread instrumentation here.
                 "src/**/baseTypes.ts", // Exclude interface-only files that contain only TypeScript interfaces
                 "src/**/types.ts", // Exclude type definition files only in src directory
                 "src/test/**",
@@ -155,21 +158,17 @@ const vitestConfig: ReturnType<typeof defineConfig> = defineConfig({
             reportOnFailure: true,
             reportsDirectory: "./coverage",
             skipFull: true, // Don't skip full coverage collection
-            // NOTE: Coverage thresholds adjusted after empirical analysis of current
-            // instrumentation (November 2025). JSX-heavy components and patched CSS
-            // modules generate synthetic branches that Vitest counts but cannot be
-            // exercised in runtime. The revised values enforce strong coverage for
-            // executable logic without blocking on non-actionable gaps.
+            // Keep every aggregate coverage metric above the publish bar.
             thresholds: {
                 // Auto-update requires Vitest to rewrite the originating config file.
                 // Our configuration is generated dynamically via defineConfig callbacks,
                 // which Magicast cannot safely mutate, so we keep this disabled to
                 // avoid runtime parse failures during coverage reporting.
                 autoUpdate: false,
-                branches: 50, // Tightened to reflect real-world branch coverage considering JSX/CSS-module instrumentation (see analysis)
-                functions: 50,
-                lines: 50,
-                statements: 50,
+                branches: 80,
+                functions: 80,
+                lines: 80,
+                statements: 80,
             },
         },
         css: false,

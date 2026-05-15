@@ -2,7 +2,9 @@ import { themes as prismThemes } from "prism-react-renderer";
 
 import type { Config, PluginModule } from "@docusaurus/types";
 import type * as Preset from "@docusaurus/preset-classic";
+import { existsSync } from "node:fs";
 import { createRequire } from "node:module";
+import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 /** Route base path where docs site is deployed (GitHub Pages project path). */
@@ -62,6 +64,25 @@ const resolveOptionalModule = (moduleSpecifier: string): string | undefined => {
     }
 };
 
+/** Resolve an optional file relative to a package's resolved main entry. */
+const resolveOptionalPackageFile = (
+    moduleSpecifier: string,
+    relativeFilePath: string
+): string | undefined => {
+    const resolvedEntry = resolveOptionalModule(moduleSpecifier);
+
+    if (resolvedEntry === undefined) {
+        return undefined;
+    }
+
+    const packageFilePath = path.resolve(
+        path.dirname(resolvedEntry),
+        relativeFilePath
+    );
+
+    return existsSync(packageFilePath) ? packageFilePath : undefined;
+};
+
 /**
  * Optional ESM entry used to avoid webpack warnings from VS Code CSS language
  * service packages.
@@ -74,7 +95,13 @@ const vscodeCssLanguageServiceEsmEntry = resolveOptionalModule(
  * server type packages.
  */
 const vscodeLanguageServerTypesEsmEntry = resolveOptionalModule(
-    "vscode-languageserver-types/lib/esm/main.js"
+    "vscode-languageserver-types"
+);
+/** ESM file for the language-server type package; the package export map hides
+this subpath. */
+const vscodeLanguageServerTypesEsmFile = resolveOptionalPackageFile(
+    "vscode-languageserver-types",
+    "../esm/main.js"
 );
 
 /**
@@ -90,7 +117,8 @@ const vscodeLanguageServerTypesEsmEntry = resolveOptionalModule(
 const suppressKnownWebpackWarningsPlugin: PluginModule = () => {
     if (
         vscodeCssLanguageServiceEsmEntry === undefined ||
-        vscodeLanguageServerTypesEsmEntry === undefined
+        vscodeLanguageServerTypesEsmEntry === undefined ||
+        vscodeLanguageServerTypesEsmFile === undefined
     ) {
         return null;
     }
@@ -110,9 +138,9 @@ const suppressKnownWebpackWarningsPlugin: PluginModule = () => {
                         "vscode-css-languageservice$":
                             vscodeCssLanguageServiceEsmEntry,
                         "vscode-languageserver-types$":
-                            vscodeLanguageServerTypesEsmEntry,
+                            vscodeLanguageServerTypesEsmFile,
                         "vscode-languageserver-types/lib/umd/main.js$":
-                            vscodeLanguageServerTypesEsmEntry,
+                            vscodeLanguageServerTypesEsmFile,
                     },
                 },
             };

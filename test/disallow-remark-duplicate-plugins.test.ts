@@ -16,7 +16,19 @@ ruleTester.run(
         ],
         valid: [
             {
+                code: 'export default { plugins: "remark-gfm" };',
+                filename: "remark.config.mjs",
+            },
+            {
                 code: 'export default { plugins: ["remark-gfm", "remark-frontmatter"] };',
+                filename: "remark.config.mjs",
+            },
+            {
+                code: 'export default { plugins: ["remark-gfm", ...sharedPlugins] };',
+                filename: "remark.config.mjs",
+            },
+            {
+                code: "export default { plugins: [1] };",
                 filename: "remark.config.mjs",
             },
         ],

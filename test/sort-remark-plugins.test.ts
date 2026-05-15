@@ -13,7 +13,23 @@ ruleTester.run("sort-remark-plugins", getPluginRule("sort-remark-plugins"), {
     ],
     valid: [
         {
+            code: 'export default { plugins: "remark-gfm" };',
+            filename: "remark.config.mjs",
+        },
+        {
+            code: 'export default { plugins: ["remark-gfm"] };',
+            filename: "remark.config.mjs",
+        },
+        {
+            code: 'export default { plugins: ["remark-gfm", "remark-gfm"] };',
+            filename: "remark.config.mjs",
+        },
+        {
             code: 'export default { plugins: ["remark-frontmatter", "remark-gfm"] };',
+            filename: "remark.config.mjs",
+        },
+        {
+            code: 'export default { plugins: ["remark-gfm", ...sharedPlugins] };',
             filename: "remark.config.mjs",
         },
     ],

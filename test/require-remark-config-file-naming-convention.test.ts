@@ -20,7 +20,15 @@ ruleTester.run(
         valid: [
             {
                 code: "export default { plugins: [] };",
+                filename: "<input>",
+            },
+            {
+                code: "export default { plugins: [] };",
                 filename: "remark.config.mjs",
+            },
+            {
+                code: "export default { plugins: [] };",
+                filename: String.raw`C:\project\remark.config.cts`,
             },
             {
                 code: "export default {};",

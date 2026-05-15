@@ -22,12 +22,28 @@ ruleTester.run(
         ],
         valid: [
             {
+                code: 'export default { plugins: "@double-great/remark-lint-alt-text" };',
+                filename: "remark.config.mjs",
+            },
+            {
                 code: 'export default { plugins: ["@double-great/remark-lint-alt-text"] };',
                 filename: "remark.config.mjs",
             },
             {
                 code: 'export default { plugins: ["./local-remark-plugin.mjs"] };',
                 filename: "remark.config.mjs",
+            },
+            {
+                code: 'export default { plugins: [""] };',
+                filename: "remark.config.mjs",
+            },
+            {
+                code: 'export default { plugins: ["node:test"] };',
+                filename: "remark.config.mjs",
+            },
+            {
+                code: 'export default { plugins: ["remark-plugin-that-is-not-installed"] };',
+                filename: "not-remark.config.mjs",
             },
         ],
     }

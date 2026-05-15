@@ -3,9 +3,13 @@
  * Integration coverage for the Remark bridge rule.
  */
 import { ESLint, type Linter } from "eslint";
+import { mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
+import * as path from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 
+import { runRemarkSynchronously } from "../src/_internal/remark-runner";
 import remarkPlugin from "../src/plugin";
 
 const remarkConfigFilePath = fileURLToPath(
@@ -80,5 +84,75 @@ describe("remark bridge rule", () => {
 
         expect(result).toBeDefined();
         expect(result!.output).toBe("# Heading\n");
+    });
+
+    it("caches direct Remark bridge results for identical inputs", () => {
+        expect.hasAssertions();
+
+        const options = {
+            code: "# Heading\n\nText.\n",
+            codeFilename: "README.md",
+            cwd: process.cwd(),
+        };
+        const firstResult = runRemarkSynchronously(options);
+        const secondResult = runRemarkSynchronously(options);
+
+        expect(firstResult).toBe(secondResult);
+        expect(firstResult.messages).toStrictEqual([]);
+    });
+
+    it("reports unscoped Remark messages with default source locations", async () => {
+        expect.hasAssertions();
+
+        const temporaryDirectory = mkdtempSync(
+            path.join(tmpdir(), "remark-plain-message-")
+        );
+
+        try {
+            const configFile = path.join(
+                temporaryDirectory,
+                "remark.config.mjs"
+            );
+
+            writeFileSync(
+                configFile,
+                `export default {
+                    plugins: [
+                        () => (_tree, file) => {
+                            file.message("Plain Remark diagnostic");
+                        },
+                    ],
+                };`
+            );
+
+            const eslint = createMarkdownLintEngine(false, {
+                configFile,
+            });
+            const [result] = await eslint.lintText("# Heading\n\nText.\n", {
+                filePath: "README.md",
+            });
+
+            expect(result).toBeDefined();
+            expect(result!.messages[0]?.message).toContain(
+                "Remark (remark): Plain Remark diagnostic"
+            );
+            expect(result!.messages[0]?.line).toBe(1);
+            expect(result!.messages[0]?.column).toBe(0);
+        } finally {
+            rmSync(temporaryDirectory, { force: true, recursive: true });
+        }
+    });
+
+    it("throws worker configuration errors with their original message", () => {
+        expect.hasAssertions();
+
+        expect(() =>
+            runRemarkSynchronously({
+                code: "# Heading\n",
+                codeFilename: "README.md",
+                configFile: "missing-remark-config.mjs",
+                cwd: process.cwd(),
+            })
+        ).toThrow("missing-remark-config.mjs");
     });
 });

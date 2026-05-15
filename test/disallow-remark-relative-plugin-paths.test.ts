@@ -8,7 +8,17 @@ ruleTester.run(
     {
         invalid: [
             {
+                code: 'export default { plugins: "./local-remark-plugin.mjs" };',
+                errors: [{ messageId: "disallowRelative" }],
+                filename: "remark.config.mjs",
+            },
+            {
                 code: 'export default { plugins: ["./local-remark-plugin.mjs"] };',
+                errors: [{ messageId: "disallowRelative" }],
+                filename: "remark.config.mjs",
+            },
+            {
+                code: String.raw`export default { plugins: ["..\\local-remark-plugin.cjs"] };`,
                 errors: [{ messageId: "disallowRelative" }],
                 filename: "remark.config.mjs",
             },
@@ -16,6 +26,14 @@ ruleTester.run(
         valid: [
             {
                 code: 'export default { plugins: ["remark-gfm"] };',
+                filename: "remark.config.mjs",
+            },
+            {
+                code: "export default { plugins: [] };",
+                filename: "not-remark.config.mjs",
+            },
+            {
+                code: "export default { plugins: [localPlugin] };",
                 filename: "remark.config.mjs",
             },
         ],
