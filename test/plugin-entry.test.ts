@@ -46,13 +46,19 @@ describe("plugin entry module", () => {
                 left.localeCompare(right)
             )
         ).toStrictEqual([
+            "disallow-empty-remark-config-values",
+            "disallow-empty-remark-plugin-specifiers",
+            "disallow-invalid-remark-plugin-tuples",
             "disallow-remark-duplicate-plugins",
             "disallow-remark-relative-plugin-paths",
+            "disallow-unknown-remark-config-properties",
             "prefer-remark-plugins-array",
             "remark",
             "require-remark-config-file-naming-convention",
             "require-remark-plugins-packages-installed",
+            "require-remark-settings-object",
             "sort-remark-plugins",
+            "trim-remark-plugin-specifiers",
         ]);
     });
 

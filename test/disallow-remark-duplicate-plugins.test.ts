@@ -13,6 +13,18 @@ ruleTester.run(
                 filename: "remark.config.mjs",
                 output: 'export default { plugins: ["remark-gfm"] };',
             },
+            {
+                code: 'export default { plugins: ["remark-gfm", ["remark-gfm", { singleTilde: false }]] };',
+                errors: [{ messageId: "disallowDuplicates" }],
+                filename: "remark.config.mjs",
+                output: 'export default { plugins: ["remark-gfm"] };',
+            },
+            {
+                code: 'export default { plugins: [["remark-gfm", { singleTilde: true }], "remark-gfm"] };',
+                errors: [{ messageId: "disallowDuplicates" }],
+                filename: "remark.config.mjs",
+                output: 'export default { plugins: [["remark-gfm", { singleTilde: true }]] };',
+            },
         ],
         valid: [
             {
@@ -21,6 +33,10 @@ ruleTester.run(
             },
             {
                 code: 'export default { plugins: ["remark-gfm", "remark-frontmatter"] };',
+                filename: "remark.config.mjs",
+            },
+            {
+                code: 'export default { plugins: [["remark-gfm", {}], ["remark-frontmatter", {}]] };',
                 filename: "remark.config.mjs",
             },
             {

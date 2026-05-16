@@ -1,16 +1,16 @@
 # sort-remark-plugins
 
-Enforce sorted string entries in top-level Remark `plugins` declarations.
+Enforce sorted entries in top-level Remark `plugins` declarations.
 
 ## Rule details
 
-Sorted plugin lists produce deterministic diffs and make duplicated or missing Remark plugins easier to review. This rule only sorts string-only arrays so it does not reorder complex plugin tuples with runtime-specific semantics.
+Sorted plugin lists produce deterministic diffs and make duplicated or missing Remark plugins easier to review. This rule sorts arrays whose entries are statically analyzable string specifiers, including `[plugin, options]` tuples, and skips mixed dynamic arrays.
 
 ## ❌ Incorrect
 
 ```ts
 export default {
-    plugins: ["remark-gfm", "remark-frontmatter"],
+    plugins: [["remark-gfm", { singleTilde: false }], "remark-frontmatter"],
 };
 ```
 
@@ -18,13 +18,13 @@ export default {
 
 ```ts
 export default {
-    plugins: ["remark-frontmatter", "remark-gfm"],
+    plugins: ["remark-frontmatter", ["remark-gfm", { singleTilde: false }]],
 };
 ```
 
 ## Fixer behavior
 
-The fixer sorts string literal entries with `localeCompare`.
+The fixer sorts entries by their static string plugin specifier with `localeCompare`.
 
 ## When not to use it
 

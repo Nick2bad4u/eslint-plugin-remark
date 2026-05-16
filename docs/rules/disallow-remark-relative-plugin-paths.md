@@ -4,13 +4,13 @@ Disallow relative path entries in top-level Remark `plugins` declarations.
 
 ## Rule details
 
-Shared Remark configs should depend on package-backed plugin specifiers. Relative plugin paths make configs harder to publish and reuse because the target file must exist at the same relative path in every consumer.
+Shared Remark configs should depend on package-backed plugin specifiers. Relative plugin paths make configs harder to publish and reuse because the target file must exist at the same relative path in every consumer. This rule checks direct string entries and the first element of `[plugin, options]` tuples.
 
 ## ❌ Incorrect
 
 ```ts
 export default {
-    plugins: ["./local-remark-plugin.mjs"],
+    plugins: [["./local-remark-plugin.mjs", {}]],
 };
 ```
 

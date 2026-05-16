@@ -22,10 +22,19 @@ ruleTester.run(
                 errors: [{ messageId: "disallowRelative" }],
                 filename: "remark.config.mjs",
             },
+            {
+                code: 'export default { plugins: [["./local-remark-plugin.mjs", {}]] };',
+                errors: [{ messageId: "disallowRelative" }],
+                filename: "remark.config.mjs",
+            },
         ],
         valid: [
             {
                 code: 'export default { plugins: ["remark-gfm"] };',
+                filename: "remark.config.mjs",
+            },
+            {
+                code: 'export default { plugins: [["remark-gfm", {}]] };',
                 filename: "remark.config.mjs",
             },
             {

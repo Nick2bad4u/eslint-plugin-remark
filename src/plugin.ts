@@ -89,21 +89,33 @@ const remarkOnlyPreset: Linter.Config = {
 };
 
 const configurationRules = {
+    [`${pluginNamespace}/disallow-empty-remark-config-values`]: "warn",
+    [`${pluginNamespace}/disallow-empty-remark-plugin-specifiers`]: "warn",
+    [`${pluginNamespace}/disallow-invalid-remark-plugin-tuples`]: "warn",
     [`${pluginNamespace}/disallow-remark-duplicate-plugins`]: "warn",
     [`${pluginNamespace}/disallow-remark-relative-plugin-paths`]: "warn",
+    [`${pluginNamespace}/disallow-unknown-remark-config-properties`]: "warn",
     [`${pluginNamespace}/prefer-remark-plugins-array`]: "warn",
     [`${pluginNamespace}/require-remark-config-file-naming-convention`]: "warn",
     [`${pluginNamespace}/require-remark-plugins-packages-installed`]: "warn",
+    [`${pluginNamespace}/require-remark-settings-object`]: "warn",
     [`${pluginNamespace}/sort-remark-plugins`]: "warn",
+    [`${pluginNamespace}/trim-remark-plugin-specifiers`]: "warn",
 } as const satisfies FlatConfigRules;
 
 const recommendedConfigurationRules: FlatConfigRules = {
+    [`${pluginNamespace}/disallow-empty-remark-config-values`]: "warn",
+    [`${pluginNamespace}/disallow-empty-remark-plugin-specifiers`]: "warn",
+    [`${pluginNamespace}/disallow-invalid-remark-plugin-tuples`]: "warn",
     [`${pluginNamespace}/disallow-remark-duplicate-plugins`]: "warn",
     [`${pluginNamespace}/disallow-remark-relative-plugin-paths`]: "warn",
+    [`${pluginNamespace}/disallow-unknown-remark-config-properties`]: "warn",
     [`${pluginNamespace}/prefer-remark-plugins-array`]: "warn",
     [`${pluginNamespace}/require-remark-config-file-naming-convention`]: "warn",
     [`${pluginNamespace}/require-remark-plugins-packages-installed`]: "warn",
+    [`${pluginNamespace}/require-remark-settings-object`]: "warn",
     [`${pluginNamespace}/sort-remark-plugins`]: "warn",
+    [`${pluginNamespace}/trim-remark-plugin-specifiers`]: "warn",
 };
 
 const configurationPreset: Linter.Config = {

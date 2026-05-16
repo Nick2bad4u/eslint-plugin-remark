@@ -5,7 +5,14 @@
 import type { TSESLint, TSESTree } from "@typescript-eslint/utils";
 import type { Except } from "type-fest";
 
-import { arrayJoin, setHas } from "ts-extras";
+import { AST_NODE_TYPES } from "@typescript-eslint/utils";
+import {
+    arrayJoin,
+    isDefined,
+    isEmpty,
+    isPropertyDefined,
+    setHas,
+} from "ts-extras";
 
 import {
     getExportedRemarkConfigObject,
@@ -13,6 +20,12 @@ import {
     isExportDefaultDeclarationNode,
     isRemarkConfigFile,
 } from "./remark-config-object.js";
+import {
+    createFixToRemovePluginSpecifier,
+    getRemarkPluginArrayEntries,
+    getRemarkPluginSpecifierReferences,
+    type RemarkPluginSpecifierReference,
+} from "./remark-config-plugin-specifiers.js";
 import {
     getStringArrayOptionValue,
     isRelativeSpecifier,
@@ -36,106 +49,85 @@ const getLiteralText = (
     literal: Readonly<TSESTree.StringLiteral>
 ): string => sourceCode.getText(literal);
 
-const getUniqueLiterals = (
-    literals: readonly Readonly<TSESTree.StringLiteral>[]
-): readonly Readonly<TSESTree.StringLiteral>[] => {
+const getDuplicateRemarkPluginSpecifierReferences = (
+    references: readonly RemarkPluginSpecifierReference[]
+): readonly RemarkPluginSpecifierReference[] => {
     const seenValues = new Set<string>();
-    const uniqueLiterals: Readonly<TSESTree.StringLiteral>[] = [];
+    const duplicateReferences: RemarkPluginSpecifierReference[] = [];
 
-    for (const literal of literals) {
-        const literalValue = literal.value;
+    for (const reference of references) {
+        const specifier = reference.literal.value;
 
-        if (typeof literalValue !== "string") {
+        if (setHas(seenValues, specifier)) {
+            duplicateReferences.push(reference);
             continue;
         }
 
-        if (setHas(seenValues, literalValue)) {
-            continue;
-        }
-
-        seenValues.add(literalValue);
-        uniqueLiterals.push(literal);
+        seenValues.add(specifier);
     }
 
-    return uniqueLiterals;
+    return duplicateReferences;
 };
 
-const hasDuplicates = (
-    literals: readonly Readonly<TSESTree.StringLiteral>[]
-): boolean => getUniqueLiterals(literals).length !== literals.length;
+const getSortableRemarkPluginSpecifierReferences = (
+    pluginsProperty: Readonly<TSESTree.Property>,
+    references: readonly RemarkPluginSpecifierReference[]
+): readonly RemarkPluginSpecifierReference[] => {
+    const pluginEntries = getRemarkPluginArrayEntries(pluginsProperty);
+    const sortableReferences = references.filter(
+        isPropertyDefined("arrayEntry")
+    );
 
-const getSortedLiteralItems = (
-    sourceCode: Readonly<TSESLint.SourceCode>,
-    literals: readonly Readonly<TSESTree.StringLiteral>[]
-): readonly Readonly<{
-    index: number;
-    text: string;
-    value: string;
-}>[] =>
-    literals
-        .map((literal, index) => ({
+    if (sortableReferences.length !== pluginEntries.length) {
+        return [];
+    }
+
+    return sortableReferences;
+};
+
+const getSortedRemarkPluginSpecifierReferences = (
+    references: readonly RemarkPluginSpecifierReference[]
+): readonly RemarkPluginSpecifierReference[] =>
+    references
+        .map((reference, index) => ({
             index,
-            text: getLiteralText(sourceCode, literal),
-            value: literal.value,
+            reference,
+            value: reference.literal.value,
         }))
         .toSorted((left, right) => {
             const valueOrder = left.value.localeCompare(right.value);
 
             return valueOrder === 0 ? left.index - right.index : valueOrder;
-        });
+        })
+        .map(({ reference }) => reference);
 
-const isAlreadySorted = (
-    sourceCode: Readonly<TSESLint.SourceCode>,
-    literals: readonly Readonly<TSESTree.StringLiteral>[]
+const areRemarkPluginSpecifierReferencesSorted = (
+    references: readonly RemarkPluginSpecifierReference[]
 ): boolean => {
-    const sortedItems = getSortedLiteralItems(sourceCode, literals);
+    const sortedReferences =
+        getSortedRemarkPluginSpecifierReferences(references);
 
-    return sortedItems.every((item, index) => item.index === index);
+    return sortedReferences.every(
+        (reference, index) => reference === references[index]
+    );
 };
 
-const toArrayReplacementText = (
+const toRemarkPluginArrayReplacementText = (
     sourceCode: Readonly<TSESLint.SourceCode>,
-    literals: readonly Readonly<TSESTree.StringLiteral>[]
-): string =>
-    `[${arrayJoin(
-        literals.map((literal) => getLiteralText(sourceCode, literal)),
-        ", "
-    )}]`;
-
-const getSortedLiteralTexts = (
-    sourceCode: Readonly<TSESLint.SourceCode>,
-    literals: readonly Readonly<TSESTree.StringLiteral>[]
-): string[] => {
-    const sortedItems = getSortedLiteralItems(sourceCode, literals);
+    references: readonly RemarkPluginSpecifierReference[]
+): string => {
+    const sortedEntries = getSortedRemarkPluginSpecifierReferences(references);
     const sortedTexts: string[] = [];
 
-    for (const sortedItem of sortedItems) {
-        sortedTexts.push(sortedItem.text);
-    }
-
-    return sortedTexts;
-};
-
-const getRelativeLiterals = (
-    optionValue: ReturnType<typeof getStringArrayOptionValue>
-): readonly TSESTree.StringLiteral[] => {
-    if (optionValue === undefined) {
-        return [];
-    }
-
-    if (optionValue.kind === "string") {
-        const literalValue = optionValue.stringLiteral.value;
-
-        if (isRelativeSpecifier(literalValue)) {
-            return [optionValue.stringLiteral];
+    for (const sortedEntry of sortedEntries) {
+        if (!isDefined(sortedEntry.arrayEntry)) {
+            continue;
         }
 
-        return [];
+        sortedTexts.push(sourceCode.getText(sortedEntry.arrayEntry.element));
     }
 
-    return optionValue.stringLiterals.filter((literal) =>
-        isRelativeSpecifier(literal.value)
-    );
+    return `[${arrayJoin(sortedTexts, ", ")}]`;
 };
 
 /**
@@ -219,8 +211,6 @@ export const createRemarkConfigDisallowDuplicateArrayEntriesRule = (
                 return {};
             }
 
-            const sourceCode = context.sourceCode;
-
             return toRuleListener({
                 ExportDefaultDeclaration(node: unknown) {
                     if (!isExportDefaultDeclarationNode(node)) {
@@ -245,34 +235,33 @@ export const createRemarkConfigDisallowDuplicateArrayEntriesRule = (
                         return;
                     }
 
-                    const optionValue =
-                        getStringArrayOptionValue(optionProperty);
+                    const specifierReferences =
+                        getRemarkPluginSpecifierReferences({
+                            configObject,
+                            pluginsProperty: optionProperty,
+                        });
+                    const duplicateReferences =
+                        getDuplicateRemarkPluginSpecifierReferences(
+                            specifierReferences
+                        );
 
-                    if (optionValue?.kind !== "array") {
+                    if (isEmpty(duplicateReferences)) {
                         return;
                     }
 
-                    if (!hasDuplicates(optionValue.stringLiterals)) {
-                        return;
+                    for (const duplicateReference of duplicateReferences) {
+                        context.report({
+                            fix(fixer) {
+                                return createFixToRemovePluginSpecifier({
+                                    fixer,
+                                    removalTarget:
+                                        duplicateReference.removalTarget,
+                                });
+                            },
+                            messageId: "disallowDuplicates",
+                            node: duplicateReference.literal,
+                        });
                     }
-
-                    context.report({
-                        fix(fixer) {
-                            const uniqueLiterals = getUniqueLiterals(
-                                optionValue.stringLiterals
-                            );
-
-                            return fixer.replaceText(
-                                optionValue.arrayExpression,
-                                toArrayReplacementText(
-                                    sourceCode,
-                                    uniqueLiterals
-                                )
-                            );
-                        },
-                        messageId: "disallowDuplicates",
-                        node: optionProperty,
-                    });
                 },
             });
         },
@@ -321,29 +310,40 @@ export const createRemarkConfigSortArrayEntriesRule = (
                         return;
                     }
 
-                    const optionValue =
-                        getStringArrayOptionValue(optionProperty);
+                    const propertyValue = optionProperty.value;
 
-                    if (optionValue?.kind !== "array") {
+                    if (propertyValue.type !== AST_NODE_TYPES.ArrayExpression) {
                         return;
                     }
 
+                    const specifierReferences =
+                        getRemarkPluginSpecifierReferences({
+                            configObject,
+                            pluginsProperty: optionProperty,
+                        });
+                    const sortableReferences =
+                        getSortableRemarkPluginSpecifierReferences(
+                            optionProperty,
+                            specifierReferences
+                        );
+
                     if (
-                        isAlreadySorted(sourceCode, optionValue.stringLiterals)
+                        isEmpty(sortableReferences) ||
+                        areRemarkPluginSpecifierReferencesSorted(
+                            sortableReferences
+                        )
                     ) {
                         return;
                     }
 
                     context.report({
                         fix(fixer) {
-                            const sortedLiterals = getSortedLiteralTexts(
-                                sourceCode,
-                                optionValue.stringLiterals
-                            );
-
                             return fixer.replaceText(
-                                optionValue.arrayExpression,
-                                `[${arrayJoin(sortedLiterals, ", ")}]`
+                                propertyValue,
+                                toRemarkPluginArrayReplacementText(
+                                    sourceCode,
+                                    sortableReferences
+                                )
                             );
                         },
                         messageId: "sortArray",
@@ -395,14 +395,22 @@ export const createRemarkConfigDisallowRelativeArrayEntriesRule = (
                         return;
                     }
 
-                    const optionValue =
-                        getStringArrayOptionValue(optionProperty);
-                    const relativeLiterals = getRelativeLiterals(optionValue);
+                    const specifierReferences =
+                        getRemarkPluginSpecifierReferences({
+                            configObject,
+                            pluginsProperty: optionProperty,
+                        });
 
-                    for (const relativeLiteral of relativeLiterals) {
+                    for (const specifierReference of specifierReferences) {
+                        const specifier = specifierReference.literal.value;
+
+                        if (!isRelativeSpecifier(specifier)) {
+                            continue;
+                        }
+
                         context.report({
                             messageId: "disallowRelative",
-                            node: relativeLiteral,
+                            node: specifierReference.literal,
                         });
                     }
                 },

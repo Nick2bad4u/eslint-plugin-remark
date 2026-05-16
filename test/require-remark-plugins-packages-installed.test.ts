@@ -19,6 +19,18 @@ ruleTester.run(
                 ],
                 filename: "remark.config.mjs",
             },
+            {
+                code: 'export default { plugins: [["remark-plugin-that-is-not-installed", { strict: true }]] };',
+                errors: [
+                    {
+                        data: {
+                            packageName: "remark-plugin-that-is-not-installed",
+                        },
+                        messageId: "requireInstalledPackage",
+                    },
+                ],
+                filename: "remark.config.mjs",
+            },
         ],
         valid: [
             {
@@ -30,7 +42,19 @@ ruleTester.run(
                 filename: "remark.config.mjs",
             },
             {
+                code: 'export default { plugins: [["@double-great/remark-lint-alt-text", {}]] };',
+                filename: "remark.config.mjs",
+            },
+            {
                 code: 'export default { plugins: ["./local-remark-plugin.mjs"] };',
+                filename: "remark.config.mjs",
+            },
+            {
+                code: 'export default { plugins: [["./local-remark-plugin.mjs", {}]] };',
+                filename: "remark.config.mjs",
+            },
+            {
+                code: "export default { plugins: [[remarkGfm, {}]] };",
                 filename: "remark.config.mjs",
             },
             {

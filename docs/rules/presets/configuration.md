@@ -38,6 +38,12 @@ Fix legend:
 | --- | :-: | :-- | :-- |
 | [`remark`](https://nick2bad4u.github.io/eslint-plugin-remark/docs/rules/remark) | 🔧 | — | [🟡](./recommended.md) [📝](./remark-only.md) [🟣](./all.md) |
 | [`prefer-remark-plugins-array`](https://nick2bad4u.github.io/eslint-plugin-remark/docs/rules/prefer-remark-plugins-array) | 🔧 | 🔧 Enabled | [🟡](./recommended.md) [🟣](./all.md) |
+| [`disallow-unknown-remark-config-properties`](https://nick2bad4u.github.io/eslint-plugin-remark/docs/rules/disallow-unknown-remark-config-properties) | 🔧 | 🔧 Enabled | [🟡](./recommended.md) [🟣](./all.md) |
+| [`require-remark-settings-object`](https://nick2bad4u.github.io/eslint-plugin-remark/docs/rules/require-remark-settings-object) | — | 🔧 Enabled | [🟡](./recommended.md) [🟣](./all.md) |
+| [`disallow-empty-remark-config-values`](https://nick2bad4u.github.io/eslint-plugin-remark/docs/rules/disallow-empty-remark-config-values) | 🔧 | 🔧 Enabled | [🟡](./recommended.md) [🟣](./all.md) |
+| [`disallow-empty-remark-plugin-specifiers`](https://nick2bad4u.github.io/eslint-plugin-remark/docs/rules/disallow-empty-remark-plugin-specifiers) | 🔧 | 🔧 Enabled | [🟡](./recommended.md) [🟣](./all.md) |
+| [`disallow-invalid-remark-plugin-tuples`](https://nick2bad4u.github.io/eslint-plugin-remark/docs/rules/disallow-invalid-remark-plugin-tuples) | — | 🔧 Enabled | [🟡](./recommended.md) [🟣](./all.md) |
+| [`trim-remark-plugin-specifiers`](https://nick2bad4u.github.io/eslint-plugin-remark/docs/rules/trim-remark-plugin-specifiers) | 🔧 | 🔧 Enabled | [🟡](./recommended.md) [🟣](./all.md) |
 | [`disallow-remark-duplicate-plugins`](https://nick2bad4u.github.io/eslint-plugin-remark/docs/rules/disallow-remark-duplicate-plugins) | 🔧 | 🔧 Enabled | [🟡](./recommended.md) [🟣](./all.md) |
 | [`sort-remark-plugins`](https://nick2bad4u.github.io/eslint-plugin-remark/docs/rules/sort-remark-plugins) | 🔧 | 🔧 Enabled | [🟡](./recommended.md) [🟣](./all.md) |
 | [`disallow-remark-relative-plugin-paths`](https://nick2bad4u.github.io/eslint-plugin-remark/docs/rules/disallow-remark-relative-plugin-paths) | — | 🔧 Enabled | [🟡](./recommended.md) [🟣](./all.md) |

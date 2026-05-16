@@ -22,6 +22,29 @@ export const isRemarkConfigFile = (filename: string): boolean =>
     configBaseNamePattern.test(path.basename(filename));
 
 /**
+ * Get a non-computed object property key as a static string.
+ *
+ * @param property - Candidate object property.
+ *
+ * @returns Property name when it can be read without evaluating code.
+ */
+export const getStaticPropertyName = (
+    property: Readonly<TSESTree.Property>
+): string | undefined => {
+    if (property.computed) {
+        return undefined;
+    }
+
+    if (property.key.type === AST_NODE_TYPES.Identifier) {
+        return property.key.name;
+    }
+
+    const literalKeyValue = property.key.value;
+
+    return typeof literalKeyValue === "string" ? literalKeyValue : undefined;
+};
+
+/**
  * Check whether a property key matches a specific string literal name.
  *
  * @param property - Candidate object property.
@@ -32,19 +55,7 @@ export const isRemarkConfigFile = (filename: string): boolean =>
 export const isPropertyNamed = (
     property: Readonly<TSESTree.Property>,
     name: string
-): boolean => {
-    if (property.computed) {
-        return false;
-    }
-
-    if (property.key.type === AST_NODE_TYPES.Identifier) {
-        return property.key.name === name;
-    }
-
-    const literalKeyValue = property.key.value;
-
-    return typeof literalKeyValue === "string" && literalKeyValue === name;
-};
+): boolean => getStaticPropertyName(property) === name;
 
 /**
  * Extract the top-level Remark config object from an export default

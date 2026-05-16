@@ -4,7 +4,7 @@
  */
 import type { Except } from "type-fest";
 
-import { isDefined, setHas } from "ts-extras";
+import { isDefined, isEmpty, setHas } from "ts-extras";
 
 import {
     getExportedRemarkConfigObject,
@@ -12,10 +12,8 @@ import {
     isExportDefaultDeclarationNode,
     isRemarkConfigFile,
 } from "./remark-config-object.js";
-import {
-    getStringArrayOptionValue,
-    isRelativeSpecifier,
-} from "./remark-config-string-array-option.js";
+import { getRemarkPluginSpecifierReferences } from "./remark-config-plugin-specifiers.js";
+import { isRelativeSpecifier } from "./remark-config-string-array-option.js";
 import {
     getDependencyNamesForFile,
     getPackageNameFromSpecifier,
@@ -74,10 +72,13 @@ export const createRemarkConfigRequireInstalledPackageOptionRule = (
                         return;
                     }
 
-                    const optionValue =
-                        getStringArrayOptionValue(optionProperty);
+                    const pluginSpecifierReferences =
+                        getRemarkPluginSpecifierReferences({
+                            configObject,
+                            pluginsProperty: optionProperty,
+                        });
 
-                    if (!isDefined(optionValue)) {
+                    if (isEmpty(pluginSpecifierReferences)) {
                         return;
                     }
 
@@ -90,12 +91,9 @@ export const createRemarkConfigRequireInstalledPackageOptionRule = (
                         return;
                     }
 
-                    const stringLiterals =
-                        optionValue.kind === "string"
-                            ? [optionValue.stringLiteral]
-                            : optionValue.stringLiterals;
-
-                    for (const stringLiteral of stringLiterals) {
+                    for (const {
+                        literal: stringLiteral,
+                    } of pluginSpecifierReferences) {
                         const specifier = stringLiteral.value.trim();
 
                         if (
