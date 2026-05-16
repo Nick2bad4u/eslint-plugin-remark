@@ -25,7 +25,7 @@ npm install --save-dev eslint-plugin-remark eslint remark
 import remark from "eslint-plugin-remark";
 
 export default [
-    ...remark.configs.recommended,
+    remark.configs.all,
 ];
 ```
 
