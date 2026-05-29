@@ -81,7 +81,7 @@
         "build:types:cjs": "node -e \"require('node:fs').copyFileSync('plugin.d.cts','dist/plugin.d.cts')\"",
         "changelog:generate": "git-cliff --config cliff.toml --output CHANGELOG.md",
         "changelog:preview": "git-cliff --config cliff.toml --unreleased",
-        "changelog:release-notes": "git-cliff --config cliff.toml --latest --strip all",
+        "changelog:release-notes": "git-cliff --config cliff.toml --current --strip all",
         "clean:cache": "node scripts/clean-paths.mjs dist coverage cache .cache .vite .turbo",
         "clean:cache:coverage": "node scripts/clean-paths.mjs coverage .coverage",
         "clean:cache:dist": "node scripts/clean-paths.mjs dist release",
