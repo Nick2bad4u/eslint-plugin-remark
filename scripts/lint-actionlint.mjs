@@ -31,9 +31,9 @@ const actionlintCommandCandidates =
               "/usr/local/bin/actionlint",
               "/usr/bin/actionlint",
           ];
-const actionlintCommand = actionlintCommandCandidates.find((candidate) =>
-    existsSync(candidate)
-);
+const actionlintCommand =
+    actionlintCommandCandidates.find((candidate) => existsSync(candidate)) ??
+    (process.platform === "win32" ? "actionlint.exe" : "actionlint");
 const workflowsDir = path.join(repoRoot, ".github", "workflows");
 const rawArgs = process.argv.slice(2);
 const overrideExcluded = rawArgs.includes("--include-excluded");
@@ -140,21 +140,17 @@ if (useDefaultFiles) {
     );
 }
 
-if (actionlintCommand === undefined) {
-    console.error(
-        pc.red(
-            "Could not find actionlint in a fixed installation directory. Install it with winget, Homebrew, or the system package manager before running this lint script."
-        )
-    );
-    process.exit(1);
-}
-
 const result = spawnSync(actionlintCommand, [...userArgs, ...targetFiles], {
     stdio: "inherit",
 });
 
 if (result.error) {
-    console.error(pc.red("Failed to run actionlint:"), result.error);
+    console.error(
+        pc.red(
+            "Failed to run actionlint. Install it or ensure it is available on PATH:"
+        ),
+        result.error
+    );
     process.exit(1);
 }
 
