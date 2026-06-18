@@ -1,4 +1,5 @@
 import type { TSESTree } from "@typescript-eslint/utils";
+import type { ArrayValues } from "type-fest";
 
 import { AST_NODE_TYPES } from "@typescript-eslint/utils";
 import { isEmpty } from "ts-extras";
@@ -21,7 +22,7 @@ import { createTypedRule, toRuleListener } from "../_internal/typed-rule.js";
 const emptyConfigProperties = ["plugins", "settings"] as const;
 
 const isEmptyRemarkConfigValue = (
-    propertyName: (typeof emptyConfigProperties)[number],
+    propertyName: ArrayValues<typeof emptyConfigProperties>,
     propertyValue: Readonly<TSESTree.Property["value"]>
 ): boolean => {
     if (propertyName === "plugins") {
@@ -81,13 +82,12 @@ const disallowEmptyRemarkConfigValuesRule: RuleModuleWithDocs<
                         data: {
                             propertyName,
                         },
-                        fix(fixer) {
-                            return createFixToRemoveObjectProperty({
+                        fix: (fixer) =>
+                            createFixToRemoveObjectProperty({
                                 fixer,
                                 objectExpression: configObject,
                                 property: configProperty,
-                            });
-                        },
+                            }),
                         messageId: "disallowEmptyConfigValue",
                         node: configProperty.value,
                     });

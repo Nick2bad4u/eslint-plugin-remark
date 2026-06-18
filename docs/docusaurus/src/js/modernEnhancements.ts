@@ -283,9 +283,9 @@ function applyInteractiveHoverEffects(): CleanupFunction {
     });
 
     return (): void => {
-        cleanupFunctions.forEach((cleanup) => {
+        for (const cleanup of cleanupFunctions) {
             cleanup();
-        });
+        }
     };
 }
 
@@ -333,11 +333,11 @@ function initializeAdvancedFeatures(): CleanupFunction {
         createScrollIndicator(),
         applySidebarLabelTokenColoring(),
     ];
-    const prefersReducedMotion = globalThis.matchMedia(
+    const isPrefersReducedMotion = globalThis.matchMedia(
         "(prefers-reduced-motion: reduce)"
     ).matches;
 
-    if (!prefersReducedMotion) {
+    if (!isPrefersReducedMotion) {
         cleanupFunctions.push(
             applyInteractiveHoverEffects(),
             applyThemeToggleAnimation()
@@ -345,9 +345,9 @@ function initializeAdvancedFeatures(): CleanupFunction {
     }
 
     return (): void => {
-        cleanupFunctions.forEach((cleanup) => {
+        for (const cleanup of cleanupFunctions) {
             cleanup();
-        });
+        }
     };
 }
 
@@ -447,12 +447,9 @@ function initializeEnhancements(): CleanupFunction {
     };
 }
 
-if (
-    typeof globalThis.window !== "undefined" &&
-    typeof document !== "undefined"
-) {
+if (typeof window !== "undefined" && typeof document !== "undefined") {
     initializeEnhancements();
-    globalThis.window.initializeDocsEnhancements = initializeAdvancedFeatures;
+    window.initializeDocsEnhancements = initializeAdvancedFeatures;
 }
 
 export { initializeAdvancedFeatures, initializeEnhancements };

@@ -69,7 +69,7 @@ describe("remark bridge rule", () => {
         });
 
         expect(result).toBeDefined();
-        expect(Array.isArray(result!.messages)).toBeTruthy();
+        expect(Array.isArray(result!.messages)).toBe(true);
     });
 
     it("can apply Remark full-document output when explicitly enabled", async () => {

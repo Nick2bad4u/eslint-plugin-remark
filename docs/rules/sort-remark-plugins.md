@@ -10,7 +10,7 @@ Sorted plugin lists produce deterministic diffs and make duplicated or missing R
 
 ```ts
 export default {
-    plugins: [["remark-gfm", { singleTilde: false }], "remark-frontmatter"],
+ plugins: [["remark-gfm", { singleTilde: false }], "remark-frontmatter"],
 };
 ```
 
@@ -18,7 +18,7 @@ export default {
 
 ```ts
 export default {
-    plugins: ["remark-frontmatter", ["remark-gfm", { singleTilde: false }]],
+ plugins: ["remark-frontmatter", ["remark-gfm", { singleTilde: false }]],
 };
 ```
 

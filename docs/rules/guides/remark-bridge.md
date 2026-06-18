@@ -16,9 +16,7 @@ Use `remark.configs.remarkOnly` when you only want Markdown files checked by the
 ```ts
 import remark from "eslint-plugin-remark";
 
-export default [
-    remark.configs.remarkOnly,
-];
+export default [remark.configs.remarkOnly];
 ```
 
 ## Config loading
@@ -40,9 +38,9 @@ The bridge intentionally supports the stable JavaScript config fields needed for
 
 ```ts
 export default {
-    plugins: ["remark-gfm"],
-    settings: {},
-    data: {},
+ plugins: ["remark-gfm"],
+ settings: {},
+ data: {},
 };
 ```
 
@@ -56,11 +54,11 @@ Set `fix: true` on `remark/remark` to let Remark's processed output participate 
 import remark from "eslint-plugin-remark";
 
 export default [
-    {
-        ...remark.configs.remarkOnly,
-        rules: {
-            "remark/remark": ["error", { configFile: "./remark.config.mjs", fix: true }],
-        },
-    },
+ {
+  ...remark.configs.remarkOnly,
+  rules: {
+   "remark/remark": ["error", { configFile: "./remark.config.mjs", fix: true }],
+  },
+ },
 ];
 ```

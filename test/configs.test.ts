@@ -96,8 +96,8 @@ describe("remark plugin configs", () => {
     it("keeps recommended and all as flat-config arrays", () => {
         expect.hasAssertions();
 
-        expect(Array.isArray(remarkPlugin.configs.recommended)).toBeTruthy();
-        expect(Array.isArray(remarkPlugin.configs.all)).toBeTruthy();
+        expect(Array.isArray(remarkPlugin.configs.recommended)).toBe(true);
+        expect(Array.isArray(remarkPlugin.configs.all)).toBe(true);
         expect(remarkPlugin.configs.recommended).toHaveLength(2);
         expect(remarkPlugin.configs.all).toHaveLength(2);
     });

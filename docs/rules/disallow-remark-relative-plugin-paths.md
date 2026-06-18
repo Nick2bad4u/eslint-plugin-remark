@@ -10,7 +10,7 @@ Shared Remark configs should depend on package-backed plugin specifiers. Relativ
 
 ```ts
 export default {
-    plugins: [["./local-remark-plugin.mjs", {}]],
+ plugins: [["./local-remark-plugin.mjs", {}]],
 };
 ```
 
@@ -18,7 +18,7 @@ export default {
 
 ```ts
 export default {
-    plugins: ["remark-gfm"],
+ plugins: ["remark-gfm"],
 };
 ```
 

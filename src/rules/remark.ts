@@ -55,11 +55,11 @@ const runRemarkForContext = (
             code: context.sourceCode.text,
             codeFilename: context.physicalFilename,
             cwd: context.cwd,
-            ...(isDefined(rawOptions.configFile)
-                ? { configFile: rawOptions.configFile }
-                : {}),
-            ...(isDefined(rawOptions.fix) ? { fix: rawOptions.fix } : {}),
-            ...(isDefined(rawOptions.quiet) ? { quiet: rawOptions.quiet } : {}),
+            ...(isDefined(rawOptions.configFile) && {
+                configFile: rawOptions.configFile,
+            }),
+            ...(isDefined(rawOptions.fix) && { fix: rawOptions.fix }),
+            ...(isDefined(rawOptions.quiet) && { quiet: rawOptions.quiet }),
         });
     } catch (error: unknown) {
         context.report({
@@ -100,12 +100,11 @@ const remarkRule: RuleModuleWithDocs<MessageIds, Options> = createTypedRule<
                         rule: "remark-output",
                         text: "Remark produced normalized output for this Markdown file.",
                     },
-                    fix(fixer: TSESLint.RuleFixer) {
-                        return fixer.replaceTextRange(
+                    fix: (fixer: TSESLint.RuleFixer) =>
+                        fixer.replaceTextRange(
                             [0, sourceCode.text.length],
                             output
-                        );
-                    },
+                        ),
                     loc: {
                         end: { column: 0, line: 1 },
                         start: { column: 0, line: 1 },

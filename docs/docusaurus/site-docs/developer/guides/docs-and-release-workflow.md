@@ -16,12 +16,12 @@ description: Workflow for docs updates, generated assets, and release-oriented v
 
 The project intentionally keeps rule and preset docs authored, but selected tables are generated from runtime plugin metadata so published docs cannot drift from actual preset wiring.
 
-| Surface | Source of truth | Validation command |
-| --- | --- | --- |
-| README rule table | built plugin rule metadata | `npm run sync:readme-rules-table` |
-| Preset index rule matrix | built plugin configs/rules | `npm run sync:presets-rules-matrix` |
-| Per-preset rule matrices | built plugin configs/rules | `npm run sync:presets-rules-matrix` |
-| API docs | TypeDoc over `src/plugin.ts` and `src/_internal` | `npm run docs:build` |
+| Surface                  | Source of truth                                  | Validation command                  |
+| ------------------------ | ------------------------------------------------ | ----------------------------------- |
+| README rule table        | built plugin rule metadata                       | `npm run sync:readme-rules-table`   |
+| Preset index rule matrix | built plugin configs/rules                       | `npm run sync:presets-rules-matrix` |
+| Per-preset rule matrices | built plugin configs/rules                       | `npm run sync:presets-rules-matrix` |
+| API docs                 | TypeDoc over `src/plugin.ts` and `src/_internal` | `npm run docs:build`                |
 
 When a rule is added, removed, renamed, or moved between presets, run:
 

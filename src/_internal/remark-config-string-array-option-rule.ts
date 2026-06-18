@@ -180,12 +180,11 @@ export const createRemarkConfigPreferArrayOptionRule = (
                     }
 
                     context.report({
-                        fix(fixer) {
-                            return fixer.replaceText(
+                        fix: (fixer) =>
+                            fixer.replaceText(
                                 optionValue.stringLiteral,
                                 `[${getLiteralText(sourceCode, optionValue.stringLiteral)}]`
-                            );
-                        },
+                            ),
                         messageId: "preferArray",
                         node: optionProperty,
                     });
@@ -251,13 +250,12 @@ export const createRemarkConfigDisallowDuplicateArrayEntriesRule = (
 
                     for (const duplicateReference of duplicateReferences) {
                         context.report({
-                            fix(fixer) {
-                                return createFixToRemovePluginSpecifier({
+                            fix: (fixer) =>
+                                createFixToRemovePluginSpecifier({
                                     fixer,
                                     removalTarget:
                                         duplicateReference.removalTarget,
-                                });
-                            },
+                                }),
                             messageId: "disallowDuplicates",
                             node: duplicateReference.literal,
                         });
@@ -337,15 +335,14 @@ export const createRemarkConfigSortArrayEntriesRule = (
                     }
 
                     context.report({
-                        fix(fixer) {
-                            return fixer.replaceText(
+                        fix: (fixer) =>
+                            fixer.replaceText(
                                 propertyValue,
                                 toRemarkPluginArrayReplacementText(
                                     sourceCode,
                                     sortableReferences
                                 )
-                            );
-                        },
+                            ),
                         messageId: "sortArray",
                         node: optionProperty,
                     });

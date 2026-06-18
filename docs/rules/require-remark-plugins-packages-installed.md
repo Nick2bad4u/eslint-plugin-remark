@@ -10,7 +10,7 @@ A Remark config that references a package not listed in `dependencies`, `devDepe
 
 ```ts
 export default {
-    plugins: ["remark-plugin-that-is-not-installed"],
+ plugins: ["remark-plugin-that-is-not-installed"],
 };
 ```
 
@@ -18,7 +18,7 @@ export default {
 
 ```ts
 export default {
-    plugins: ["remark-gfm"],
+ plugins: ["remark-gfm"],
 };
 ```
 

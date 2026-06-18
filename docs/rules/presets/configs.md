@@ -7,7 +7,5 @@ This alias exists for compatibility with early scaffolding and should not be use
 ```ts
 import remark from "eslint-plugin-remark";
 
-export default [
-    remark.configs.configuration,
-];
+export default [remark.configs.configuration];
 ```

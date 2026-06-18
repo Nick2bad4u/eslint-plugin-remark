@@ -10,13 +10,13 @@ Remark config files loaded through `remark-cli` and `unified-engine` use top-lev
 
 ```ts
 export default {
-    plugin: ["remark-gfm"],
+ plugin: ["remark-gfm"],
 };
 ```
 
 ```ts
 export default {
-    extends: ["remark-preset-lint-recommended"],
+ extends: ["remark-preset-lint-recommended"],
 };
 ```
 
@@ -24,15 +24,15 @@ export default {
 
 ```ts
 export default {
-    plugins: ["remark-gfm"],
+ plugins: ["remark-gfm"],
 };
 ```
 
 ```ts
 export default {
-    settings: {
-        bullet: "*",
-    },
+ settings: {
+  bullet: "*",
+ },
 };
 ```
 

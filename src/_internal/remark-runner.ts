@@ -30,9 +30,9 @@ const workerModuleUrl = new URL(
 const createWorker = (): Worker =>
     new Worker(workerModuleUrl, {
         name: "remark-eslint-bridge",
-        ...(usesTypeScriptSourceWorker
-            ? { execArgv: ["--experimental-strip-types"] }
-            : {}),
+        ...(usesTypeScriptSourceWorker && {
+            execArgv: ["--experimental-strip-types"],
+        }),
     });
 
 const resetWorker = (): void => {

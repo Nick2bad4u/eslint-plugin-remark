@@ -10,8 +10,8 @@ Empty `plugins` arrays and empty `settings` objects do not change Remark behavio
 
 ```ts
 export default {
-    plugins: [],
-    settings: {},
+ plugins: [],
+ settings: {},
 };
 ```
 
@@ -19,10 +19,10 @@ export default {
 
 ```ts
 export default {
-    plugins: ["remark-gfm"],
-    settings: {
-        bullet: "*",
-    },
+ plugins: ["remark-gfm"],
+ settings: {
+  bullet: "*",
+ },
 };
 ```
 

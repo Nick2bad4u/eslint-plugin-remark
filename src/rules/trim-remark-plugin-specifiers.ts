@@ -98,16 +98,15 @@ const trimRemarkPluginSpecifiersRule: RuleModuleWithDocs<
                     }
 
                     context.report({
-                        fix(fixer) {
-                            return fixer.replaceText(
+                        fix: (fixer) =>
+                            fixer.replaceText(
                                 specifierReference.literal,
                                 toTrimmedLiteralText(
                                     sourceCode.text,
                                     specifierReference.literal,
                                     trimmedValue
                                 )
-                            );
-                        },
+                            ),
                         messageId: "trimSpecifier",
                         node: specifierReference.literal,
                     });

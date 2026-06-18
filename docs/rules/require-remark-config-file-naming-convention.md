@@ -11,7 +11,7 @@ Remark supports multiple config file names. Shared config packages are easier to
 ```ts
 // .remarkrc.mjs
 export default {
-    plugins: ["remark-gfm"],
+ plugins: ["remark-gfm"],
 };
 ```
 
@@ -20,7 +20,7 @@ export default {
 ```ts
 // remark.config.mjs
 export default {
-    plugins: ["remark-gfm"],
+ plugins: ["remark-gfm"],
 };
 ```
 

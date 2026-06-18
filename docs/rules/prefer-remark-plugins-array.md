@@ -10,7 +10,7 @@ Remark configs grow over time. Keeping `plugins` as an array makes plugin order 
 
 ```ts
 export default {
-    plugins: "remark-gfm",
+ plugins: "remark-gfm",
 };
 ```
 
@@ -18,7 +18,7 @@ export default {
 
 ```ts
 export default {
-    plugins: ["remark-gfm"],
+ plugins: ["remark-gfm"],
 };
 ```
 

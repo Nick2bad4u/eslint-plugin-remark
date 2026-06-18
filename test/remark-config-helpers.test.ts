@@ -70,40 +70,36 @@ const expectDefinedValue = <Value>(value: undefined | Value): Value => {
 };
 
 const fakeFixer = {
-    insertTextAfter(node, text) {
-        return { range: [node.range[1], node.range[1]], text };
-    },
-    insertTextAfterRange(range, text) {
-        return { range: [range[1], range[1]], text };
-    },
-    insertTextBefore(node, text) {
-        return { range: [node.range[0], node.range[0]], text };
-    },
-    insertTextBeforeRange(range, text) {
-        return { range: [range[0], range[0]], text };
-    },
-    remove(node) {
-        return { range: node.range, text: "" };
-    },
-    removeRange(range) {
-        return { range, text: "" };
-    },
-    replaceText(node, text) {
-        return { range: node.range, text };
-    },
-    replaceTextRange(range, text) {
-        return { range, text };
-    },
+    insertTextAfter: (node, text) => ({
+        range: [node.range[1], node.range[1]],
+        text,
+    }),
+    insertTextAfterRange: (range, text) => ({
+        range: [range[1], range[1]],
+        text,
+    }),
+    insertTextBefore: (node, text) => ({
+        range: [node.range[0], node.range[0]],
+        text,
+    }),
+    insertTextBeforeRange: (range, text) => ({
+        range: [range[0], range[0]],
+        text,
+    }),
+    remove: (node) => ({ range: node.range, text: "" }),
+    removeRange: (range) => ({ range, text: "" }),
+    replaceText: (node, text) => ({ range: node.range, text }),
+    replaceTextRange: (range, text) => ({ range, text }),
 } satisfies TSESLint.RuleFixer;
 
 describe("remark config helper utilities", () => {
     it("recognizes supported Remark config filenames", () => {
         expect.hasAssertions();
 
-        expect(isRemarkConfigFile("remark.config.mjs")).toBeTruthy();
-        expect(isRemarkConfigFile(".remarkrc.cts")).toBeTruthy();
-        expect(isRemarkConfigFile("remark.config.json")).toBeFalsy();
-        expect(isRemarkConfigFile("eslint.config.mjs")).toBeFalsy();
+        expect(isRemarkConfigFile("remark.config.mjs")).toBe(true);
+        expect(isRemarkConfigFile(".remarkrc.cts")).toBe(true);
+        expect(isRemarkConfigFile("remark.config.json")).toBe(false);
+        expect(isRemarkConfigFile("eslint.config.mjs")).toBe(false);
     });
 
     it("extracts supported default-export config object forms", () => {
@@ -158,13 +154,13 @@ describe("remark config helper utilities", () => {
         expect(properties).toHaveLength(3);
         expect(
             isPropertyNamed(expectDefinedValue(pluginsProperty), "plugins")
-        ).toBeTruthy();
+        ).toBe(true);
         expect(
             isPropertyNamed(expectDefinedValue(settingsProperty), "settings")
-        ).toBeTruthy();
+        ).toBe(true);
         expect(
             isPropertyNamed(expectDefinedValue(computedProperty), "dynamicKey")
-        ).toBeFalsy();
+        ).toBe(false);
         expect(
             getObjectPropertyByName(configObject, "missing")
         ).toBeUndefined();
@@ -284,9 +280,9 @@ describe("remark config helper utilities", () => {
         expect(
             getStringArrayOptionValue(expectDefinedValue(objectProperty))
         ).toBeUndefined();
-        expect(isRelativeSpecifier("./plugin.mjs")).toBeTruthy();
-        expect(isRelativeSpecifier(String.raw`..\plugin.cjs`)).toBeTruthy();
-        expect(isRelativeSpecifier("remark-gfm")).toBeFalsy();
+        expect(isRelativeSpecifier("./plugin.mjs")).toBe(true);
+        expect(isRelativeSpecifier(String.raw`..\plugin.cjs`)).toBe(true);
+        expect(isRelativeSpecifier("remark-gfm")).toBe(false);
     });
 
     it("resolves package dependency names from nearest package manifests", () => {
@@ -330,10 +326,10 @@ describe("remark config helper utilities", () => {
                 rootDirectory
             );
 
-            expect(dependencyNames?.has("remark-gfm")).toBeTruthy();
-            expect(dependencyNames?.has("@scope/remark-plugin")).toBeTruthy();
-            expect(dependencyNames?.has("remark-optional")).toBeTruthy();
-            expect(dependencyNames?.has("remark-peer")).toBeTruthy();
+            expect(dependencyNames?.has("remark-gfm")).toBe(true);
+            expect(dependencyNames?.has("@scope/remark-plugin")).toBe(true);
+            expect(dependencyNames?.has("remark-optional")).toBe(true);
+            expect(dependencyNames?.has("remark-peer")).toBe(true);
         } finally {
             rmSync(rootDirectory, { force: true, recursive: true });
         }
@@ -342,14 +338,14 @@ describe("remark config helper utilities", () => {
     it("rejects unknown export-default listener nodes", () => {
         expect.hasAssertions();
 
-        expect(isExportDefaultDeclarationNode(null)).toBeFalsy();
-        expect(
-            isExportDefaultDeclarationNode({ type: "Identifier" })
-        ).toBeFalsy();
+        expect(isExportDefaultDeclarationNode(null)).toBe(false);
+        expect(isExportDefaultDeclarationNode({ type: "Identifier" })).toBe(
+            false
+        );
         expect(
             isExportDefaultDeclarationNode(
                 getDefaultDeclaration("export default {};")
             )
-        ).toBeTruthy();
+        ).toBe(true);
     });
 });

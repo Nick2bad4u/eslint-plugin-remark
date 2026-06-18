@@ -67,7 +67,7 @@ describe("remark bridge worker lifecycle", () => {
 
         const result = runBridgeLintInIsolatedNodeProcess(10_000);
 
-        expect(result.timedOut).toBeFalsy();
+        expect(result.timedOut).toBe(false);
         expect(result.signal).toBeNull();
         expect(result.code).toBe(0);
     }, 20_000);

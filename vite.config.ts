@@ -1,5 +1,5 @@
 // eslint-disable-next-line @eslint-community/eslint-comments/disable-enable-pair -- project-wide disable pattern for build configs
-/* eslint-disable n/no-process-env, comment-length/limit-single-line-comments   -- Disable specific rules for build configs */
+/* eslint-disable comment-length/limit-single-line-comments   -- Disable specific rules for build configs */
 
 import pc from "picocolors";
 import {
@@ -25,8 +25,10 @@ const rawHangingReporterFlag =
     process.env["REMARK_VITEST_HANGING_PROCESS_REPORTER"] ??
     process.env["VITEST_HANGING_PROCESS_REPORTER"] ??
     "false";
-/** Raw flag controlling optional Vitest typecheck execution; `npm run typecheck`
-is the authoritative type gate. */
+/**
+ * Raw flag controlling optional Vitest typecheck execution; `npm run typecheck`
+ * is the authoritative type gate.
+ */
 const rawVitestTypecheckFlag = process.env["VITEST_TYPECHECK"] ?? "false";
 /** Normalized `true` when hanging-process reporter is explicitly enabled. */
 const shouldEnableHangingProcessReporter = [

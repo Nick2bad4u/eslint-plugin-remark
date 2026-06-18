@@ -33,9 +33,7 @@ Example `eslint.config.mjs`:
 ```js
 import remark from "eslint-plugin-remark";
 
-export default [
-    ...remark.configs.recommended,
-];
+export default [...remark.configs.recommended];
 ```
 
 ## Step 3: Run lint once and apply fixes

@@ -18,7 +18,7 @@ describe("rule docs integrity", () => {
         for (const ruleName of Object.keys(remarkPlugin.rules)) {
             const expectedPath = path.join(docsDir, `${ruleName}.md`);
 
-            expect(fs.existsSync(expectedPath)).toBeTruthy();
+            expect(fs.existsSync(expectedPath)).toBe(true);
         }
     });
 
@@ -30,7 +30,7 @@ describe("rule docs integrity", () => {
         for (const ruleName of Object.keys(remarkPlugin.rules)) {
             const expectedPath = path.join(testDir, `${ruleName}.test.ts`);
 
-            expect(fs.existsSync(expectedPath)).toBeTruthy();
+            expect(fs.existsSync(expectedPath)).toBe(true);
         }
     });
 

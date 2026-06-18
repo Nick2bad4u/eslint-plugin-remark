@@ -9,9 +9,7 @@ npm install --save-dev eslint-plugin-remark eslint remark
 ```ts
 import remark from "eslint-plugin-remark";
 
-export default [
-    ...remark.configs.recommended,
-];
+export default [...remark.configs.recommended];
 ```
 
 For the full rollout guide, see [Getting Started](./guides/getting-started.md).
@@ -23,9 +21,7 @@ If you already have Remark configuration and only want Markdown files to flow th
 ```ts
 import remark from "eslint-plugin-remark";
 
-export default [
-    remark.configs.remarkOnly,
-];
+export default [remark.configs.remarkOnly];
 ```
 
 ## Config authoring only
@@ -35,9 +31,7 @@ If Markdown linting is handled elsewhere, but Remark config files should still b
 ```ts
 import remark from "eslint-plugin-remark";
 
-export default [
-    remark.configs.configuration,
-];
+export default [remark.configs.configuration];
 ```
 
 ## Next steps

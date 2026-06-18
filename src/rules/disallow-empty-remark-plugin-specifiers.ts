@@ -60,12 +60,11 @@ const disallowEmptyRemarkPluginSpecifiersRule: RuleModuleWithDocs<
                     }
 
                     context.report({
-                        fix(fixer) {
-                            return createFixToRemovePluginSpecifier({
+                        fix: (fixer) =>
+                            createFixToRemovePluginSpecifier({
                                 fixer,
                                 removalTarget: specifierReference.removalTarget,
-                            });
-                        },
+                            }),
                         messageId: "disallowEmptySpecifier",
                         node: specifierReference.literal,
                     });

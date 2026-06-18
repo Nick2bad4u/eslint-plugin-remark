@@ -86,13 +86,11 @@ export const markdownParser: Linter.Parser = {
         name: "eslint-plugin-remark/markdown-parser",
         version: "1.0.0",
     },
-    parseForESLint(text: string) {
-        return {
-            ast: createMarkdownProgram(text),
-            services: {},
-            visitorKeys: {
-                Program: [],
-            },
-        };
-    },
+    parseForESLint: (text: string) => ({
+        ast: createMarkdownProgram(text),
+        services: {},
+        visitorKeys: {
+            Program: [],
+        },
+    }),
 };

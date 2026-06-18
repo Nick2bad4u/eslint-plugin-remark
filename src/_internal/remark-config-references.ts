@@ -3,6 +3,8 @@
  * Shared preset/config reference constants for eslint-plugin-remark.
  */
 
+import type { ArrayValues } from "type-fest";
+
 import { objectHasOwn } from "ts-extras";
 
 /** Canonical flat-config preset keys exposed through `plugin.configs`. */
@@ -23,7 +25,7 @@ export type RemarkConfigMetadata = Readonly<{
 }>;
 
 /** Canonical flat-config preset key type exposed through `plugin.configs`. */
-export type RemarkConfigName = (typeof remarkConfigNames)[number];
+export type RemarkConfigName = ArrayValues<typeof remarkConfigNames>;
 
 /** Canonical metadata for each exported preset. */
 export const remarkConfigMetadataByName: Readonly<

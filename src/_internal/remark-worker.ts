@@ -77,17 +77,15 @@ const toSerializableMessage = (
 
     return {
         column: message.column ?? 1,
-        ...(typeof endPoint?.column === "number"
-            ? { endColumn: endPoint.column }
-            : {}),
-        ...(typeof endPoint?.line === "number"
-            ? { endLine: endPoint.line }
-            : {}),
+        ...(typeof endPoint?.column === "number" && {
+            endColumn: endPoint.column,
+        }),
+        ...(typeof endPoint?.line === "number" && { endLine: endPoint.line }),
         fatal: message.fatal === true,
         line: message.line ?? 1,
         reason: message.reason,
-        ...(isDefined(message.ruleId) ? { ruleId: message.ruleId } : {}),
-        ...(isDefined(message.source) ? { source: message.source } : {}),
+        ...(isDefined(message.ruleId) && { ruleId: message.ruleId }),
+        ...(isDefined(message.source) && { source: message.source }),
     };
 };
 
@@ -257,9 +255,8 @@ const toSerializableResult = (
     const output = String(file);
 
     return {
-        ...(request.options.fix === true && output !== request.options.code
-            ? { output }
-            : {}),
+        ...(request.options.fix === true &&
+            output !== request.options.code && { output }),
         messages: messages.map((message) => toSerializableMessage(message)),
     };
 };
@@ -296,7 +293,7 @@ const handleRequest = async (request: RemarkWorkerRequest): Promise<void> => {
                 ? {
                       message: error.message,
                       name: error.name,
-                      ...(isDefined(error.stack) ? { stack: error.stack } : {}),
+                      ...(isDefined(error.stack) && { stack: error.stack }),
                   }
                 : {
                       message: `Unknown Remark worker failure: ${String(error)}`,

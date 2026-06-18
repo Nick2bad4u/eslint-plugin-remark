@@ -24,19 +24,17 @@ npm install --save-dev eslint-plugin-remark eslint remark
 ```ts
 import remark from "eslint-plugin-remark";
 
-export default [
-    remark.configs.all,
-];
+export default [remark.configs.all];
 ```
 
 ## Presets
 
-| Preset | Purpose |
-| --- | --- |
-| [`remark.configs.recommended`](./docs/rules/presets/recommended.md) | Enable the Remark bridge plus the basic Remark config authoring rules. |
-| [`remark.configs.remarkOnly`](./docs/rules/presets/remark-only.md) | Enable only Markdown linting through Remark. |
+| Preset                                                                  | Purpose                                                                                  |
+| ----------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| [`remark.configs.recommended`](./docs/rules/presets/recommended.md)     | Enable the Remark bridge plus the basic Remark config authoring rules.                   |
+| [`remark.configs.remarkOnly`](./docs/rules/presets/remark-only.md)      | Enable only Markdown linting through Remark.                                             |
 | [`remark.configs.configuration`](./docs/rules/presets/configuration.md) | Enable only Remark config authoring rules for `remark.config.*` and `.remarkrc.*` files. |
-| [`remark.configs.all`](./docs/rules/presets/all.md) | Enable every rule shipped by the plugin. |
+| [`remark.configs.all`](./docs/rules/presets/all.md)                     | Enable every rule shipped by the plugin.                                                 |
 
 Aliases remain available for ergonomic config naming:
 
@@ -50,9 +48,7 @@ Aliases remain available for ergonomic config naming:
 ```ts
 import remark from "eslint-plugin-remark";
 
-export default [
-    ...remark.configs.recommended,
-];
+export default [...remark.configs.recommended];
 ```
 
 ### Remark bridge only
@@ -60,9 +56,7 @@ export default [
 ```ts
 import remark from "eslint-plugin-remark";
 
-export default [
-    remark.configs.remarkOnly,
-];
+export default [remark.configs.remarkOnly];
 ```
 
 ### Configuration only
@@ -70,9 +64,7 @@ export default [
 ```ts
 import remark from "eslint-plugin-remark";
 
-export default [
-    remark.configs.configuration,
-];
+export default [remark.configs.configuration];
 ```
 
 That preset enables the first config hygiene baseline:
@@ -95,49 +87,52 @@ That preset enables the first config hygiene baseline:
 import remark from "eslint-plugin-remark";
 
 export default [
+ {
+  ...remark.configs.remarkOnly,
+  rules: {
+   "remark/remark": [
+    "error",
     {
-        ...remark.configs.remarkOnly,
-        rules: {
-            "remark/remark": [
-                "error",
-                {
-                    configFile: "./remark.config.mjs",
-                    fix: true,
-                    quiet: false,
-                },
-            ],
-        },
+     configFile: "./remark.config.mjs",
+     fix: true,
+     quiet: false,
     },
+   ],
+  },
+ },
 ];
 ```
 
 ## Rules
 
 Fix legend:
+
 - `🔧` = autofixable
 - `—` = report only
 
 Preset key legend:
-  - [`🟡`](./docs/rules/presets/recommended.md) — [`remark.configs.recommended`](./docs/rules/presets/recommended.md)
-  - [`📝`](./docs/rules/presets/remark-only.md) — [`remark.configs.remarkOnly`](./docs/rules/presets/remark-only.md)
-  - [`🔧`](./docs/rules/presets/configuration.md) — [`remark.configs.configuration`](./docs/rules/presets/configuration.md)
-  - [`🟣`](./docs/rules/presets/all.md) — [`remark.configs.all`](./docs/rules/presets/all.md)
 
-| Rule | Fix | Preset key |
-| --- | :-: | :-- |
-| [`remark`](https://nick2bad4u.github.io/eslint-plugin-remark/docs/rules/remark) | 🔧 | [🟡](./docs/rules/presets/recommended.md) [📝](./docs/rules/presets/remark-only.md) [🟣](./docs/rules/presets/all.md) |
-| [`prefer-remark-plugins-array`](https://nick2bad4u.github.io/eslint-plugin-remark/docs/rules/prefer-remark-plugins-array) | 🔧 | [🟡](./docs/rules/presets/recommended.md) [🔧](./docs/rules/presets/configuration.md) [🟣](./docs/rules/presets/all.md) |
-| [`disallow-unknown-remark-config-properties`](https://nick2bad4u.github.io/eslint-plugin-remark/docs/rules/disallow-unknown-remark-config-properties) | 🔧 | [🟡](./docs/rules/presets/recommended.md) [🔧](./docs/rules/presets/configuration.md) [🟣](./docs/rules/presets/all.md) |
-| [`require-remark-settings-object`](https://nick2bad4u.github.io/eslint-plugin-remark/docs/rules/require-remark-settings-object) | — | [🟡](./docs/rules/presets/recommended.md) [🔧](./docs/rules/presets/configuration.md) [🟣](./docs/rules/presets/all.md) |
-| [`disallow-empty-remark-config-values`](https://nick2bad4u.github.io/eslint-plugin-remark/docs/rules/disallow-empty-remark-config-values) | 🔧 | [🟡](./docs/rules/presets/recommended.md) [🔧](./docs/rules/presets/configuration.md) [🟣](./docs/rules/presets/all.md) |
-| [`disallow-empty-remark-plugin-specifiers`](https://nick2bad4u.github.io/eslint-plugin-remark/docs/rules/disallow-empty-remark-plugin-specifiers) | 🔧 | [🟡](./docs/rules/presets/recommended.md) [🔧](./docs/rules/presets/configuration.md) [🟣](./docs/rules/presets/all.md) |
-| [`disallow-invalid-remark-plugin-tuples`](https://nick2bad4u.github.io/eslint-plugin-remark/docs/rules/disallow-invalid-remark-plugin-tuples) | — | [🟡](./docs/rules/presets/recommended.md) [🔧](./docs/rules/presets/configuration.md) [🟣](./docs/rules/presets/all.md) |
-| [`trim-remark-plugin-specifiers`](https://nick2bad4u.github.io/eslint-plugin-remark/docs/rules/trim-remark-plugin-specifiers) | 🔧 | [🟡](./docs/rules/presets/recommended.md) [🔧](./docs/rules/presets/configuration.md) [🟣](./docs/rules/presets/all.md) |
-| [`disallow-remark-duplicate-plugins`](https://nick2bad4u.github.io/eslint-plugin-remark/docs/rules/disallow-remark-duplicate-plugins) | 🔧 | [🟡](./docs/rules/presets/recommended.md) [🔧](./docs/rules/presets/configuration.md) [🟣](./docs/rules/presets/all.md) |
-| [`sort-remark-plugins`](https://nick2bad4u.github.io/eslint-plugin-remark/docs/rules/sort-remark-plugins) | 🔧 | [🟡](./docs/rules/presets/recommended.md) [🔧](./docs/rules/presets/configuration.md) [🟣](./docs/rules/presets/all.md) |
-| [`disallow-remark-relative-plugin-paths`](https://nick2bad4u.github.io/eslint-plugin-remark/docs/rules/disallow-remark-relative-plugin-paths) | — | [🟡](./docs/rules/presets/recommended.md) [🔧](./docs/rules/presets/configuration.md) [🟣](./docs/rules/presets/all.md) |
-| [`require-remark-plugins-packages-installed`](https://nick2bad4u.github.io/eslint-plugin-remark/docs/rules/require-remark-plugins-packages-installed) | — | [🟡](./docs/rules/presets/recommended.md) [🔧](./docs/rules/presets/configuration.md) [🟣](./docs/rules/presets/all.md) |
-| [`require-remark-config-file-naming-convention`](https://nick2bad4u.github.io/eslint-plugin-remark/docs/rules/require-remark-config-file-naming-convention) | — | [🟡](./docs/rules/presets/recommended.md) [🔧](./docs/rules/presets/configuration.md) [🟣](./docs/rules/presets/all.md) |
+- [`🟡`](./docs/rules/presets/recommended.md) — [`remark.configs.recommended`](./docs/rules/presets/recommended.md)
+- [`📝`](./docs/rules/presets/remark-only.md) — [`remark.configs.remarkOnly`](./docs/rules/presets/remark-only.md)
+- [`🔧`](./docs/rules/presets/configuration.md) — [`remark.configs.configuration`](./docs/rules/presets/configuration.md)
+- [`🟣`](./docs/rules/presets/all.md) — [`remark.configs.all`](./docs/rules/presets/all.md)
+
+| Rule                                                                                                                                                        | Fix | Preset key                                                                                                              |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------- | :-: | :---------------------------------------------------------------------------------------------------------------------- |
+| [`remark`](https://nick2bad4u.github.io/eslint-plugin-remark/docs/rules/remark)                                                                             | 🔧  | [🟡](./docs/rules/presets/recommended.md) [📝](./docs/rules/presets/remark-only.md) [🟣](./docs/rules/presets/all.md)   |
+| [`prefer-remark-plugins-array`](https://nick2bad4u.github.io/eslint-plugin-remark/docs/rules/prefer-remark-plugins-array)                                   | 🔧  | [🟡](./docs/rules/presets/recommended.md) [🔧](./docs/rules/presets/configuration.md) [🟣](./docs/rules/presets/all.md) |
+| [`disallow-unknown-remark-config-properties`](https://nick2bad4u.github.io/eslint-plugin-remark/docs/rules/disallow-unknown-remark-config-properties)       | 🔧  | [🟡](./docs/rules/presets/recommended.md) [🔧](./docs/rules/presets/configuration.md) [🟣](./docs/rules/presets/all.md) |
+| [`require-remark-settings-object`](https://nick2bad4u.github.io/eslint-plugin-remark/docs/rules/require-remark-settings-object)                             |  —  | [🟡](./docs/rules/presets/recommended.md) [🔧](./docs/rules/presets/configuration.md) [🟣](./docs/rules/presets/all.md) |
+| [`disallow-empty-remark-config-values`](https://nick2bad4u.github.io/eslint-plugin-remark/docs/rules/disallow-empty-remark-config-values)                   | 🔧  | [🟡](./docs/rules/presets/recommended.md) [🔧](./docs/rules/presets/configuration.md) [🟣](./docs/rules/presets/all.md) |
+| [`disallow-empty-remark-plugin-specifiers`](https://nick2bad4u.github.io/eslint-plugin-remark/docs/rules/disallow-empty-remark-plugin-specifiers)           | 🔧  | [🟡](./docs/rules/presets/recommended.md) [🔧](./docs/rules/presets/configuration.md) [🟣](./docs/rules/presets/all.md) |
+| [`disallow-invalid-remark-plugin-tuples`](https://nick2bad4u.github.io/eslint-plugin-remark/docs/rules/disallow-invalid-remark-plugin-tuples)               |  —  | [🟡](./docs/rules/presets/recommended.md) [🔧](./docs/rules/presets/configuration.md) [🟣](./docs/rules/presets/all.md) |
+| [`trim-remark-plugin-specifiers`](https://nick2bad4u.github.io/eslint-plugin-remark/docs/rules/trim-remark-plugin-specifiers)                               | 🔧  | [🟡](./docs/rules/presets/recommended.md) [🔧](./docs/rules/presets/configuration.md) [🟣](./docs/rules/presets/all.md) |
+| [`disallow-remark-duplicate-plugins`](https://nick2bad4u.github.io/eslint-plugin-remark/docs/rules/disallow-remark-duplicate-plugins)                       | 🔧  | [🟡](./docs/rules/presets/recommended.md) [🔧](./docs/rules/presets/configuration.md) [🟣](./docs/rules/presets/all.md) |
+| [`sort-remark-plugins`](https://nick2bad4u.github.io/eslint-plugin-remark/docs/rules/sort-remark-plugins)                                                   | 🔧  | [🟡](./docs/rules/presets/recommended.md) [🔧](./docs/rules/presets/configuration.md) [🟣](./docs/rules/presets/all.md) |
+| [`disallow-remark-relative-plugin-paths`](https://nick2bad4u.github.io/eslint-plugin-remark/docs/rules/disallow-remark-relative-plugin-paths)               |  —  | [🟡](./docs/rules/presets/recommended.md) [🔧](./docs/rules/presets/configuration.md) [🟣](./docs/rules/presets/all.md) |
+| [`require-remark-plugins-packages-installed`](https://nick2bad4u.github.io/eslint-plugin-remark/docs/rules/require-remark-plugins-packages-installed)       |  —  | [🟡](./docs/rules/presets/recommended.md) [🔧](./docs/rules/presets/configuration.md) [🟣](./docs/rules/presets/all.md) |
+| [`require-remark-config-file-naming-convention`](https://nick2bad4u.github.io/eslint-plugin-remark/docs/rules/require-remark-config-file-naming-convention) |  —  | [🟡](./docs/rules/presets/recommended.md) [🔧](./docs/rules/presets/configuration.md) [🟣](./docs/rules/presets/all.md) |
+
 ## Why use this plugin?
 
 Use this plugin when you want ESLint to become the single command and editor integration that reports:

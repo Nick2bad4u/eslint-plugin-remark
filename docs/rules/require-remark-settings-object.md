@@ -10,13 +10,13 @@ Remark shares `settings` with parsers and compilers as keyed options. Non-object
 
 ```ts
 export default {
-    settings: "bullet-star",
+ settings: "bullet-star",
 };
 ```
 
 ```ts
 export default {
-    settings: [],
+ settings: [],
 };
 ```
 
@@ -24,9 +24,9 @@ export default {
 
 ```ts
 export default {
-    settings: {
-        bullet: "*",
-    },
+ settings: {
+  bullet: "*",
+ },
 };
 ```
 

@@ -26,11 +26,11 @@ With a Remark config that enables an alt-text lint plugin, the image above is re
 
 ```ts
 type Options = [
-    {
-        configFile?: string;
-        fix?: boolean;
-        quiet?: boolean;
-    }?,
+ {
+  configFile?: string;
+  fix?: boolean;
+  quiet?: boolean;
+ }?,
 ];
 ```
 
@@ -43,9 +43,7 @@ type Options = [
 ```ts
 import remark from "eslint-plugin-remark";
 
-export default [
-    ...remark.configs.recommended,
-];
+export default [...remark.configs.recommended];
 ```
 
 ## When not to use it

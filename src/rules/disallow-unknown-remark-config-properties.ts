@@ -96,15 +96,14 @@ const disallowUnknownRemarkConfigPropertiesRule: RuleModuleWithDocs<
 
                     context.report({
                         ...reportDescriptor,
-                        fix(fixer) {
-                            return fixer.replaceText(
+                        fix: (fixer) =>
+                            fixer.replaceText(
                                 property.key,
                                 toPropertyKeyReplacementText(
                                     propertyName,
                                     renameTarget
                                 )
-                            );
-                        },
+                            ),
                     });
                 }
             },

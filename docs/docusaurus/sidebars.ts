@@ -55,7 +55,7 @@ const normalizeTypedocSidebarItem = (value: unknown): unknown => {
 
         return [key, normalizeTypedocSidebarItem(entryValue)] as const;
     });
-    const normalized = Object.fromEntries(normalizedEntries) as UnknownRecord;
+    const normalized = Object.fromEntries(normalizedEntries);
 
     if (
         normalized["type"] === "category" &&
@@ -68,9 +68,7 @@ const normalizeTypedocSidebarItem = (value: unknown): unknown => {
             normalized["collapsed"] = false;
             normalized["collapsible"] = true;
             normalized["label"] = "📦 Plugin API";
-        }
-
-        if (normalizedLabel === "internal") {
+        } else if (normalizedLabel === "internal") {
             normalized["className"] = "sb-cat-api-internal";
             normalized["collapsed"] = false;
             normalized["collapsible"] = true;

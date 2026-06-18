@@ -10,13 +10,13 @@ Empty plugin strings cannot resolve to a package or local plugin. In tuple form,
 
 ```ts
 export default {
-    plugins: ["remark-gfm", ""],
+ plugins: ["remark-gfm", ""],
 };
 ```
 
 ```ts
 export default {
-    plugins: [["", { heading: "contents" }]],
+ plugins: [["", { heading: "contents" }]],
 };
 ```
 
@@ -24,13 +24,13 @@ export default {
 
 ```ts
 export default {
-    plugins: ["remark-gfm"],
+ plugins: ["remark-gfm"],
 };
 ```
 
 ```ts
 export default {
-    plugins: [["remark-toc", { heading: "contents" }]],
+ plugins: [["remark-toc", { heading: "contents" }]],
 };
 ```
 

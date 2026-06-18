@@ -10,13 +10,13 @@ Remark resolves string plugin specifiers as package or path names. Leading or tr
 
 ```ts
 export default {
-    plugins: [" remark-gfm "],
+ plugins: [" remark-gfm "],
 };
 ```
 
 ```ts
 export default {
-    plugins: [[" remark-toc ", { heading: "contents" }]],
+ plugins: [[" remark-toc ", { heading: "contents" }]],
 };
 ```
 
@@ -24,13 +24,13 @@ export default {
 
 ```ts
 export default {
-    plugins: ["remark-gfm"],
+ plugins: ["remark-gfm"],
 };
 ```
 
 ```ts
 export default {
-    plugins: [["remark-toc", { heading: "contents" }]],
+ plugins: [["remark-toc", { heading: "contents" }]],
 };
 ```
 

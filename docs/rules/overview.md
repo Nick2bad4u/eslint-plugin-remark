@@ -9,15 +9,15 @@ The plugin has two complementary surfaces:
 
 ## Rule catalog
 
-| Rule | Purpose |
-| --- | --- |
-| [`remark`](./remark.md) | Run Remark from ESLint and forward Remark diagnostics. |
-| [`prefer-remark-plugins-array`](./prefer-remark-plugins-array.md) | Prefer explicit array syntax for `plugins`. |
-| [`disallow-remark-duplicate-plugins`](./disallow-remark-duplicate-plugins.md) | Remove duplicated string plugin entries. |
-| [`sort-remark-plugins`](./sort-remark-plugins.md) | Keep statically analyzable plugin lists sorted. |
-| [`disallow-remark-relative-plugin-paths`](./disallow-remark-relative-plugin-paths.md) | Avoid local relative plugin paths in shared configs. |
-| [`require-remark-plugins-packages-installed`](./require-remark-plugins-packages-installed.md) | Ensure referenced plugin packages are declared in package metadata. |
-| [`require-remark-config-file-naming-convention`](./require-remark-config-file-naming-convention.md) | Prefer canonical `remark.config.*` names for shared config files. |
+| Rule                                                                                                | Purpose                                                             |
+| --------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| [`remark`](./remark.md)                                                                             | Run Remark from ESLint and forward Remark diagnostics.              |
+| [`prefer-remark-plugins-array`](./prefer-remark-plugins-array.md)                                   | Prefer explicit array syntax for `plugins`.                         |
+| [`disallow-remark-duplicate-plugins`](./disallow-remark-duplicate-plugins.md)                       | Remove duplicated string plugin entries.                            |
+| [`sort-remark-plugins`](./sort-remark-plugins.md)                                                   | Keep statically analyzable plugin lists sorted.                     |
+| [`disallow-remark-relative-plugin-paths`](./disallow-remark-relative-plugin-paths.md)               | Avoid local relative plugin paths in shared configs.                |
+| [`require-remark-plugins-packages-installed`](./require-remark-plugins-packages-installed.md)       | Ensure referenced plugin packages are declared in package metadata. |
+| [`require-remark-config-file-naming-convention`](./require-remark-config-file-naming-convention.md) | Prefer canonical `remark.config.*` names for shared config files.   |
 
 ## Choosing a preset
 

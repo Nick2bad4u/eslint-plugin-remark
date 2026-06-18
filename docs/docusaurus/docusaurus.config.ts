@@ -1,11 +1,11 @@
-import { themes as prismThemes } from "prism-react-renderer";
-
-import type { Config, PluginModule } from "@docusaurus/types";
 import type * as Preset from "@docusaurus/preset-classic";
+import type { Config, PluginModule } from "@docusaurus/types";
+
 import { existsSync } from "node:fs";
 import { createRequire } from "node:module";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { themes as prismThemes } from "prism-react-renderer";
 
 /** Route base path where docs site is deployed (GitHub Pages project path). */
 const baseUrl = process.env["DOCUSAURUS_BASE_URL"] ?? "/eslint-plugin-remark/";
@@ -27,7 +27,7 @@ const siteDescription =
 /** Social preview image used for Open Graph and Twitter cards. */
 const socialCardImagePath = "img/logo.png";
 /** Absolute social preview image URL. */
-const socialCardImageUrl = new URL(socialCardImagePath, siteUrl).toString();
+const socialCardImageUrl = new URL(socialCardImagePath, siteUrl).href;
 /** Client module path for runtime DOM enhancement bootstrap script. */
 const modernEnhancementsClientModule = fileURLToPath(
     new URL("src/js/modernEnhancements.ts", import.meta.url)
@@ -97,8 +97,10 @@ const vscodeCssLanguageServiceEsmEntry = resolveOptionalModule(
 const vscodeLanguageServerTypesEsmEntry = resolveOptionalModule(
     "vscode-languageserver-types"
 );
-/** ESM file for the language-server type package; the package export map hides
-this subpath. */
+/**
+ * ESM file for the language-server type package; the package export map hides
+ * this subpath.
+ */
 const vscodeLanguageServerTypesEsmFile = resolveOptionalPackageFile(
     "vscode-languageserver-types",
     "../esm/main.js"
@@ -124,27 +126,25 @@ const suppressKnownWebpackWarningsPlugin: PluginModule = () => {
     }
 
     return {
-        configureWebpack() {
-            return {
-                ignoreWarnings: [
-                    {
-                        message:
-                            /Critical dependency: require function is used in a way in which dependencies cannot be statically extracted/u,
-                        module: /vscode-languageserver-types[\\/]lib[\\/]umd[\\/]main\.js/u,
-                    },
-                ],
-                resolve: {
-                    alias: {
-                        "vscode-css-languageservice$":
-                            vscodeCssLanguageServiceEsmEntry,
-                        "vscode-languageserver-types$":
-                            vscodeLanguageServerTypesEsmFile,
-                        "vscode-languageserver-types/lib/umd/main.js$":
-                            vscodeLanguageServerTypesEsmFile,
-                    },
+        configureWebpack: () => ({
+            ignoreWarnings: [
+                {
+                    message:
+                        /Critical dependency: require function is used in a way in which dependencies cannot be statically extracted/u,
+                    module: /vscode-languageserver-types[\\/]lib[\\/]umd[\\/]main\.js/u,
                 },
-            };
-        },
+            ],
+            resolve: {
+                alias: {
+                    "vscode-css-languageservice$":
+                        vscodeCssLanguageServiceEsmEntry,
+                    "vscode-languageserver-types$":
+                        vscodeLanguageServerTypesEsmFile,
+                    "vscode-languageserver-types/lib/umd/main.js$":
+                        vscodeLanguageServerTypesEsmFile,
+                },
+            },
+        }),
         name: "suppress-known-webpack-warnings",
     };
 };

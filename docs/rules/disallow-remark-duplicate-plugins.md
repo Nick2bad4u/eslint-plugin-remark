@@ -10,7 +10,7 @@ Duplicate Remark plugins make config intent ambiguous and can cause repeated tra
 
 ```ts
 export default {
-    plugins: ["remark-gfm", ["remark-gfm", { singleTilde: false }]],
+ plugins: ["remark-gfm", ["remark-gfm", { singleTilde: false }]],
 };
 ```
 
@@ -18,7 +18,7 @@ export default {
 
 ```ts
 export default {
-    plugins: ["remark-gfm"],
+ plugins: ["remark-gfm"],
 };
 ```
 
