@@ -151,16 +151,14 @@ const suppressKnownWebpackWarningsPlugin: PluginModule = () => {
 
 /** Docusaurus future flags, including optional experimental fast path. */
 const futureConfig = {
-    ...(enableExperimentalFaster
-        ? {
-              faster: {
-                  mdxCrossCompilerCache: true,
-                  rspackBundler: true,
-                  rspackPersistentCache: true,
-                  ssgWorkerThreads: true,
-              },
-          }
-        : {}),
+    ...(enableExperimentalFaster && {
+        faster: {
+            mdxCrossCompilerCache: true,
+            rspackBundler: true,
+            rspackPersistentCache: true,
+            ssgWorkerThreads: true,
+        },
+    }),
     v4: {
         [removeHeadAttrFlagKey]: true,
         // NOTE: Enabling cascade layers currently breaks our production CSS output

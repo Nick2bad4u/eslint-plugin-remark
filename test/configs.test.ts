@@ -17,10 +17,12 @@ const sortStrings = (values: readonly string[]): string[] => {
         let insertionIndex = sortedValues.length;
 
         for (const [index, candidate] of sortedValues.entries()) {
-            if (value.localeCompare(candidate) < 0) {
-                insertionIndex = index;
-                break;
+            if (value.localeCompare(candidate) >= 0) {
+                continue;
             }
+
+            insertionIndex = index;
+            break;
         }
 
         sortedValues.splice(insertionIndex, 0, value);

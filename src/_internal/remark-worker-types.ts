@@ -23,8 +23,7 @@ export type RemarkWorkerRequest = Readonly<{
 
 /** Worker response union used by the sync client. */
 export type RemarkWorkerResponse =
-    | RemarkWorkerErrorResponse
-    | RemarkWorkerSuccessResponse;
+    RemarkWorkerErrorResponse | RemarkWorkerSuccessResponse;
 
 /** Success response posted from the worker. */
 export type RemarkWorkerSuccessResponse = Readonly<{

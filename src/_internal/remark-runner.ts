@@ -134,11 +134,9 @@ export const runRemarkSynchronously = (
     const workerMessage = receiveMessageOnPort(port1);
     port1.close();
 
-    /* eslint-disable @typescript-eslint/no-unsafe-argument -- workerMessage?.message is validated inside readWorkerResponse via assertDefined and shape checks. */
     const result = readWorkerResponse(
         safeCastTo<RemarkWorkerResponse | undefined>(workerMessage?.message)
     );
-    /* eslint-enable @typescript-eslint/no-unsafe-argument -- end validated worker-response forwarding. */
 
     lintResultCache.set(cacheKey, result);
 
