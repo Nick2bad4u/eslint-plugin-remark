@@ -165,7 +165,7 @@
         "lint:prettier:fix": "prettier . --log-level warn --cache --cache-location=.cache/.prettier-cache --cache-strategy=content --write",
         "lint:publint": "publint",
         "lint:quiet": "cross-env ESLINT_PROGRESS=nofile NODE_OPTIONS=--max_old_space_size=16384 eslint --cache --cache-strategy content --cache-location .cache/.eslintcache && echo \"Eslint done!\"",
-        "lint:remark": "remark . --frail --ignore-path .remarkignore",
+        "lint:remark": "remark . --frail --ignore-path .remarkignore --ignore-pattern \"benchmarks/fixtures/**\"",
         "lint:remark:fix": "remark . --ignore-path .remarkignore --output",
         "lint:secretlint": "secretlint --secretlintrc .secretlintrc.cjs --secretlintignore .secretlintignore \"./*\" \".vscode/**\" \"assets/**\" \"src/**\" \"electron/**\" \"shared/**\" \"config/**\" \"scripts/**\" \"playwright/**\" \"storybook/**\" \".storybook\" \"tests/**\" \"benchmarks/**\" \".devin/**\" \"public/**\" \".github/**\" \"docs/Architecture/**\" \"docs/*\" \"docs/assets/**\" \"docs/Guides/**\" \"docs/Testing/**\" \"docs/TSDoc/**\" \"docs/docusaurus/src/**\" \"docs/docusaurus/static/**\" \"docs/docusaurus/blog/**\" \"docs/docusaurus/docs/**\" \"docs/docusaurus/docs/*\"",
         "lint:secrets": "detect-secrets scan",

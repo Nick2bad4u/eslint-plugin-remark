@@ -23,7 +23,13 @@ const localConfigurationPreset = /** @type {import("eslint").Linter.Config} */ (
 const localRemarkOnlyPreset = /** @type {import("eslint").Linter.Config} */ (
     remarkOnlyPreset
 );
+const localRemarkOnlyLanguageOptions = localRemarkOnlyPreset.languageOptions;
 
+if (localRemarkOnlyLanguageOptions === undefined) {
+    throw new TypeError(
+        "Expected the local Remark-only preset to provide language options."
+    );
+}
 /** @type {import("eslint").Linter.Config[]} */
 const config = [
     ...createConfig({
@@ -55,7 +61,7 @@ const config = [
     },
     {
         files: ["docs/docusaurus/**/*.{md,mdx}"],
-        languageOptions: localRemarkOnlyPreset.languageOptions,
+        languageOptions: localRemarkOnlyLanguageOptions,
         name: "Local Serializable Docusaurus Markdown Parser",
     },
 
