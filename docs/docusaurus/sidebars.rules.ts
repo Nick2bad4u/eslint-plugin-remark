@@ -45,7 +45,10 @@ type SidebarCategoryItem = {
     type: "category";
 };
 
-type SidebarItem = SidebarCategoryItem | SidebarDocItem | SidebarLinkItem;
+type SidebarItem =
+    | SidebarCategoryItem
+    | SidebarDocItem
+    | SidebarLinkItem;
 
 const sidebarDirectoryPath = dirname(fileURLToPath(import.meta.url));
 const rulesDirectoryPath = join(sidebarDirectoryPath, "..", "rules");

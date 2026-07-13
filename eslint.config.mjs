@@ -7,16 +7,21 @@ const remarkPlugin = /** @type {import("./src/plugin").RemarkPlugin} */ (
     plugin
 );
 const configurationPreset = remarkPlugin.configs.configuration;
+const remarkOnlyPreset = remarkPlugin.configs.remarkOnly;
 
-if (Array.isArray(configurationPreset)) {
+if (Array.isArray(configurationPreset) || Array.isArray(remarkOnlyPreset)) {
     throw new TypeError(
-        "Expected remark.configs.configuration to be a flat config object."
+        "Expected local Remark presets to be flat config objects."
     );
 }
 
 /** @type {import("eslint").Linter.Config} */
 const localConfigurationPreset = /** @type {import("eslint").Linter.Config} */ (
     configurationPreset
+);
+/** @type {import("eslint").Linter.Config} */
+const localRemarkOnlyPreset = /** @type {import("eslint").Linter.Config} */ (
+    remarkOnlyPreset
 );
 
 /** @type {import("eslint").Linter.Config[]} */
@@ -47,6 +52,11 @@ const config = [
             "test/**/*.test-d.ts",
             "untyped-third-party-modules.d.ts",
         ],
+    },
+    {
+        files: ["docs/docusaurus/**/*.{md,mdx}"],
+        languageOptions: localRemarkOnlyPreset.languageOptions,
+        name: "Local Serializable Docusaurus Markdown Parser",
     },
 
     // Local Plugin Config
@@ -136,8 +146,17 @@ const config = [
             "unicorn/no-unnecessary-global-this": "off",
             "unicorn/prefer-global-this": "off",
             "unicorn/prefer-import-meta-properties": "off",
+            "unicorn/prefer-observer-apis": "off",
             "unicorn/prefer-spread": "off",
             "unicorn/prefer-unicode-code-point-escapes": "off",
+        },
+    },
+    {
+        files: ["src/**/*.{ts,tsx,mts,cts}"],
+        name: "Local Node Runtime Compatibility",
+        rules: {
+            // Error.isError is unavailable on the package's supported Node 20 runtime.
+            "unicorn/prefer-error-is-error": "off",
         },
     },
     {

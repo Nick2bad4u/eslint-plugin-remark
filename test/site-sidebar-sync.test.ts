@@ -10,17 +10,17 @@ import remarkPlugin from "../src/plugin";
 
 type SidebarItem = Readonly<
     | {
-          href: string;
-          type: "link";
-      }
+        href: string;
+        type: "link";
+    }
     | {
-          id: string;
-          type: "doc";
-      }
+        id: string;
+        type: "doc";
+    }
     | {
-          items: readonly SidebarItem[];
-          type: "category";
-      }
+        items: readonly SidebarItem[];
+        type: "category";
+    }
 >;
 
 const isObjectRecord = (value: unknown): value is Record<string, unknown> =>
