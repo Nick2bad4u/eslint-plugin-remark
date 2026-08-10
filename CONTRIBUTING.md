@@ -15,10 +15,12 @@ ESLint and enforcing Remark configuration best practices.
 
 1. Fork and clone the repository.
 
-2. Install dependencies from the repository root:
+2. Install the package manager version declared in `package.json`, then install
+   dependencies from the repository root:
 
    ```bash
-   npm ci --force
+   npm install --global npm@12.0.2
+   npm ci
    ```
 
 3. Run the main quality gate:
