@@ -103,19 +103,21 @@ const canonicalConfigMembership = [
 ] as const;
 
 describe("rule meta.docs.configs contract", () => {
-    it("declares JavaScript language support for ESLint 10", () => {
+    it("declares supported languages for ESLint 10", () => {
         expect.hasAssertions();
 
         for (const [ruleName, ruleModule] of Object.entries(
             remarkPlugin.rules
         )) {
             const { meta } = ruleModule;
+            const expectedLanguages =
+                ruleName === "remark" ? ["js/js", "markdown/gfm"] : ["js/js"];
 
             expect(meta, `${ruleName}: expected rule metadata`).toBeDefined();
             expect(
                 meta?.languages,
-                `${ruleName}: expected meta.languages to declare JavaScript support`
-            ).toStrictEqual(["js/js"]);
+                `${ruleName}: expected meta.languages to declare supported ESLint languages`
+            ).toStrictEqual(expectedLanguages);
         }
     });
 

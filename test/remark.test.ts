@@ -2,6 +2,7 @@
  * @packageDocumentation
  * Integration coverage for the Remark bridge rule.
  */
+import markdownPlugin from "@eslint/markdown";
 import { ESLint, type Linter } from "eslint";
 import { mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
@@ -16,6 +17,7 @@ const remarkConfigFilePath = fileURLToPath(
     new URL("fixtures/remark/alt-text.config.mjs", import.meta.url)
 );
 const markdownConfig = remarkPlugin.configs.remarkOnly as Linter.Config;
+const allConfigs = remarkPlugin.configs.all as readonly Linter.Config[];
 
 const createMarkdownLintEngine = (
     fix: boolean,
@@ -40,6 +42,29 @@ const createMarkdownLintEngine = (
         overrideConfigFile: true,
     });
 
+const createGfmMarkdownLintEngine = (): ESLint =>
+    new ESLint({
+        overrideConfig: [
+            ...allConfigs,
+            {
+                files: ["**/*.md"],
+                language: "markdown/gfm",
+                plugins: {
+                    markdown: markdownPlugin,
+                },
+                rules: {
+                    "remark/remark": [
+                        "error",
+                        {
+                            configFile: remarkConfigFilePath,
+                        },
+                    ],
+                },
+            },
+        ],
+        overrideConfigFile: true,
+    });
+
 describe("remark bridge rule", () => {
     it("reports Remark diagnostics through ESLint", async () => {
         expect.hasAssertions();
@@ -56,6 +81,20 @@ describe("remark bridge rule", () => {
         expect(lintResult.messages).toHaveLength(1);
         expect(lintResult.messages[0]?.ruleId).toBe("remark/remark");
         expect(lintResult.messages[0]?.message).toContain("alt-text");
+    });
+
+    it("supports shared configs that select the markdown/gfm language", async () => {
+        expect.hasAssertions();
+
+        const eslint = createGfmMarkdownLintEngine();
+        const [result] = await eslint.lintText("![](image.png)\n", {
+            filePath: "README.md",
+        });
+
+        expect(result).toBeDefined();
+        expect(result!.fatalErrorCount).toBe(0);
+        expect(result!.messages[0]?.ruleId).toBe("remark/remark");
+        expect(result!.messages[0]?.message).toContain("alt-text");
     });
 
     it("supports explicit Remark invocation options", async () => {

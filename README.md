@@ -17,7 +17,7 @@ npm install --save-dev eslint-plugin-remark eslint remark
 - **Supported ESLint versions:** `9.x` and `10.x`
 - **Config system:** Flat Config only (`eslint.config.*`)
 - **Node.js runtime:** `>=22.0.0`
-- **Markdown parser:** [`@eslint/markdown`](https://github.com/eslint/markdown) with `markdown/gfm`
+- **Markdown parsing:** the built-in presets use the plugin's internal full-document parser; the `remark/remark` bridge also supports [`@eslint/markdown`](https://github.com/eslint/markdown) with `markdown/gfm`
 
 ## Quick start
 
