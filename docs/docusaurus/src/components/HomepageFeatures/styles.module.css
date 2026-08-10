@@ -4,23 +4,23 @@
 
 .grid {
     display: grid;
-    gap: 1rem;
     grid-template-columns: repeat(
         auto-fit,
         [feature-column-start] minmax(16rem, 1fr) [feature-column-end]
     );
+    gap: 1rem;
 }
 
 .card {
     position: relative;
     display: grid;
-    overflow: hidden;
+    gap: 0.85rem;
+    min-block-size: 15.5rem;
     padding: 1.1rem 1.25rem;
+    overflow: hidden;
     border: 1px solid rgb(15 118 110 / 18%);
     border-radius: 1rem;
     box-shadow: 0 18px 36px rgb(15 23 42 / 7%);
-    gap: 0.85rem;
-    min-block-size: 15.5rem;
     transition:
         border-color 0.18s ease,
         box-shadow 0.18s ease,
@@ -28,9 +28,9 @@
 
     & h2 {
         margin: 0;
-        color: #0f766e;
         font-size: 1.25rem;
         line-height: 1.375;
+        color: #0f766e;
     }
 
     & p {
@@ -47,10 +47,10 @@
 
 .card::before {
     position: absolute;
+    inset: 0 auto auto 0;
+    inline-size: 100%;
     block-size: 0.32rem;
     content: "";
-    inline-size: 100%;
-    inset: 0 auto auto 0;
 }
 
 .cardStarted {
@@ -90,8 +90,8 @@
 }
 
 .description {
-    color: rgb(67 29 129 / 88%);
     line-height: 1.5;
+    color: rgb(67 29 129 / 88%);
 }
 
 .featureFooter {
@@ -103,10 +103,10 @@
 
 .link {
     display: inline-flex;
-    align-items: center;
-    color: #0f766e;
-    font-weight: 700;
     gap: 0.25rem;
+    align-items: center;
+    font-weight: 700;
+    color: #0f766e;
     text-decoration: none;
 
     &:hover,
@@ -117,13 +117,14 @@
 }
 
 .icon {
-    color: #0d9488;
     font-size: 1.25rem;
     line-height: 1;
+    color: #0d9488;
 }
 
-html[data-theme="dark"] .card {
+html[data-theme="dark"] .features .card {
     border-color: rgb(94 234 212 / 32%);
+    /* stylelint-disable-next-line css-performance-budget/no-global-expensive-effects -- CSS Modules scope .card to this small homepage component. */
     box-shadow: 0 20px 44px rgb(2 8 23 / 30%);
 
     & h2 {
@@ -133,6 +134,7 @@ html[data-theme="dark"] .card {
     &:hover,
     &:focus-within {
         border-color: rgb(94 234 212 / 48%);
+        /* stylelint-disable-next-line css-performance-budget/no-global-expensive-effects -- CSS Modules scope .card to this small homepage component. */
         box-shadow: 0 22px 48px rgb(2 8 23 / 42%);
     }
 }

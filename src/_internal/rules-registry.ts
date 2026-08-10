@@ -54,8 +54,3 @@ export const remarkRules: RemarkRulesRegistry = {
     "sort-remark-plugins": sortRemarkPluginsRule,
     "trim-remark-plugin-specifiers": trimRemarkPluginSpecifiersRule,
 } as const satisfies RemarkRulesRegistry;
-
-/** Unqualified rule name supported by this plugin. */
-export type RemarkRuleNamePattern = keyof typeof remarkRules;
-
-export default remarkRules;

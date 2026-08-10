@@ -3,7 +3,7 @@
  */
 
 /** @param {string} value */
-export const normalizeLineEndings = (value) => value.replaceAll("\r\n", "\n");
+const normalizeLineEndings = (value) => value.replaceAll("\r\n", "\n");
 
 /** @param {string} markdown */
 export const normalizeMarkdownTableSpacing = (markdown) =>

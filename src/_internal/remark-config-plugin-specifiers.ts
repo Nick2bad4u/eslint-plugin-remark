@@ -17,7 +17,7 @@ export type RemarkPluginArrayEntry = Readonly<{
 
 /** Static string specifier found in a Remark `plugins` declaration. */
 export type RemarkPluginSpecifierReference = Readonly<{
-    arrayEntry: RemarkPluginArrayEntry | undefined;
+    arrayEntry?: RemarkPluginArrayEntry;
     literal: Readonly<TSESTree.StringLiteral>;
     removalTarget: RemarkPluginSpecifierRemovalTarget;
 }>;
@@ -139,7 +139,6 @@ export const getRemarkPluginSpecifierReferences = (
     if (isStringLiteralExpression(propertyValue)) {
         return [
             {
-                arrayEntry: undefined,
                 literal: propertyValue,
                 removalTarget: {
                     kind: "objectProperty",
@@ -216,7 +215,7 @@ export const getRemarkPluginSpecifierReferences = (
  *
  * @returns Fix removing the array entry while preserving array syntax.
  */
-export const createFixToRemoveArrayElement = (
+const createFixToRemoveArrayElement = (
     options: Readonly<{
         arrayExpression: Readonly<TSESTree.ArrayExpression>;
         element: Readonly<ArrayElement>;

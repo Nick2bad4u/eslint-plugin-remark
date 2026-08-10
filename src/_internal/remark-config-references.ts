@@ -5,8 +5,6 @@
 
 import type { ArrayValues } from "type-fest";
 
-import { objectHasOwn } from "ts-extras";
-
 /** Canonical flat-config preset keys exposed through `plugin.configs`. */
 export const remarkConfigNames = [
     "all",
@@ -63,14 +61,6 @@ export const remarkConfigMetadataByName: Readonly<
     },
 };
 
-/** Stable README legend/rendering order for preset icons. */
-export const remarkConfigNamesByReadmeOrder: readonly RemarkConfigName[] = [
-    "recommended",
-    "remarkOnly",
-    "configuration",
-    "all",
-];
-
 /** Fully-qualified preset references used in rule metadata. */
 export const remarkConfigReferenceToName: Readonly<{
     "remark.configs.all": "all";
@@ -90,9 +80,3 @@ export const remarkConfigReferenceToName: Readonly<{
 
 /** Fully-qualified preset reference type accepted in docs metadata. */
 export type RemarkConfigReference = keyof typeof remarkConfigReferenceToName;
-
-/** Check whether a string is a supported preset reference. */
-export const isRemarkConfigReference = (
-    value: string
-): value is RemarkConfigReference =>
-    objectHasOwn(remarkConfigReferenceToName, value);

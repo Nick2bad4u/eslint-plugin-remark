@@ -18,7 +18,7 @@ const pluginConfigs =
     );
 
 /** Absolute benchmark fixture globs grouped by scenario intent. */
-export const benchmarkFileGlobs = Object.freeze({
+const benchmarkFileGlobs = Object.freeze({
     configInvalidFixtures: Object.freeze([
         "benchmarks/fixtures/remark.config.invalid.ts",
     ]),
