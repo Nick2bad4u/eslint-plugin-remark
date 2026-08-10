@@ -8,6 +8,8 @@ This bridge rule lets projects keep Markdown checks in the same ESLint command a
 
 The rule is intended for Markdown files matched by `remark.configs.remarkOnly`, `remark.configs.recommended`, or `remark.configs.all`.
 
+The built-in presets use the plugin's internal full-document parser. The bridge also supports shared flat configs that select `@eslint/markdown`'s `markdown/gfm` language for the same Markdown files.
+
 ## ❌ Incorrect
 
 ```md
