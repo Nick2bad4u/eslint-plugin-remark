@@ -75,6 +75,7 @@ const requireRemarkConfigFileNamingConventionRule: RuleModuleWithDocs<
         },
         schema: [],
         type: "suggestion",
+        languages: ["js/js"],
     },
     name: "require-remark-config-file-naming-convention",
 });

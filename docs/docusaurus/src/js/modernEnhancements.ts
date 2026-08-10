@@ -90,7 +90,7 @@ function applySidebarLabelTokenColoring(): CleanupFunction {
                 continue;
             }
 
-            const linkLabel = link.textContent?.trim();
+            const linkLabel = link.textContent.trim();
 
             if (!linkLabel || !isNumberedRuleSidebarLink(link)) {
                 continue;

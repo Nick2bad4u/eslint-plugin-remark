@@ -36,6 +36,7 @@ const config = [
         allowDefaultProjectFilePatterns: [
             ".remarkrc.mjs",
             "commitlint.config.mjs",
+            "dependency-cruiser.config.mjs",
             "eslint.config.mjs",
             "knip.config.ts",
             "prettier.config.mjs",
@@ -108,6 +109,7 @@ const config = [
             "regexp/require-unicode-sets-regexp": "off",
             "regexp/sort-character-class-elements": "off",
             "security/detect-non-literal-fs-filename": "off",
+            "sonarjs/no-duplicate-string": "off",
             "unicorn/import-style": "off",
             "unicorn/no-non-function-verb-prefix": "off",
             "unicorn/no-unreadable-new-expression": "off",
@@ -127,8 +129,11 @@ const config = [
             "@typescript-eslint/dot-notation": "off",
             "@typescript-eslint/no-dynamic-delete": "off",
             "@typescript-eslint/no-unsafe-type-assertion": "off",
+            "@typescript-eslint/prefer-readonly-parameter-types": "off",
             "@typescript-eslint/restrict-template-expressions": "off",
             "canonical/filename-no-index": "off",
+            "import-x/extensions": "off",
+            "import-x/no-commonjs": "off",
             "n/no-extraneous-import": "off",
             "n/no-sync": "off",
             "no-duplicate-imports": "off",
@@ -143,6 +148,9 @@ const config = [
             "regexp/prefer-named-capture-group": "off",
             "regexp/require-unicode-sets-regexp": "off",
             "runtime-cleanup/no-unmanaged-event-listeners": "off",
+            "sonarjs/elseif-without-else": "off",
+            "sonarjs/function-name": "off",
+            "sonarjs/too-many-break-or-continue-in-loop": "off",
             "unicorn/escape-case": "off",
             "unicorn/filename-case": "off",
             "unicorn/import-style": "off",
@@ -216,6 +224,67 @@ const config = [
         name: "Rule Registry Imports",
         rules: {
             "import-x/max-dependencies": "off",
+        },
+    },
+    {
+        files: [
+            "src/_internal/remark-config-package-option-rule.ts",
+            "src/_internal/remark-config-string-array-option-rule.ts",
+            "src/rules/**/*.ts",
+        ],
+        name: "ESLint Rule Metadata And Visitor Names",
+        rules: {
+            // ESLint visitor keys intentionally use AST selector names.
+            // Rule metadata follows ESLint's semantic order, not alphabetic order.
+            "perfectionist/sort-objects": "off",
+            "sonarjs/function-name": "off",
+        },
+    },
+    {
+        files: [
+            "src/_internal/markdown-parser.ts",
+            "src/_internal/remark-config-package-option-rule.ts",
+            "src/_internal/remark-config-plugin-specifiers.ts",
+            "src/_internal/remark-config-string-array-option-rule.ts",
+            "src/rules/disallow-invalid-remark-plugin-tuples.ts",
+            "src/rules/disallow-unknown-remark-config-properties.ts",
+        ],
+        name: "AST Scan Early Exits",
+        rules: {
+            // Early continues keep independent AST rejection checks flat.
+            "sonarjs/too-many-break-or-continue-in-loop": "off",
+        },
+    },
+    {
+        files: [".github/hooks/hooks.json"],
+        name: "Copilot Repository Hooks",
+        rules: {
+            "codex/require-valid-hook-events": "off",
+            "codex/require-valid-hook-structure": "off",
+        },
+    },
+    {
+        files: ["docs/**/*.md"],
+        name: "Docusaurus Frontmatter Titles",
+        rules: {
+            // Docusaurus frontmatter titles coexist with one authored H1.
+            "markdown/no-multiple-h1": "off",
+        },
+    },
+    {
+        files: ["docs/docusaurus/static/manifest.json", "mermaid.config.json"],
+        name: "Runtime-Owned JSON Schemas",
+        rules: {
+            // Generic filename associations conflict with Web Manifest and Mermaid partial configs.
+            "json-schema-validator-2/no-invalid": "off",
+        },
+    },
+    {
+        files: ["eslint.config.mjs"],
+        name: "Secret Scanning Full Repository Scope",
+        rules: {
+            // No repository paths or patterns are intentionally excluded.
+            "repo-compliance/require-secret-scanning-config": "off",
         },
     },
     {

@@ -53,12 +53,6 @@ export type SerializableRemarkMessage = Readonly<{
     source?: string;
 }>;
 
-/** Minimal serializable position payload returned to the ESLint rule. */
-export type SerializableRemarkPoint = Readonly<{
-    column: number;
-    line: number;
-}>;
-
 /** Minimal result payload returned from the worker. */
 export type SerializableRemarkResult = Readonly<{
     messages: readonly SerializableRemarkMessage[];

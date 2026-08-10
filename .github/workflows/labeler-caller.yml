@@ -38,4 +38,4 @@ jobs:
         permissions:
             contents: "read"
             pull-requests: "write"
-        uses: "Nick2bad4u/workflow-templates/.github/workflows/reusable-labeler.yml@main"
+        uses: "Nick2bad4u/workflow-templates/.github/workflows/reusable-labeler.yml@21e4110a3a1ea9bfa06561a893794099a312c9da" # main 2026-08-01

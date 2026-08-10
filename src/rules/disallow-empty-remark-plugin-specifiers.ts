@@ -94,6 +94,7 @@ const disallowEmptyRemarkPluginSpecifiersRule: RuleModuleWithDocs<
         },
         schema: [],
         type: "problem",
+        languages: ["js/js"],
     },
     name: "disallow-empty-remark-plugin-specifiers",
 });

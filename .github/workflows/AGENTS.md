@@ -63,11 +63,15 @@ jobs:
      uses: actions/setup-node@v6
      with:
       node-version-file: .node-version
-      cache: npm
-      cache-dependency-path: package-lock.json
+      package-manager-cache: false
+   - name: Install declared npm version
+     run: |
+      npm_version=$(node -p "require('./package.json').packageManager.slice('npm@'.length)")
+      npm install --global "npm@${npm_version}"
+      test "$(npm --version)" = "$npm_version"
    - name: Install dependencies
      run: |
-      npm ci --force
+      npm ci
    - name: Verify package
      run: npm run release:check
    - name: Pack tarball
@@ -247,7 +251,7 @@ jobs:
   - **Restore Keys:** Use `restore-keys` for fallbacks to older, compatible caches.
   - **Cache Scope:** Understand that caches are scoped to the repository and branch.
 - **Guidance for Copilot:**
-  - In this npm repository, prefer `actions/setup-node` with `node-version-file: .node-version` and `cache: npm` before reaching for a custom `actions/cache` block.
+  - In this repository, set `package-manager-cache: false` on every `actions/setup-node` step and do not enable its npm cache. The action otherwise invokes Node's bundled npm before the declared npm version is installed, which conflicts with the exact `devEngines.packageManager` requirement. Set up Node, install and verify the manifest-declared npm version, then run npm commands.
   - Treat `.node-version` as the workflow source of truth and keep `.nvmrc` synchronized with the same exact version for local tooling compatibility.
   - Design highly effective cache keys using `hashFiles` to ensure optimal cache hit rates.
   - Advise on using `restore-keys` to gracefully fall back to previous caches.
@@ -258,8 +262,12 @@ jobs:
   uses: actions/setup-node@v6
   with:
    node-version-file: .node-version
-   cache: npm
-   cache-dependency-path: package-lock.json
+   package-manager-cache: false
+- name: Install declared npm version
+  run: |
+   npm_version=$(node -p "require('./package.json').packageManager.slice('npm@'.length)")
+   npm install --global "npm@${npm_version}"
+   test "$(npm --version)" = "$npm_version"
 ```
 
 ### **2. Matrix Strategies for Parallelization**
@@ -298,14 +306,19 @@ jobs:
      uses: actions/setup-node@v6
      with:
       node-version-file: .node-version
-      cache: npm
-      cache-dependency-path: package-lock.json
+      package-manager-cache: false
+
+   - name: Install declared npm version
+     run: |
+      npm_version=$(node -p "require('./package.json').packageManager.slice('npm@'.length)")
+      npm install --global "npm@${npm_version}"
+      test "$(npm --version)" = "$npm_version"
 
    - name: Install dependencies
-     run: npm ci --force
+     run: npm ci
 
    - name: Install ESLint
-     run: npm install --no-save --force eslint@${{ matrix.eslint-version }} @eslint/js@${{ matrix.eslint-version }}
+     run: npm install --no-save eslint@${{ matrix.eslint-version }} @eslint/js@${{ matrix.eslint-version }}
 
    - name: Run compat lint
      run: npm run lint:compat:eslint9 -- --expect-eslint-major=9

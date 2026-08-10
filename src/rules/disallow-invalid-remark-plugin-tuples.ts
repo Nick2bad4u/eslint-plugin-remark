@@ -111,6 +111,7 @@ const disallowInvalidRemarkPluginTuplesRule: RuleModuleWithDocs<
         },
         schema: [],
         type: "problem",
+        languages: ["js/js"],
     },
     name: "disallow-invalid-remark-plugin-tuples",
 });

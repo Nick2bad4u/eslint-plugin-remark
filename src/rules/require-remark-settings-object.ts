@@ -79,6 +79,7 @@ const requireRemarkSettingsObjectRule: RuleModuleWithDocs<
         },
         schema: [],
         type: "problem",
+        languages: ["js/js"],
     },
     name: "require-remark-settings-object",
 });

@@ -3,7 +3,7 @@
  * Shared Markdown table normalization helpers for sync tests.
  */
 
-export const normalizeLineEndings = (value: string): string =>
+const normalizeLineEndings = (value: string): string =>
     value.replaceAll("\r\n", "\n");
 
 export const normalizeMarkdownTableSpacing = (markdown: string): string =>

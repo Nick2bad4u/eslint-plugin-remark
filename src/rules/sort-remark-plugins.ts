@@ -24,6 +24,7 @@ const sortRemarkPluginsRule: RuleModuleWithDocs<"sortArray", readonly []> =
                 url: "https://nick2bad4u.github.io/eslint-plugin-remark/docs/rules/sort-remark-plugins",
             },
             fixable: "code",
+            languages: ["js/js"],
             messages: {
                 sortArray:
                     "Sort top-level `plugins` entries for deterministic Remark plugin ordering and cleaner diffs.",

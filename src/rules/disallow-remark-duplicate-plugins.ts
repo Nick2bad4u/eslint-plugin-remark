@@ -27,6 +27,7 @@ const disallowRemarkDuplicatePluginsRule: RuleModuleWithDocs<
             url: "https://nick2bad4u.github.io/eslint-plugin-remark/docs/rules/disallow-remark-duplicate-plugins",
         },
         fixable: "code",
+        languages: ["js/js"],
         messages: {
             disallowDuplicates:
                 "Remove duplicate `plugins` entries so Remark plugin activation order remains explicit and clean.",

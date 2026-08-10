@@ -103,6 +103,22 @@ const canonicalConfigMembership = [
 ] as const;
 
 describe("rule meta.docs.configs contract", () => {
+    it("declares JavaScript language support for ESLint 10", () => {
+        expect.hasAssertions();
+
+        for (const [ruleName, ruleModule] of Object.entries(
+            remarkPlugin.rules
+        )) {
+            const { meta } = ruleModule;
+
+            expect(meta, `${ruleName}: expected rule metadata`).toBeDefined();
+            expect(
+                meta?.languages,
+                `${ruleName}: expected meta.languages to declare JavaScript support`
+            ).toStrictEqual(["js/js"]);
+        }
+    });
+
     it("matches canonical preset membership", () => {
         expect.hasAssertions();
 

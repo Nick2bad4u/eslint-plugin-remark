@@ -10,26 +10,8 @@ import remarkPlugin from "../src/plugin";
 
 type UnknownRecord = Record<string, unknown>;
 
-const sortStrings = (values: readonly string[]): string[] => {
-    const sortedValues: string[] = [];
-
-    for (const value of values) {
-        let insertionIndex = sortedValues.length;
-
-        for (const [index, candidate] of sortedValues.entries()) {
-            if (value.localeCompare(candidate) >= 0) {
-                continue;
-            }
-
-            insertionIndex = index;
-            break;
-        }
-
-        sortedValues.splice(insertionIndex, 0, value);
-    }
-
-    return sortedValues;
-};
+const sortStrings = (values: readonly string[]): string[] =>
+    values.toSorted((left, right) => left.localeCompare(right));
 
 const isRecord = (value: unknown): value is UnknownRecord =>
     typeof value === "object" && value !== null;
@@ -133,8 +115,7 @@ describe("remark plugin configs", () => {
         expect.hasAssertions();
 
         const recommendedPreset = getRecommendedPresetEntries();
-        const markdownPreset = recommendedPreset[0];
-        const recommendedConfigPreset = recommendedPreset[1];
+        const [markdownPreset, recommendedConfigPreset] = recommendedPreset;
 
         expect(recommendedPreset).toHaveLength(2);
 

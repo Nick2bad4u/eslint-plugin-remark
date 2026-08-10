@@ -117,6 +117,7 @@ const disallowEmptyRemarkConfigValuesRule: RuleModuleWithDocs<
         },
         schema: [],
         type: "suggestion",
+        languages: ["js/js"],
     },
     name: "disallow-empty-remark-config-values",
 });
