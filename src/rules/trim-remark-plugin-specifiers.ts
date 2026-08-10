@@ -91,8 +91,8 @@ const trimRemarkPluginSpecifiersRule: RuleModuleWithDocs<
                     const trimmedValue = originalValue.trim();
 
                     if (
-                        trimmedValue.length === 0 ||
-                        trimmedValue === originalValue
+                        trimmedValue === originalValue ||
+                        trimmedValue.length === 0
                     ) {
                         continue;
                     }
@@ -136,6 +136,7 @@ const trimRemarkPluginSpecifiersRule: RuleModuleWithDocs<
         },
         schema: [],
         type: "suggestion",
+        languages: ["js/js"],
     },
     name: "trim-remark-plugin-specifiers",
 });

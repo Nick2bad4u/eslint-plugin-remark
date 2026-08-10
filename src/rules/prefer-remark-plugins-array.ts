@@ -27,6 +27,7 @@ const preferRemarkPluginsArrayRule: RuleModuleWithDocs<
             url: "https://nick2bad4u.github.io/eslint-plugin-remark/docs/rules/prefer-remark-plugins-array",
         },
         fixable: "code",
+        languages: ["js/js"],
         messages: {
             preferArray:
                 "Use array form for top-level `plugins` so Remark plugin composition remains stable and easy to append safely.",

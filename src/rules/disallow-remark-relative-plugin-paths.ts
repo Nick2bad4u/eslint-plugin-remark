@@ -26,6 +26,7 @@ const disallowRemarkRelativePluginPathsRule: RuleModuleWithDocs<
             requiresTypeChecking: false,
             url: "https://nick2bad4u.github.io/eslint-plugin-remark/docs/rules/disallow-remark-relative-plugin-paths",
         },
+        languages: ["js/js"],
         messages: {
             disallowRelative:
                 "Use package-backed Remark plugin specifiers instead of relative paths so shared configs remain portable.",

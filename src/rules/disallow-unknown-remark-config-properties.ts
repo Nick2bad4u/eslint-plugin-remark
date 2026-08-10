@@ -131,6 +131,7 @@ const disallowUnknownRemarkConfigPropertiesRule: RuleModuleWithDocs<
         },
         schema: [],
         type: "problem",
+        languages: ["js/js"],
     },
     name: "disallow-unknown-remark-config-properties",
 });

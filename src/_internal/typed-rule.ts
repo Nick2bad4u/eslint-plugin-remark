@@ -55,6 +55,7 @@ export type RuleModuleWithDocs<
     meta: TSESLint.RuleMetaData<MessageIds, RemarkRuleDocs, Options> & {
         deprecated: boolean;
         docs: RemarkRuleDocs;
+        languages: string[];
     };
     name: string;
 };
@@ -158,10 +159,3 @@ export const createTypedRule = <
 export const toRuleListener = (
     listener: GenericRuleListener
 ): TSESLint.RuleListener => listener;
-
-/** Create a single range replacement fixer for a Remark edit. */
-export const replaceTextRange = (
-    fixer: TSESLint.RuleFixer,
-    range: readonly [number, number],
-    text: string
-): TSESLint.RuleFix => fixer.replaceTextRange([...range], text);

@@ -26,6 +26,7 @@ const requireRemarkPluginsPackagesInstalledRule: RuleModuleWithDocs<
             requiresTypeChecking: false,
             url: "https://nick2bad4u.github.io/eslint-plugin-remark/docs/rules/require-remark-plugins-packages-installed",
         },
+        languages: ["js/js"],
         messages: {
             requireInstalledPackage:
                 "Add `{{packageName}}` to this workspace's dependencies before referencing it from Remark `plugins`.",

@@ -183,6 +183,7 @@ const remarkRule: RuleModuleWithDocs<MessageIds, Options> = createTypedRule<
             },
         ],
         type: "layout",
+        languages: ["js/js"],
     },
     name: "remark",
 });
