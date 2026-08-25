@@ -18,6 +18,7 @@ npm install --save-dev eslint-plugin-remark eslint remark
 - **Config system:** Flat Config only (`eslint.config.*`)
 - **Node.js runtime:** `>=22.0.0`
 - **Markdown parsing:** the built-in presets use the plugin's internal full-document parser; the `remark/remark` bridge also supports [`@eslint/markdown`](https://github.com/eslint/markdown) with `markdown/gfm`
+- **Oxlint:** not compatible as a complete plugin (verified with Oxlint `1.80.0`); [Oxlint JS plugins are alpha and do not support custom parsers](https://oxc.rs/docs/guide/usage/linter/js-plugins.html#api-support), so use ESLint for `remark/remark` and the `remarkOnly`, `recommended`, and `all` presets
 
 ## Quick start
 
