@@ -24,6 +24,8 @@ import type {
 
 const DONE_STATE = 1 as const;
 
+const processorTemplates = new Map<string, ReturnType<typeof remark>>();
+
 const configFileNames = [
     ".remarkrc.cjs",
     ".remarkrc.js",
@@ -212,7 +214,6 @@ const loadRemarkConfig = async (
 const createProcessor = async (
     request: RemarkWorkerRequest
 ): Promise<ReturnType<typeof remark>> => {
-    const processor = remark();
     const { config, configFilePath } = await loadRemarkConfig(
         request.options.configFile,
         request.options.codeFilename,
@@ -220,8 +221,16 @@ const createProcessor = async (
     );
 
     if (!isDefined(config) || !isDefined(configFilePath)) {
-        return processor;
+        return remark();
     }
+
+    const cachedTemplate = processorTemplates.get(configFilePath);
+
+    if (isDefined(cachedTemplate)) {
+        return cachedTemplate();
+    }
+
+    const processor = remark();
 
     if (isDefined(config.settings)) {
         processor.data("settings", config.settings);
@@ -241,7 +250,11 @@ const createProcessor = async (
         processor.use({ plugins } satisfies Preset);
     }
 
-    return processor;
+    // Clone an unfrozen template so plugin state and processor data remain
+    // isolated per document while config normalization and registration are reused.
+    processorTemplates.set(configFilePath, processor);
+
+    return processor();
 };
 
 const toSerializableResult = (
@@ -252,14 +265,33 @@ const toSerializableResult = (
         request.options.quiet === true
             ? file.messages.filter((message) => message.fatal === true)
             : file.messages;
-    const output = String(file);
+    const output = request.options.fix === true ? String(file) : undefined;
 
     return {
-        ...(request.options.fix === true &&
-            output !== request.options.code && { output }),
+        ...(isDefined(output) && output !== request.options.code && { output }),
         messages: messages.map((message) => toSerializableMessage(message)),
     };
 };
+
+const runWithoutCompilation = (
+    processor: Readonly<ReturnType<typeof remark>>,
+    file: Readonly<VFile>
+): Promise<VFile> =>
+    new Promise((resolve, reject) => {
+        processor.run(
+            processor.parse(file),
+            file,
+            (error, _tree, resultFile) => {
+                if (error) {
+                    reject(error);
+
+                    return;
+                }
+
+                resolve(resultFile ?? file);
+            }
+        );
+    });
 
 const notifyCompletion = (
     request: RemarkWorkerRequest,
@@ -281,7 +313,11 @@ const handleRequest = async (request: RemarkWorkerRequest): Promise<void> => {
             path: request.options.codeFilename,
             value: request.options.code,
         });
-        const processedFile = await processor.process(file);
+        const processedFile =
+            request.options.skipCompilation === true &&
+            request.options.fix !== true
+                ? await runWithoutCompilation(processor, file)
+                : await processor.process(file);
 
         notifyCompletion(request, {
             ok: true,

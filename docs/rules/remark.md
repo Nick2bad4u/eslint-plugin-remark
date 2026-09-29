@@ -32,13 +32,21 @@ type Options = [
   configFile?: string;
   fix?: boolean;
   quiet?: boolean;
+  skipCompilation?: boolean;
  }?,
 ];
 ```
 
 - `configFile` points the bridge at a specific Remark config file.
-- `fix` replaces the full Markdown document with Remark output when Remark changes it.
+- `fix` replaces the full Markdown document with Remark output when Remark changes it. It defaults to `false` and takes precedence over `skipCompilation`.
 - `quiet` reports only fatal Remark messages.
+- `skipCompilation` defaults to `false`. Set it to `true` to parse Markdown and await its transforms without running the compiler when `fix` is disabled. This reduces work for lint-only use, but compiler diagnostics and side effects are skipped.
+
+## Processing and timing
+
+The bridge reuses a worker and caches configured processor templates for the life of that worker. Each document receives a fresh processor cloned from its template, with freshly attached plugins and copied plain processor data. Plugin option objects and custom class instances retain Unified's normal sharing behavior. Identical requests also reuse cached results within the ESLint process. Restart ESLint or its editor integration after changing Remark configuration or plugins.
+
+ESLint's rule timing includes the time spent waiting for Remark. The first uncached request includes worker startup and config loading; later uncached requests still include parsing and the configured plugins. By default, timing also includes compiling the transformed Markdown. Set `skipCompilation: true` when compiler behavior is unnecessary and fixes are disabled. See the [Remark bridge guide](./guides/remark-bridge.md) for details.
 
 ## ESLint flat config example
 

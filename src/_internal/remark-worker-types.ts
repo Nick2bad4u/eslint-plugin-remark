@@ -39,6 +39,7 @@ export type SerializableRemarkLintOptions = Readonly<{
     cwd?: string;
     fix?: boolean;
     quiet?: boolean;
+    skipCompilation?: boolean;
 }>;
 
 /** Minimal serializable message payload returned to the ESLint rule. */

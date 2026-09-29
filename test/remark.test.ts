@@ -18,6 +18,8 @@ const remarkConfigFilePath = fileURLToPath(
 );
 const markdownConfig = remarkPlugin.configs.remarkOnly as Linter.Config;
 const allConfigs = remarkPlugin.configs.all as readonly Linter.Config[];
+const remarkFixturePath = (filename: string): string =>
+    fileURLToPath(new URL(`fixtures/remark/${filename}`, import.meta.url));
 
 const createMarkdownLintEngine = (
     fix: boolean,
@@ -138,6 +140,158 @@ describe("remark bridge rule", () => {
 
         expect(firstResult).toBe(secondResult);
         expect(firstResult.messages).toStrictEqual([]);
+    });
+
+    it("awaits async transformer diagnostics without invoking the compiler when ESLint enables skipCompilation", async () => {
+        expect.hasAssertions();
+
+        const eslint = createMarkdownLintEngine(false, {
+            configFile: remarkFixturePath("compiler-probe.config.mjs"),
+            skipCompilation: true,
+        });
+        const [result] = await eslint.lintText("# Heading", {
+            filePath: "lint-only.md",
+        });
+
+        expect(result).toBeDefined();
+        expect(result!.messages).toHaveLength(1);
+        expect(result!.messages[0]?.message).toContain(
+            "Async transformer completed"
+        );
+        expect(result!.output).toBeUndefined();
+    });
+
+    it.each([{}, { skipCompilation: false }])(
+        "preserves default compiler diagnostics without exposing fix output for options %j",
+        (options) => {
+            expect.hasAssertions();
+
+            const result = runRemarkSynchronously({
+                code: "# Heading",
+                codeFilename: "default-compilation.md",
+                configFile: remarkFixturePath("compiler-probe.config.mjs"),
+                cwd: process.cwd(),
+                ...options,
+            });
+
+            expect(
+                result.messages.map((message) => message.reason)
+            ).toStrictEqual([
+                "Async transformer completed",
+                "Compiler invoked",
+            ]);
+            expect(result.output).toBeUndefined();
+        }
+    );
+
+    it("compiles explicitly enabled fixes and preserves transformer and compiler diagnostics", () => {
+        expect.hasAssertions();
+
+        const result = runRemarkSynchronously({
+            code: "# Heading",
+            codeFilename: "fix-enabled.md",
+            configFile: remarkFixturePath("compiler-probe.config.mjs"),
+            cwd: process.cwd(),
+            fix: true,
+            skipCompilation: true,
+        });
+
+        expect(result.messages.map((message) => message.reason)).toStrictEqual([
+            "Async transformer completed",
+            "Compiler invoked",
+        ]);
+        expect(result.output).toBe("# Heading\n");
+    });
+
+    it.each([false, true])(
+        "preserves a transformer's replacement VFile when fix is %s",
+        (fix) => {
+            expect.hasAssertions();
+
+            const result = runRemarkSynchronously({
+                code: "# Heading",
+                codeFilename: "replacement-file.md",
+                configFile: remarkFixturePath("replacement-file.config.mjs"),
+                cwd: process.cwd(),
+                fix,
+                skipCompilation: true,
+            });
+
+            expect(
+                result.messages.map((message) => message.reason)
+            ).toStrictEqual(["Replacement file diagnostic"]);
+            expect(result.output).toBe(fix ? "# Heading\n" : undefined);
+        }
+    );
+
+    it("reuses config registration while isolating transformer state and mutable processor data across files", () => {
+        expect.hasAssertions();
+
+        const options = {
+            code: "# Heading\n",
+            configFile: remarkFixturePath("processor-isolation.config.mjs"),
+            cwd: process.cwd(),
+        };
+        const firstResult = runRemarkSynchronously({
+            ...options,
+            codeFilename: "isolation-first.md",
+        });
+        const secondResult = runRemarkSynchronously({
+            ...options,
+            codeFilename: "isolation-second.md",
+        });
+
+        expect(firstResult.messages).toHaveLength(1);
+        expect(firstResult.messages[0]?.reason).toMatch(
+            /^Registration \d+; transformer 1; data 1$/v
+        );
+        expect(secondResult.messages).toStrictEqual(firstResult.messages);
+    });
+
+    it("continues discovering the nearest config after caching a parent config", () => {
+        expect.hasAssertions();
+
+        const options = { code: "# Heading\n", cwd: process.cwd() };
+        const parentResult = runRemarkSynchronously({
+            ...options,
+            codeFilename: remarkFixturePath("discovery/first.md"),
+        });
+        const nestedResult = runRemarkSynchronously({
+            ...options,
+            codeFilename: remarkFixturePath("discovery/nested/second.md"),
+        });
+        const nextParentResult = runRemarkSynchronously({
+            ...options,
+            codeFilename: remarkFixturePath("discovery/third.md"),
+        });
+
+        expect(
+            parentResult.messages.map((message) => message.reason)
+        ).toStrictEqual(["Parent config"]);
+        expect(
+            nestedResult.messages.map((message) => message.reason)
+        ).toStrictEqual(["Nested config"]);
+        expect(nextParentResult.messages).toStrictEqual(parentResult.messages);
+    });
+
+    it("retries config setup after a failed request", () => {
+        expect.hasAssertions();
+
+        const options = {
+            code: "# Heading\n",
+            codeFilename: "retry-setup.md",
+            configFile: remarkFixturePath("retry-setup.config.mjs"),
+            cwd: process.cwd(),
+        };
+
+        expect(() => runRemarkSynchronously(options)).toThrow(
+            "First config setup failed"
+        );
+        expect(
+            runRemarkSynchronously(options).messages.map(
+                (message) => message.reason
+            )
+        ).toStrictEqual(["Config setup recovered"]);
     });
 
     it("reports unscoped Remark messages with default source locations", async () => {

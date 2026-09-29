@@ -21,6 +21,7 @@ type RemarkRuleOption = Readonly<{
     configFile?: string;
     fix?: boolean;
     quiet?: boolean;
+    skipCompilation?: boolean;
 }>;
 
 type ReportLocation = Readonly<{
@@ -60,6 +61,9 @@ const runRemarkForContext = (
             }),
             ...(isDefined(rawOptions.fix) && { fix: rawOptions.fix }),
             ...(isDefined(rawOptions.quiet) && { quiet: rawOptions.quiet }),
+            ...(isDefined(rawOptions.skipCompilation) && {
+                skipCompilation: rawOptions.skipCompilation,
+            }),
         });
     } catch (error: unknown) {
         context.report({
@@ -176,6 +180,11 @@ const remarkRule: RuleModuleWithDocs<MessageIds, Options> = createTypedRule<
                     },
                     quiet: {
                         description: "Only report fatal Remark messages.",
+                        type: "boolean",
+                    },
+                    skipCompilation: {
+                        description:
+                            "Skip Markdown compilation and compiler diagnostics unless full-document fixes are enabled.",
                         type: "boolean",
                     },
                 },
